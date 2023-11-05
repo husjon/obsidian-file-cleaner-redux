@@ -1,96 +1,97 @@
-import {
-	App,
-	Editor,
-	MarkdownView,
-	Modal,
-	Notice,
-	Plugin,
-	PluginSettingTab,
-	Setting,
-	TFile,
-} from "obsidian";
-import * as path from "path";
+import { App, Notice, TFile } from "obsidian";
 import { FileCleanerSettings } from "./settings";
-import { t } from "./translations/helper";
+import translate from "./i18n";
+import { Deletion } from "./enums";
+import { ConfirmationModal } from "./helpers";
 
-export const cleanFiles = async (app: App, setting: FileCleanerSettings) => {
-	// 获取空白Markdown文件
-	let mdFiles = app.vault.getMarkdownFiles();
-	let emptyMdFiles: TFile[] = [];
-	let emptyRegex = /\S/;
-	for (let file of mdFiles) {
-		let content = await app.vault.cachedRead(file);
-		if (file.stat.size === 0) {
-			emptyMdFiles.push(file);
-		} else if (!emptyRegex.test(content)) {
-			emptyMdFiles.push(file);
-		}
-	}
+async function removeFile(
+  file: TFile,
+  app: App,
+  settings: FileCleanerSettings,
+) {
+  switch (settings.deletionDestination) {
+    case Deletion.Permanent:
+      await app.vault.delete(file);
+      break;
+    case Deletion.SystemTrash:
+      await app.vault.trash(file, true);
+      break;
+    case Deletion.ObsidianTrash:
+      await app.vault.trash(file, false);
+      break;
+  }
+}
 
-	// 获取未使用附件
-	let files = app.vault.getFiles();
-	const attachmentRegex = /(.jpg|.jpeg|.png|.gif|.svg|.pdf)$/i;
-	let attachments: TFile[] = [];
-	for (let file of files) {
-		if (file.name.match(attachmentRegex)) {
-			attachments.push(file);
-		}
-	}
+async function removeFiles(
+  files: TFile[],
+  app: App,
+  settings: FileCleanerSettings,
+) {
+  if (files.length > 0) {
+    for (const file of files) {
+      removeFile(file, app, settings);
+    }
+    new Notice(translate().Notifications.CleanSuccessful);
+  } else {
+    new Notice(translate().Notifications.NoFileToClean);
+  }
+}
 
-	let usedAttachments: any = [];
-	let resolvedLinks = app.metadataCache.resolvedLinks;
-	if (resolvedLinks) {
-		for (const [mdFile, links] of Object.entries(resolvedLinks)) {
-			for (const [path, times] of Object.entries(resolvedLinks[mdFile])) {
-				let attachmentMatch = path.match(attachmentRegex);
-				if (attachmentMatch) {
-					let file = app.vault.getAbstractFileByPath(path);
-					usedAttachments.push(file);
-				}
-			}
-		}
-	}
+export async function runCleanup(app: App, settings: FileCleanerSettings) {
+  const excludedFoldersRegex = RegExp(`^${settings.excludedFolders.join("|")}`);
+  const allowedExtensions = RegExp(
+    `${["md", ...settings.attachmentExtensions].join("|")}`,
+  );
+  const inUseAttachments = Object.entries(app.metadataCache.resolvedLinks)
+    .map(([parent, child]) => Object.keys(child))
+    .filter((file) => file.length > 0)
+    .map((file) => file.pop())
+    .reduce(
+      (prev, cur) => (!prev.includes(cur) ? [...prev, cur] : [...prev]),
+      [],
+    );
 
-	let unusedAttachments = attachments.filter(
-		(file) => !usedAttachments.includes(file)
-	);
+  // Get list of all files
+  const files: TFile[] = app.vault
+    .getFiles()
+    .filter((file) =>
+      // Filter out files from excluded folders
+      settings.excludedFolders.length > 0
+        ? !file.path.match(excludedFoldersRegex)
+        : file,
+    )
+    .filter((file) =>
+      // Filters out only allowed extensions (including markdowns)
+      file.extension.match(allowedExtensions),
+    )
+    .filter(
+      (file) =>
+        // Filters out any markdown file that is empty
+        (file.extension === "md" && file.stat.size === 0) ||
+        file.extension !== "md",
+    )
+    .filter(
+      (file) =>
+        // Filters any attachment that is not in use
+        !inUseAttachments.includes(file.path) && file,
+    );
 
-	// 获取排除文件
-	let excludedFiles: TFile[] = []
-	let cleanFiles = emptyMdFiles.concat(unusedAttachments)
-	let excludedFolders = setting.excluded;
-	let excludedFoldersCleaned = new Set(
-		excludedFolders.split(/\n/).map((folderPath) => {
-			return folderPath.trim();
-		})
-	);
-	excludedFoldersCleaned.delete("");
-	for (let excludedFolder of excludedFoldersCleaned) {
-		let pathRegex = new RegExp("^" + excludedFolder + "/");
-		for (let file of cleanFiles) {
-			if (pathRegex.test(file.path)) {
-				excludedFiles.push(file)
-			}
-		}
-	}
+  // Run cleanup
+  if (!settings.deletionConfirmation) removeFiles(files, app, settings);
+  else {
+    let modalText = `<h3>${translate().Modals.DeletionConfirmation}:</h3>`;
+    modalText += "<ul>";
+    for (const file of files) {
+      modalText += `<li><a onClick="leaf.openFile(app.vault.getAbstractFileByPath('${file.path}'))">${file.path}</a></li>`;
+      console.log(file);
+    }
+    modalText += "<ul>";
 
-	// 执行清理
-	cleanFiles = cleanFiles.concat(excludedFiles).filter(v => !cleanFiles.includes(v) || !excludedFiles.includes(v))
-	let len = cleanFiles.length;
-	if (len > 0) {
-		let destination = setting.destination;
-		for (let file of cleanFiles) {
-			console.log(file.name + " cleaned");
-			if (destination === "permanent") {
-				await app.vault.delete(file);
-			} else if (destination === "system") {
-				await app.vault.trash(file, true);
-			} else if (destination === "obsidian") {
-				await app.vault.trash(file, false);
-			}
-		}
-		new Notice(t("Clean successful"));
-	} else {
-		new Notice(t("No file to clean"));
-	}
-};
+    await ConfirmationModal({
+      text: modalText,
+      onConfirm: () => {
+        removeFiles(files, app, settings);
+      },
+    });
+  }
+}
