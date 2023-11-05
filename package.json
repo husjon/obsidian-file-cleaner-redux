@@ -1,6 +1,6 @@
 {
   "name": "obsidian-file-cleaner",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Help you to clean empty files and unused attachments in the vault.",
   "main": "main.js",
   "scripts": {
