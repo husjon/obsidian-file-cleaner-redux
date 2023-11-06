@@ -30,6 +30,11 @@ export interface Locale {
         Label: string;
         Description: string;
       };
+
+      RunOnStartup: {
+        Label: string;
+        Description: string;
+      };
     };
 
     DangerZone: {

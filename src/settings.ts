@@ -9,6 +9,7 @@ export interface FileCleanerSettings {
   excludedFolders: string[];
   attachmentExtensions: string[];
   deletionConfirmation: boolean;
+  runOnStartup: boolean;
 }
 
 export const DEFAULT_SETTINGS: FileCleanerSettings = {
@@ -16,6 +17,7 @@ export const DEFAULT_SETTINGS: FileCleanerSettings = {
   excludedFolders: [],
   attachmentExtensions: [],
   deletionConfirmation: true,
+  runOnStartup: false,
 };
 
 export class FileCleanerSettingTab extends PluginSettingTab {
@@ -138,6 +140,17 @@ export class FileCleanerSettingTab extends PluginSettingTab {
         });
       });
 
+    new Setting(containerEl)
+      .setName(translate().Settings.RegularOptions.RunOnStartup.Label)
+      .setDesc(translate().Settings.RegularOptions.RunOnStartup.Description)
+      .addToggle((toggle) => {
+        toggle.setValue(this.plugin.settings.runOnStartup);
+
+        toggle.onChange((value) => {
+          this.plugin.settings.runOnStartup = value;
+          this.plugin.saveSettings();
+        });
+      });
     //#endregion Regular Options }}}
 
     //#region Danger Zone {{{

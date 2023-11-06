@@ -37,6 +37,11 @@ const enUS: Locale = {
         Label: "Preview deleted files",
         Description: "Show a confirmation box with list of files to be removed",
       },
+
+      RunOnStartup: {
+        Label: "Run on Startup",
+        Description: "Runs the cleaner on startup",
+      },
     },
 
     DangerZone: {
