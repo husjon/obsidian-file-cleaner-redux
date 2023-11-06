@@ -82,8 +82,7 @@ export async function runCleanup(app: App, settings: FileCleanerSettings) {
     let modalText = `<h3>${translate().Modals.DeletionConfirmation}:</h3>`;
     modalText += "<ul>";
     for (const file of files) {
-      modalText += `<li><a onClick="leaf.openFile(app.vault.getAbstractFileByPath('${file.path}'))">${file.path}</a></li>`;
-      console.log(file);
+      modalText += `<li>${file.path}</li>`;
     }
     modalText += "<ul>";
 
