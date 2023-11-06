@@ -31,6 +31,10 @@ export default class FileCleanerPlugin extends Plugin {
     });
 
     this.addSettingTab(new FileCleanerSettingTab(this.app, this));
+
+    setTimeout(() => {
+      if (this.settings.runOnStartup) runCleanup(this.app, this.settings);
+    }, 1000);
   }
 
   onunload() {}
