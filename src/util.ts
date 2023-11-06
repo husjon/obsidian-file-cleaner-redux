@@ -77,6 +77,11 @@ export async function runCleanup(app: App, settings: FileCleanerSettings) {
     );
 
   // Run cleanup
+  if (files.length == 0) {
+    new Notice(translate().Notifications.NoFileToClean);
+    return;
+  }
+
   if (!settings.deletionConfirmation) removeFiles(files, app, settings);
   else {
     let modalText = `<h3>${translate().Modals.DeletionConfirmation}:</h3>`;
