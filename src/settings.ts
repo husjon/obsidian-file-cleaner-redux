@@ -125,8 +125,10 @@ export class FileCleanerSettingTab extends PluginSettingTab {
       });
 
     new Setting(containerEl)
-      .setName("Preview deleted files")
-      .setDesc("Show a confirmation box with list of files to be removed")
+      .setName(translate().Settings.RegularOptions.PreviewDeletedFiles.Label)
+      .setDesc(
+        translate().Settings.RegularOptions.PreviewDeletedFiles.Description,
+      )
       .addToggle((toggle) => {
         toggle.setValue(this.plugin.settings.deletionConfirmation);
 

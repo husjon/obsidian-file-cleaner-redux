@@ -32,6 +32,11 @@ const enUS: Locale = {
           "Unused attachements which should be cleaned up, comma-separated.",
         Placeholder: "Example: .jpg, .png, .pdf",
       },
+
+      PreviewDeletedFiles: {
+        Label: "Preview deleted files",
+        Description: "Show a confirmation box with list of files to be removed",
+      },
     },
 
     DangerZone: {

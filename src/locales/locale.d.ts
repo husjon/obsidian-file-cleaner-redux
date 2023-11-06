@@ -25,6 +25,11 @@ export interface Locale {
         Description: string;
         Placeholder: string;
       };
+
+      PreviewDeletedFiles: {
+        Label: string;
+        Description: string;
+      };
     };
 
     DangerZone: {
