@@ -30,6 +30,7 @@ export class FileCleanerSettingTab extends PluginSettingTab {
     const { containerEl } = this;
     this.containerEl.empty();
 
+    //#region Regular Options {{{
     this.containerEl.createEl("h3", {
       text: translate().Settings.RegularOptions.Header,
     });
@@ -135,6 +136,9 @@ export class FileCleanerSettingTab extends PluginSettingTab {
         });
       });
 
+    //#endregion Regular Options }}}
+
+    //#region Danger Zone {{{
     this.containerEl.createEl("h3", {
       text: translate().Settings.DangerZone.Header,
     });
@@ -158,5 +162,6 @@ export class FileCleanerSettingTab extends PluginSettingTab {
             });
           });
       });
+    //#endregion Danger Zone }}}
   }
 }
