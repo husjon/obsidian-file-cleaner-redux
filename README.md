@@ -1,25 +1,36 @@
 ## File Cleaner
 
-This is a plugin for Obsidian (https://obsidian.md).
+File Cleaner is a plugin for Obsidian (https://obsidian.md) to help remove unused / empty markdown files and attachments based on a few simple user-defined rules.
 
-It can help you clean up empty files and unused attachments in the obsidian vault.
+## What this plugin does
 
-### Note
-
-- Empty Files
-  - Files with a size of 0 bytes.
-  - Files with only spaces and line breaks
-- Unused Attachments
-  - Support jpg, jpeg, png, gif, svg, pdf.
-- Settings
+- Removes Markdown files with a size of 0 bytes.
+- Removes user-defined attachment files (e.g: jpg, jpeg, png, gif, svg, pdf)
+- Set deletion location
   - Move to system trash
   - Move to Obsidian trash (.trash folder)
   - Permanently delete
+- Preview of list of files that will be removed (Optional)
+- Run on Startup (Optional)
 
-### How to use
+### How to use the plugin
 
-- Click the ribbon icon of "File Cleaner".
+- Click the "File Cleaner" ribbon icon or add a Keybinding for the `Clean files` command.
+
+### Screenshots
+
+#### Plugins Settings (showing default values)
+
+![Options](images/Options.png)
+
+#### Preview of deleted files
+
+![Preview deleted files confirmation](images/PreviewDeletedFiles.png)
+
+#### Hotkeys
+
+![Hotkeys](images/Hotkeys.png)
 
 ### Known issue
 
-- Attachments used in [Admonition](https://github.com/valentine195/obsidian-admonition) code blocks are not recognized
+- ~~Attachments used in [Admonition](https://github.com/valentine195/obsidian-admonition) code blocks are not recognized~~
