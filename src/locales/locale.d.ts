@@ -25,6 +25,16 @@ export interface Locale {
         Description: string;
         Placeholder: string;
       };
+
+      PreviewDeletedFiles: {
+        Label: string;
+        Description: string;
+      };
+
+      RunOnStartup: {
+        Label: string;
+        Description: string;
+      };
     };
 
     DangerZone: {

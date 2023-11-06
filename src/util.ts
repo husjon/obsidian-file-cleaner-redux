@@ -77,13 +77,17 @@ export async function runCleanup(app: App, settings: FileCleanerSettings) {
     );
 
   // Run cleanup
+  if (files.length == 0) {
+    new Notice(translate().Notifications.NoFileToClean);
+    return;
+  }
+
   if (!settings.deletionConfirmation) removeFiles(files, app, settings);
   else {
     let modalText = `<h3>${translate().Modals.DeletionConfirmation}:</h3>`;
     modalText += "<ul>";
     for (const file of files) {
-      modalText += `<li><a onClick="leaf.openFile(app.vault.getAbstractFileByPath('${file.path}'))">${file.path}</a></li>`;
-      console.log(file);
+      modalText += `<li>${file.path}</li>`;
     }
     modalText += "<ul>";
 
