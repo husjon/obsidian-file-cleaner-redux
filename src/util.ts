@@ -2,7 +2,7 @@ import { App, Notice, TFile } from "obsidian";
 import { FileCleanerSettings } from "./settings";
 import translate from "./i18n";
 import { Deletion } from "./enums";
-import { ConfirmationModal } from "./helpers";
+import { DeletionModal } from "./helpers";
 
 async function removeFile(
   file: TFile,
@@ -84,18 +84,12 @@ export async function runCleanup(app: App, settings: FileCleanerSettings) {
 
   if (!settings.deletionConfirmation) removeFiles(files, app, settings);
   else {
-    let modalText = `<h3>${translate().Modals.DeletionConfirmation}:</h3>`;
-    modalText += "<ul>";
-    for (const file of files) {
-      modalText += `<li>${file.path}</li>`;
-    }
-    modalText += "<ul>";
-
-    await ConfirmationModal({
-      text: modalText,
+    await DeletionModal({
+      files,
       onConfirm: () => {
         removeFiles(files, app, settings);
       },
+      app,
     });
   }
 }
