@@ -45,11 +45,7 @@ export async function runCleanup(app: App, settings: FileCleanerSettings) {
   const inUseAttachments = Object.entries(app.metadataCache.resolvedLinks)
     .map(([parent, child]) => Object.keys(child))
     .filter((file) => file.length > 0)
-    .map((file) => file.pop())
-    .reduce(
-      (prev, cur) => (!prev.includes(cur) ? [...prev, cur] : [...prev]),
-      [],
-    );
+    .reduce((prev, cur) => [...prev, ...cur], []);
 
   // Get list of all files
   const files: TFile[] = app.vault
