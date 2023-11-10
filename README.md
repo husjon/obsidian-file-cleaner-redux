@@ -1,6 +1,8 @@
-## File Cleaner
+## File Cleaner Redux
 
-File Cleaner is a plugin for Obsidian (https://obsidian.md) to help remove unused / empty markdown files and attachments based on a few simple user-defined rules.
+File Cleaner Redux is a plugin for Obsidian (https://obsidian.md) to help remove unused / empty markdown files and attachments based on a few simple user-defined rules.
+
+Based on https://github.com/Johnson0907/obsidian-file-cleaner
 
 ## What this plugin does
 

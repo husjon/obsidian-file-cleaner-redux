@@ -5,7 +5,7 @@ on:
       - "v*"
 
 env:
-  PLUGIN_NAME: obsidian-file-cleaner
+  PLUGIN_NAME: obsidian-file-cleaner-redux
 jobs:
   build:
     runs-on: ubuntu-latest
