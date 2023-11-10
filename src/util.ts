@@ -98,7 +98,9 @@ export async function runCleanup(app: App, settings: FileCleanerSettings) {
     .filter(
       (file) =>
         // Filters any attachment that is not in use
-        !inUseAttachments.includes(file.path) && file,
+        !inUseAttachments.includes(file.path) &&
+        !canvasAttachments.includes(file.path) &&
+        file,
     );
 
   // Run cleanup
