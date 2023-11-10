@@ -49,11 +49,17 @@ export interface Locale {
   };
 
   Modals: {
-    ResetSettings: string;
-    DeletionConfirmation: string;
+    ResetSettings: {
+      Title: string;
+      Text: string;
+    };
+    DeletionConfirmation: {
+      Title: string;
+      Text: string;
+    };
 
-    ButtonYes: string;
-    ButtonNo: string;
+    ButtonConfirm: string;
+    ButtonCancel: string;
   };
 
   Buttons: {

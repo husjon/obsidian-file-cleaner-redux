@@ -56,11 +56,17 @@ const enUS: Locale = {
   },
 
   Modals: {
-    ResetSettings: "Are you sure you want to reset the settings?",
-    DeletionConfirmation: "The following files will be deleted",
+    ResetSettings: {
+      Title: "Reset Settings",
+      Text: "Are you sure you want to reset the settings?",
+    },
+    DeletionConfirmation: {
+      Title: "Deletion Confirmation",
+      Text: "The following files will be deleted",
+    },
 
-    ButtonNo: "No",
-    ButtonYes: "Yes",
+    ButtonCancel: "Cancel",
+    ButtonConfirm: "Confirm",
   },
 
   Buttons: {

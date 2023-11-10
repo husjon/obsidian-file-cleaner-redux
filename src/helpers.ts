@@ -1,49 +1,71 @@
 import { App, ButtonComponent, Modal, TFile } from "obsidian";
 import translate from "./i18n";
 
-interface ConfirmationModalProps {
-  text: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  onConfirm?: any;
-}
-export function ConfirmationModal({ text, onConfirm }: ConfirmationModalProps) {
-  const modal = new Modal(this.app);
+export class ConfirmationModal extends Modal {
+  title: string;
+  content: HTMLElement;
+  onConfirm: () => void;
 
-  modal.contentEl.createEl("p", {
-    text: document.createRange().createContextualFragment(text),
-  });
+  constructor(
+    app: App,
+    title: string,
+    content: HTMLElement,
+    onConfirm: () => void,
+  ) {
+    super(app);
+    this.title = title;
+    this.content = content;
+    this.onConfirm = onConfirm;
+  }
+  onOpen(): void {
+    this.titleEl.innerText = this.title;
 
-  new ButtonComponent(modal.contentEl)
-    .setButtonText(translate().Modals.ButtonNo)
-    .onClick(() => {
-      modal.close();
-    }).buttonEl.style.marginRight = "1em";
+    const contentContainer = this.contentEl.createDiv();
+    contentContainer.append(this.content);
 
-  new ButtonComponent(modal.contentEl)
-    .setButtonText(translate().Modals.ButtonYes)
-    .setWarning()
-    .onClick(() => {
-      onConfirm?.();
-      modal.close();
+    const buttonContainer = this.contentEl.createDiv();
+    buttonContainer.setCssStyles({
+      cssFloat: "right",
+      display: "flex",
+      gap: "0.5em",
     });
 
-  modal.open();
+    new ButtonComponent(buttonContainer)
+      .setButtonText(translate().Modals.ButtonConfirm)
+      .setWarning()
+      .onClick(() => {
+        this.onConfirm?.();
+        this.close();
+      });
+
+    new ButtonComponent(buttonContainer)
+      .setButtonText(translate().Modals.ButtonCancel)
+      .onClick(() => {
+        this.close();
+      });
+  }
 }
 
-interface DeletionModalProps {
-  files: TFile[];
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  onConfirm?: any;
+interface DeletionConfirmationModalProps {
   app: App;
+  files: TFile[];
+  onConfirm?: () => void;
 }
-export function DeletionModal({ files, onConfirm, app }: DeletionModalProps) {
-  const modal = new Modal(this.app);
+export function DeletionConfirmationModal({
+  app,
+  files,
+  onConfirm,
+}: DeletionConfirmationModalProps) {
+  const modal = new ConfirmationModal(
+    app,
+    translate().Modals.DeletionConfirmation.Title,
+    createEl("p", {
+      text: translate().Modals.DeletionConfirmation.Text + ":",
+    }),
+    onConfirm,
+  );
 
-  modal.contentEl.createEl("p", {
-    text: "The following files will be removed:",
-  });
-
-  const ul = modal.contentEl.createEl("ul");
+  const ul = modal.content.createEl("ul");
 
   files.map((file) => {
     const li = ul.createEl("li");
@@ -54,19 +76,23 @@ export function DeletionModal({ files, onConfirm, app }: DeletionModalProps) {
     });
   });
 
-  new ButtonComponent(modal.contentEl)
-    .setButtonText(translate().Modals.ButtonNo)
-    .onClick(() => {
-      modal.close();
-    }).buttonEl.style.marginRight = "1em";
+  modal.open();
+}
 
-  new ButtonComponent(modal.contentEl)
-    .setButtonText(translate().Modals.ButtonYes)
-    .setWarning()
-    .onClick(() => {
-      onConfirm?.();
-      modal.close();
-    });
+interface ResetSettingsModalProps {
+  app: App;
+  onConfirm?: () => void;
+}
+export function ResetSettingsModal({
+  app,
+  onConfirm,
+}: ResetSettingsModalProps) {
+  const modal = new ConfirmationModal(
+    app,
+    translate().Modals.ResetSettings.Title,
+    createEl("p", { text: translate().Modals.ResetSettings.Text }),
+    onConfirm,
+  );
 
   modal.open();
 }

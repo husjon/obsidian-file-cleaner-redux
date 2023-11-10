@@ -2,7 +2,7 @@ import { App, Notice, PluginSettingTab, Setting } from "obsidian";
 import FileCleanerPlugin from ".";
 import translate from "./i18n";
 import { Deletion } from "./enums";
-import { ConfirmationModal } from "./helpers";
+import { ResetSettingsModal } from "./helpers";
 
 export interface FileCleanerSettings {
   deletionDestination: Deletion;
@@ -166,8 +166,8 @@ export class FileCleanerSettingTab extends PluginSettingTab {
           .setWarning()
           .setButtonText(translate().Settings.DangerZone.ResetSettings.Button)
           .onClick(() => {
-            ConfirmationModal({
-              text: translate().Modals.ResetSettings,
+            ResetSettingsModal({
+              app: this.app,
               onConfirm: () => {
                 this.plugin.settings = DEFAULT_SETTINGS;
                 this.plugin.saveSettings();
