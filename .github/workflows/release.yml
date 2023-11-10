@@ -18,20 +18,12 @@ jobs:
       - name: Run build
         run: npm run build
 
-      - name: Package
-        run: |
-          mkdir ${{ env.PLUGIN_NAME }}
-          cp main.js manifest.json styles.css ${{ env.PLUGIN_NAME }}
-          zip -r "${{ env.PLUGIN_NAME }}-${{ github.ref_name }}.zip" ${{ env.PLUGIN_NAME }}
-
       - uses: actions/upload-artifact@v3
         with:
           name: artifacts
           path: |
             main.js
             manifest.json
-            styles.css
-            ${{ env.PLUGIN_NAME }}-*.zip
 
   create-github-release:
     name: Create release
@@ -54,5 +46,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           gh release create ${{github.ref}} --generate-notes \
-            main.js manifest.json styles.css \
-            "${{ env.PLUGIN_NAME }}-v${{ github.ref_name }}.zip"
+            main.js \
+            manifest.json
