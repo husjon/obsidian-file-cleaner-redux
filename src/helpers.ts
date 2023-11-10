@@ -86,3 +86,21 @@ export function DeletionModal({ files, onConfirm, app }: DeletionModalProps) {
 
   modal.open();
 }
+
+interface ResetSettingsModalProps {
+  app: App;
+  onConfirm?: () => void;
+}
+export function ResetSettingsModal({
+  app,
+  onConfirm,
+}: ResetSettingsModalProps) {
+  const modal = new ConfirmationModal(
+    app,
+    translate().Modals.ResetSettings.Title,
+    createEl("p", { text: translate().Modals.ResetSettings.Text }),
+    onConfirm,
+  );
+
+  modal.open();
+}
