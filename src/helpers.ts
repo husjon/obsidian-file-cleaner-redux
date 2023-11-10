@@ -1,33 +1,49 @@
 import { App, ButtonComponent, Modal, TFile } from "obsidian";
 import translate from "./i18n";
 
-interface ConfirmationModalProps {
-  text: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  onConfirm?: any;
-}
-export function ConfirmationModal({ text, onConfirm }: ConfirmationModalProps) {
-  const modal = new Modal(this.app);
+export class ConfirmationModal extends Modal {
+  title: string;
+  content: HTMLElement;
+  onConfirm: () => void;
 
-  modal.contentEl.createEl("p", {
-    text: document.createRange().createContextualFragment(text),
-  });
+  constructor(
+    app: App,
+    title: string,
+    content: HTMLElement,
+    onConfirm: () => void,
+  ) {
+    super(app);
+    this.title = title;
+    this.content = content;
+    this.onConfirm = onConfirm;
+  }
+  onOpen(): void {
+    this.titleEl.innerText = this.title;
 
-  new ButtonComponent(modal.contentEl)
-    .setButtonText(translate().Modals.ButtonCancel)
-    .onClick(() => {
-      modal.close();
-    }).buttonEl.style.marginRight = "1em";
+    const contentContainer = this.contentEl.createDiv();
+    contentContainer.append(this.content);
 
-  new ButtonComponent(modal.contentEl)
-    .setButtonText(translate().Modals.ButtonConfirm)
-    .setWarning()
-    .onClick(() => {
-      onConfirm?.();
-      modal.close();
+    const buttonContainer = this.contentEl.createDiv();
+    buttonContainer.setCssStyles({
+      cssFloat: "right",
+      display: "flex",
+      gap: "0.5em",
     });
 
-  modal.open();
+    new ButtonComponent(buttonContainer)
+      .setButtonText(translate().Modals.ButtonConfirm)
+      .setWarning()
+      .onClick(() => {
+        this.onConfirm?.();
+        this.close();
+      });
+
+    new ButtonComponent(buttonContainer)
+      .setButtonText(translate().Modals.ButtonCancel)
+      .onClick(() => {
+        this.close();
+      });
+  }
 }
 
 interface DeletionModalProps {
