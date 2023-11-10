@@ -2,7 +2,7 @@ import { App, Notice, TFile } from "obsidian";
 import { FileCleanerSettings } from "./settings";
 import translate from "./i18n";
 import { Deletion } from "./enums";
-import { DeletionModal } from "./helpers";
+import { DeletionConfirmationModal } from "./helpers";
 
 interface CanvasNode {
   id: string;
@@ -122,7 +122,7 @@ export async function runCleanup(app: App, settings: FileCleanerSettings) {
 
   if (!settings.deletionConfirmation) removeFiles(files, app, settings);
   else {
-    await DeletionModal({
+    await DeletionConfirmationModal({
       files,
       onConfirm: () => {
         removeFiles(files, app, settings);

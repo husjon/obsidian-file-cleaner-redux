@@ -46,20 +46,26 @@ export class ConfirmationModal extends Modal {
   }
 }
 
-interface DeletionModalProps {
-  files: TFile[];
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  onConfirm?: any;
+interface DeletionConfirmationModalProps {
   app: App;
+  files: TFile[];
+  onConfirm?: () => void;
 }
-export function DeletionModal({ files, onConfirm, app }: DeletionModalProps) {
-  const modal = new Modal(this.app);
+export function DeletionConfirmationModal({
+  app,
+  files,
+  onConfirm,
+}: DeletionConfirmationModalProps) {
+  const modal = new ConfirmationModal(
+    app,
+    translate().Modals.DeletionConfirmation.Title,
+    createEl("p", {
+      text: translate().Modals.DeletionConfirmation.Text + ":",
+    }),
+    onConfirm,
+  );
 
-  modal.contentEl.createEl("p", {
-    text: "The following files will be removed:",
-  });
-
-  const ul = modal.contentEl.createEl("ul");
+  const ul = modal.content.createEl("ul");
 
   files.map((file) => {
     const li = ul.createEl("li");
@@ -69,20 +75,6 @@ export function DeletionModal({ files, onConfirm, app }: DeletionModalProps) {
       leaf.openFile(file);
     });
   });
-
-  new ButtonComponent(modal.contentEl)
-    .setButtonText(translate().Modals.ButtonCancel)
-    .onClick(() => {
-      modal.close();
-    }).buttonEl.style.marginRight = "1em";
-
-  new ButtonComponent(modal.contentEl)
-    .setButtonText(translate().Modals.ButtonConfirm)
-    .setWarning()
-    .onClick(() => {
-      onConfirm?.();
-      modal.close();
-    });
 
   modal.open();
 }

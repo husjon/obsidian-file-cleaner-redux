@@ -53,7 +53,10 @@ export interface Locale {
       Title: string;
       Text: string;
     };
-    DeletionConfirmation: string;
+    DeletionConfirmation: {
+      Title: string;
+      Text: string;
+    };
 
     ButtonConfirm: string;
     ButtonCancel: string;
