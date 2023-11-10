@@ -54,7 +54,7 @@ export async function runCleanup(app: App, settings: FileCleanerSettings) {
     .reduce((prev, cur) => [...prev, ...cur], [])
     .filter((file) => !file.endsWith(".md"));
 
-  const canvasAttachments: string[] = await Promise.all(
+  const canvasAttachmentsInitial: string[] = await Promise.all(
     app.vault
       .getFiles()
       .filter((file) => file.extension == "canvas")
@@ -72,10 +72,15 @@ export async function runCleanup(app: App, settings: FileCleanerSettings) {
                   node.type === "file" && !node.file.endsWith(".md"),
               )
               .map((node: CanvasNode) => node.file)
-              .reduce((prev: [], cur: []) => [...prev, ...cur]);
+              .reduce((prev: [], cur: []) => [...prev, cur], []);
           },
         );
       }),
+  );
+  // Build up a 1-dimensional array of path strings
+  const canvasAttachments = canvasAttachmentsInitial.reduce(
+    (prev, cur) => [...prev, ...cur],
+    [],
   );
 
   // Get list of all files
