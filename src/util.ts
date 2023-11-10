@@ -64,15 +64,19 @@ export async function runCleanup(app: App, settings: FileCleanerSettings) {
           (raw) => {
             if (file.stat.size === 0) return [];
 
-            const data = JSON.parse(raw);
-            return data["nodes"]
-              .filter(
-                // Filter out non-markdown files
-                (node: CanvasNode) =>
-                  node.type === "file" && !node.file.endsWith(".md"),
-              )
-              .map((node: CanvasNode) => node.file)
-              .reduce((prev: [], cur: []) => [...prev, cur], []);
+            try {
+              const data = JSON.parse(raw);
+              return data["nodes"]
+                .filter(
+                  // Filter out non-markdown files
+                  (node: CanvasNode) =>
+                    node.type === "file" && !node.file.endsWith(".md"),
+                )
+                .map((node: CanvasNode) => node.file)
+                .reduce((prev: [], cur: []) => [...prev, cur], []);
+            } catch (error) {
+              new Notice(`Failed to parse canvas file: ${file.path}`);
+            }
           },
         );
       }),
