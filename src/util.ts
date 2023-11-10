@@ -62,6 +62,8 @@ export async function runCleanup(app: App, settings: FileCleanerSettings) {
         return await app.vault.read(file).then(
           // Iterate over found canvas files to fetch the nodes
           (raw) => {
+            if (file.stat.size === 0) return [];
+
             const data = JSON.parse(raw);
             return data["nodes"]
               .filter(
