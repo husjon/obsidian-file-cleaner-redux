@@ -2,7 +2,7 @@ name: Release
 on:
   push:
     tags:
-      - "v*"
+      - "[0-9]+.[0-9]+.[0-9]+"
 
 env:
   PLUGIN_NAME: obsidian-file-cleaner-redux
@@ -53,6 +53,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release create ${{github.ref}} --generate-notes \
+          gh release create v${{github.ref}} --generate-notes \
             main.js manifest.json styles.css \
-            "${{ env.PLUGIN_NAME }}-${{ github.ref_name }}.zip"
+            "${{ env.PLUGIN_NAME }}-v${{ github.ref_name }}.zip"
