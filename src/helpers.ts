@@ -14,13 +14,13 @@ export function ConfirmationModal({ text, onConfirm }: ConfirmationModalProps) {
   });
 
   new ButtonComponent(modal.contentEl)
-    .setButtonText(translate().Modals.ButtonNo)
+    .setButtonText(translate().Modals.ButtonCancel)
     .onClick(() => {
       modal.close();
     }).buttonEl.style.marginRight = "1em";
 
   new ButtonComponent(modal.contentEl)
-    .setButtonText(translate().Modals.ButtonYes)
+    .setButtonText(translate().Modals.ButtonConfirm)
     .setWarning()
     .onClick(() => {
       onConfirm?.();
@@ -55,13 +55,13 @@ export function DeletionModal({ files, onConfirm, app }: DeletionModalProps) {
   });
 
   new ButtonComponent(modal.contentEl)
-    .setButtonText(translate().Modals.ButtonNo)
+    .setButtonText(translate().Modals.ButtonCancel)
     .onClick(() => {
       modal.close();
     }).buttonEl.style.marginRight = "1em";
 
   new ButtonComponent(modal.contentEl)
-    .setButtonText(translate().Modals.ButtonYes)
+    .setButtonText(translate().Modals.ButtonConfirm)
     .setWarning()
     .onClick(() => {
       onConfirm?.();

@@ -59,8 +59,8 @@ const enUS: Locale = {
     ResetSettings: "Are you sure you want to reset the settings?",
     DeletionConfirmation: "The following files will be deleted",
 
-    ButtonNo: "No",
-    ButtonYes: "Yes",
+    ButtonCancel: "Cancel",
+    ButtonConfirm: "Confirm",
   },
 
   Buttons: {

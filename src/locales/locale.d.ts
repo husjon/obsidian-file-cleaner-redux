@@ -52,8 +52,8 @@ export interface Locale {
     ResetSettings: string;
     DeletionConfirmation: string;
 
-    ButtonYes: string;
-    ButtonNo: string;
+    ButtonConfirm: string;
+    ButtonCancel: string;
   };
 
   Buttons: {
