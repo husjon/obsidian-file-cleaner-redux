@@ -62,7 +62,10 @@ const enUS: Locale = {
     },
     DeletionConfirmation: {
       Title: "Deletion Confirmation",
-      Text: "The following files will be deleted",
+      Text: "The following will be deleted",
+
+      Files: "Files",
+      Folders: "Folders",
     },
 
     ButtonCancel: "Cancel",
