@@ -1,4 +1,11 @@
-import { App, ButtonComponent, Modal, TAbstractFile } from "obsidian";
+import {
+  App,
+  ButtonComponent,
+  Modal,
+  TAbstractFile,
+  TFile,
+  TFolder,
+} from "obsidian";
 import translate from "./i18n";
 
 export class ConfirmationModal extends Modal {
@@ -53,28 +60,45 @@ interface DeletionConfirmationModalProps {
 }
 export function DeletionConfirmationModal({
   app,
-  files,
+  files: filesAndFolders,
   onConfirm,
 }: DeletionConfirmationModalProps) {
   const modal = new ConfirmationModal(
     app,
     translate().Modals.DeletionConfirmation.Title,
     createEl("p", {
-      text: translate().Modals.DeletionConfirmation.Text + ":",
+      text: translate().Modals.DeletionConfirmation.Text,
     }),
     onConfirm,
   );
 
-  const ul = modal.content.createEl("ul");
-
-  files.map((file) => {
-    const li = ul.createEl("li");
-    li.innerHTML = `<a>${file.path}</a>`;
-    li.onClickEvent(async () => {
-      const leaf = await app.workspace.getLeaf();
-      leaf.openFile(file);
+  const files = filesAndFolders.filter((file) => file instanceof TFile);
+  if (files.length > 0) {
+    modal.content.createEl("p", {
+      text: translate().Modals.DeletionConfirmation.Files + ":",
     });
-  });
+    const ulFiles = modal.content.createEl("ul");
+    files.map((file: TFile) => {
+      const li = ulFiles.createEl("li");
+      li.innerHTML = `<a>${file.path}</a>`;
+      li.onClickEvent(async () => {
+        const leaf = await app.workspace.getLeaf();
+        leaf.openFile(file);
+      });
+    });
+  }
+
+  const folders = filesAndFolders.filter((file) => file instanceof TFolder);
+  if (folders.length > 0) {
+    modal.content.createEl("p", {
+      text: translate().Modals.DeletionConfirmation.Folders + ":",
+    });
+    const ulFolders = modal.content.createEl("ul");
+    folders.map((file) => {
+      const li = ulFolders.createEl("li");
+      li.innerHTML = `<a>${file.path}</a>`;
+    });
+  }
 
   modal.open();
 }

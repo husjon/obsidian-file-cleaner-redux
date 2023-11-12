@@ -56,6 +56,9 @@ export interface Locale {
     DeletionConfirmation: {
       Title: string;
       Text: string;
+
+      Files: string;
+      Folders: string;
     };
 
     ButtonConfirm: string;
