@@ -87,10 +87,12 @@ export async function runCleanup(app: App, settings: FileCleanerSettings) {
     [],
   );
 
-  const emptyFolders = app.vault
-    .getAllLoadedFiles()
-    .filter((child) => child.hasOwnProperty("children"))
-    .filter((child: TFolder) => child["children"].length === 0);
+  const emptyFolders = settings.removeFolders
+    ? app.vault
+        .getAllLoadedFiles()
+        .filter((child) => child.hasOwnProperty("children"))
+        .filter((child: TFolder) => child["children"].length === 0)
+    : [];
 
   // Get list of all files
   const files: TFile[] = app.vault

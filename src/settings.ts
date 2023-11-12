@@ -10,6 +10,7 @@ export interface FileCleanerSettings {
   attachmentExtensions: string[];
   deletionConfirmation: boolean;
   runOnStartup: boolean;
+  removeFolders: boolean;
 }
 
 export const DEFAULT_SETTINGS: FileCleanerSettings = {
@@ -18,6 +19,7 @@ export const DEFAULT_SETTINGS: FileCleanerSettings = {
   attachmentExtensions: [],
   deletionConfirmation: true,
   runOnStartup: false,
+  removeFolders: true,
 };
 
 export class FileCleanerSettingTab extends PluginSettingTab {
@@ -136,6 +138,18 @@ export class FileCleanerSettingTab extends PluginSettingTab {
 
         toggle.onChange((value) => {
           this.plugin.settings.deletionConfirmation = value;
+          this.plugin.saveSettings();
+        });
+      });
+
+    new Setting(containerEl)
+      .setName(translate().Settings.RegularOptions.RemoveFolders.Label)
+      .setDesc(translate().Settings.RegularOptions.RemoveFolders.Description)
+      .addToggle((toggle) => {
+        toggle.setValue(this.plugin.settings.removeFolders);
+
+        toggle.onChange((value) => {
+          this.plugin.settings.removeFolders = value;
           this.plugin.saveSettings();
         });
       });

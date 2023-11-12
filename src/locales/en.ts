@@ -38,6 +38,11 @@ const enUS: Locale = {
         Description: "Show a confirmation box with list of files to be removed",
       },
 
+      RemoveFolders: {
+        Label: "Remove Folders",
+        Description: "Include folders in cleanup",
+      },
+
       RunOnStartup: {
         Label: "Run on Startup",
         Description: "Runs the cleaner on startup",
