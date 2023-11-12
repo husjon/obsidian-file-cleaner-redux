@@ -1,4 +1,4 @@
-import { App, Notice, TFile } from "obsidian";
+import { App, Notice, TAbstractFile, TFile, TFolder } from "obsidian";
 import { FileCleanerSettings } from "./settings";
 import translate from "./i18n";
 import { Deletion } from "./enums";
@@ -11,7 +11,7 @@ interface CanvasNode {
 }
 
 async function removeFile(
-  file: TFile,
+  file: TAbstractFile,
   app: App,
   settings: FileCleanerSettings,
 ) {
@@ -29,7 +29,7 @@ async function removeFile(
 }
 
 async function removeFiles(
-  files: TFile[],
+  files: TAbstractFile[],
   app: App,
   settings: FileCleanerSettings,
 ) {
@@ -87,6 +87,11 @@ export async function runCleanup(app: App, settings: FileCleanerSettings) {
     [],
   );
 
+  const emptyFolders = app.vault
+    .getAllLoadedFiles()
+    .filter((child) => child.hasOwnProperty("children"))
+    .filter((child: TFolder) => child["children"].length === 0);
+
   // Get list of all files
   const files: TFile[] = app.vault
     .getFiles()
@@ -114,18 +119,21 @@ export async function runCleanup(app: App, settings: FileCleanerSettings) {
         file,
     );
 
+  const filesAndFolders = [...files, ...emptyFolders];
+
   // Run cleanup
-  if (files.length == 0) {
+  if (filesAndFolders.length == 0) {
     new Notice(translate().Notifications.NoFileToClean);
     return;
   }
 
-  if (!settings.deletionConfirmation) removeFiles(files, app, settings);
+  if (!settings.deletionConfirmation)
+    removeFiles(filesAndFolders, app, settings);
   else {
     await DeletionConfirmationModal({
-      files,
+      files: filesAndFolders,
       onConfirm: () => {
-        removeFiles(files, app, settings);
+        removeFiles(filesAndFolders, app, settings);
       },
       app,
     });

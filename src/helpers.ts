@@ -1,4 +1,4 @@
-import { App, ButtonComponent, Modal, TFile } from "obsidian";
+import { App, ButtonComponent, Modal, TAbstractFile } from "obsidian";
 import translate from "./i18n";
 
 export class ConfirmationModal extends Modal {
@@ -48,7 +48,7 @@ export class ConfirmationModal extends Modal {
 
 interface DeletionConfirmationModalProps {
   app: App;
-  files: TFile[];
+  files: TAbstractFile[];
   onConfirm?: () => void;
 }
 export function DeletionConfirmationModal({
