@@ -31,6 +31,11 @@ export interface Locale {
         Description: string;
       };
 
+      RemoveFolders: {
+        Label: string;
+        Description: string;
+      };
+
       RunOnStartup: {
         Label: string;
         Description: string;
