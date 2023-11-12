@@ -8,11 +8,12 @@ Based on https://github.com/Johnson0907/obsidian-file-cleaner
 
 - Removes Markdown files with a size of 0 bytes.
 - Removes user-defined attachment files (e.g: jpg, jpeg, png, gif, svg, pdf)
+- Removes empty folders (Optional)
 - Set deletion location
   - Move to system trash
   - Move to Obsidian trash (.trash folder)
   - Permanently delete
-- Preview of list of files that will be removed (Optional)
+- Preview of list of files and folders that will be removed (Optional)
 - Run on Startup (Optional)
 
 ### How to use the plugin
