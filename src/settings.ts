@@ -35,10 +35,6 @@ export class FileCleanerSettingTab extends PluginSettingTab {
     this.containerEl.empty();
 
     //#region Regular Options {{{
-    this.containerEl.createEl("h3", {
-      text: translate().Settings.RegularOptions.Header,
-    });
-
     new Setting(containerEl)
       .setName(translate().Settings.RegularOptions.CleanedFiles.Label)
       .setDesc(translate().Settings.RegularOptions.CleanedFiles.Description)

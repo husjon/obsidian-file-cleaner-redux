@@ -1,8 +1,6 @@
 export interface Locale {
   Settings: {
     RegularOptions: {
-      Header: string;
-
       CleanedFiles: {
         Label: string;
         Description: string;

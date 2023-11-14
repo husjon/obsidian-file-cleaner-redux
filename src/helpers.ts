@@ -80,7 +80,7 @@ export function DeletionConfirmationModal({
     const ulFiles = modal.content.createEl("ul");
     files.map((file: TFile) => {
       const li = ulFiles.createEl("li");
-      li.innerHTML = `<a>${file.path}</a>`;
+      li.createEl("a", { text: file.path });
       li.onClickEvent(async () => {
         const leaf = await app.workspace.getLeaf();
         leaf.openFile(file);
@@ -96,7 +96,7 @@ export function DeletionConfirmationModal({
     const ulFolders = modal.content.createEl("ul");
     folders.map((file) => {
       const li = ulFolders.createEl("li");
-      li.innerHTML = `<a>${file.path}</a>`;
+      li.createEl("a", { text: file.path });
     });
   }
 

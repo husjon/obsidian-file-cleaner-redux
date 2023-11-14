@@ -4,8 +4,6 @@ import { Locale } from "./locale";
 const enUS: Locale = {
   Settings: {
     RegularOptions: {
-      Header: "Regular Options",
-
       CleanedFiles: {
         Label: "Deleted files",
         Description: "What happens to a file after it's deleted.",
@@ -18,7 +16,7 @@ const enUS: Locale = {
       },
 
       ExcludedFolders: {
-        Label: "Excluded Folders",
+        Label: "Excluded folders",
         Description: `
           Folders that should be excluded during cleanup.
           Paths are case-sensitive.
@@ -39,21 +37,21 @@ const enUS: Locale = {
       },
 
       RemoveFolders: {
-        Label: "Remove Folders",
+        Label: "Remove folders",
         Description: "Include folders in cleanup",
       },
 
       RunOnStartup: {
-        Label: "Run on Startup",
+        Label: "Run on startup",
         Description: "Runs the cleaner on startup",
       },
     },
 
     DangerZone: {
-      Header: "Danger Zone",
+      Header: "Danger zone",
 
       ResetSettings: {
-        Label: "Reset Settings",
+        Label: "Reset settings",
         Description: "Resets the configuration back to default values",
         Button: "Reset",
       },
@@ -62,11 +60,11 @@ const enUS: Locale = {
 
   Modals: {
     ResetSettings: {
-      Title: "Reset Settings",
+      Title: "Reset settings",
       Text: "Are you sure you want to reset the settings?",
     },
     DeletionConfirmation: {
-      Title: "Deletion Confirmation",
+      Title: "Deletion confirmation",
       Text: "The following will be deleted",
 
       Files: "Files",

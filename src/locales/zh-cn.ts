@@ -5,8 +5,6 @@ import enUS from "./en";
 export const zhCN: Locale = {
   Settings: {
     RegularOptions: {
-      Header: "常规选项",
-
       CleanedFiles: {
         Label: "清理文件",
         Description: "要如何处理已清理的文件？",
