@@ -31,6 +31,15 @@ const enUS: Locale = {
         Placeholder: "Example: .jpg, .png, .pdf",
       },
 
+      IgnoredFrontmatter: {
+        Label: "Ignored frontmatter",
+        Description: `
+          List of frontmatter properties that should be ignored during cleanup.
+          If a file contains only frontmatter and contains only these properties, the file will be removed, comma-separated.
+        `,
+        Placeholder: "Example:\ncreated, updated",
+      },
+
       PreviewDeletedFiles: {
         Label: "Preview deleted files",
         Description: "Show a confirmation box with list of files to be removed",

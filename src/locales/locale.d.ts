@@ -24,6 +24,12 @@ export interface Locale {
         Placeholder: string;
       };
 
+      IgnoredFrontmatter: {
+        Label: string;
+        Description: string;
+        Placeholder: string;
+      };
+
       PreviewDeletedFiles: {
         Label: string;
         Description: string;
