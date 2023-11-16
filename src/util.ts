@@ -107,14 +107,15 @@ export async function runCleanup(app: App, settings: FileCleanerSettings) {
       // Filters out only allowed extensions (including markdowns)
       file.extension.match(allowedExtensions),
     )
+    // Filters out files for further processing
     .filter((file) => {
-      // Filters out any non-markdown files
+      // Filter out all files that are not markdown
       if (file.extension !== "md") return true;
 
       // Filter out any markdown files that are empty including only whitespace
       if (!app.metadataCache.getFileCache(file).sections) return true;
 
-      return false;
+      return false; // Ignore all other files
     })
     .filter(
       (file) =>
