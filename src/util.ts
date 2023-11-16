@@ -107,12 +107,15 @@ export async function runCleanup(app: App, settings: FileCleanerSettings) {
       // Filters out only allowed extensions (including markdowns)
       file.extension.match(allowedExtensions),
     )
-    .filter(
-      (file) =>
-        // Filters out any markdown file that is empty
-        (file.extension === "md" && file.stat.size === 0) ||
-        file.extension !== "md",
-    )
+    .filter((file) => {
+      // Filters out any non-markdown files
+      if (file.extension !== "md") return true;
+
+      // Filters out any markdown file that is empty
+      if (file.stat.size === 0) return true;
+
+      return false;
+    })
     .filter(
       (file) =>
         // Filters any attachment that is not in use
