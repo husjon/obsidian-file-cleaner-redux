@@ -111,8 +111,8 @@ export async function runCleanup(app: App, settings: FileCleanerSettings) {
       // Filters out any non-markdown files
       if (file.extension !== "md") return true;
 
-      // Filters out any markdown file that is empty
-      if (file.stat.size === 0) return true;
+      // Filter out any markdown files that are empty including only whitespace
+      if (!app.metadataCache.getFileCache(file).sections) return true;
 
       return false;
     })
