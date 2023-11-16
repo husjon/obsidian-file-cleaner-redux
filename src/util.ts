@@ -107,12 +107,28 @@ export async function runCleanup(app: App, settings: FileCleanerSettings) {
       // Filters out only allowed extensions (including markdowns)
       file.extension.match(allowedExtensions),
     )
-    .filter(
-      (file) =>
-        // Filters out any markdown file that is empty
-        (file.extension === "md" && file.stat.size === 0) ||
-        file.extension !== "md",
-    )
+    // Filters out files for further processing
+    .filter((file) => {
+      // Filter out all files that are not markdown
+      if (file.extension !== "md") return true;
+
+      // Filter out any markdown files that are empty including only whitespace
+      const fileCache = app.metadataCache.getFileCache(file);
+      const sections = fileCache.sections;
+      if (sections === undefined) return true;
+
+      // Filter out any files that are empty and only contains ignored frontmatter properties
+      const fileFrontmatter = Object.keys(fileCache.frontmatter || {}).sort();
+      const settingsFrontmatter = settings.ignoredFrontmatter.sort();
+      if (settings.ignoredFrontmatter.length === 0) return false;
+
+      if (sections.length === 1 && sections.at(0).type === "yaml") {
+        if (fileFrontmatter.toString() === settingsFrontmatter.toString())
+          return true;
+      }
+
+      return false; // Ignore all other files
+    })
     .filter(
       (file) =>
         // Filters any attachment that is not in use

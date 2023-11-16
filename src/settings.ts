@@ -11,6 +11,7 @@ export interface FileCleanerSettings {
   deletionConfirmation: boolean;
   runOnStartup: boolean;
   removeFolders: boolean;
+  ignoredFrontmatter: string[];
 }
 
 export const DEFAULT_SETTINGS: FileCleanerSettings = {
@@ -20,6 +21,7 @@ export const DEFAULT_SETTINGS: FileCleanerSettings = {
   deletionConfirmation: true,
   runOnStartup: false,
   removeFolders: true,
+  ignoredFrontmatter: [],
 };
 
 export class FileCleanerSettingTab extends PluginSettingTab {
@@ -121,6 +123,29 @@ export class FileCleanerSettingTab extends PluginSettingTab {
           translate().Settings.RegularOptions.Attachments.Placeholder,
         );
         text.inputEl.rows = 3;
+        text.inputEl.cols = 30;
+      });
+
+    new Setting(containerEl)
+      .setName(translate().Settings.RegularOptions.IgnoredFrontmatter.Label)
+      .setDesc(
+        translate().Settings.RegularOptions.IgnoredFrontmatter.Description,
+      )
+      .addTextArea((text) => {
+        text
+          .setValue(this.plugin.settings.ignoredFrontmatter.join(", "))
+          .onChange(async (value) => {
+            this.plugin.settings.ignoredFrontmatter = value
+              .split(",")
+              .map((ext) => ext.trim())
+              .filter((ext) => ext.length > 1 && ext !== "");
+
+            this.plugin.saveSettings();
+          });
+        text.setPlaceholder(
+          translate().Settings.RegularOptions.IgnoredFrontmatter.Placeholder,
+        );
+        text.inputEl.rows = 4;
         text.inputEl.cols = 30;
       });
 
