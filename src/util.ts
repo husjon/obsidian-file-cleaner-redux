@@ -113,7 +113,19 @@ export async function runCleanup(app: App, settings: FileCleanerSettings) {
       if (file.extension !== "md") return true;
 
       // Filter out any markdown files that are empty including only whitespace
-      if (!app.metadataCache.getFileCache(file).sections) return true;
+      const fileCache = app.metadataCache.getFileCache(file);
+      const sections = fileCache.sections;
+      if (sections === undefined) return true;
+
+      // Filter out any files that are empty and only contains ignored frontmatter properties
+      const fileFrontmatter = Object.keys(fileCache.frontmatter || {}).sort();
+      const settingsFrontmatter = settings.ignoredFrontmatter.sort();
+      if (settings.ignoredFrontmatter.length === 0) return false;
+
+      if (sections.length === 1 && sections.at(0).type === "yaml") {
+        if (fileFrontmatter.toString() === settingsFrontmatter.toString())
+          return true;
+      }
 
       return false; // Ignore all other files
     })
