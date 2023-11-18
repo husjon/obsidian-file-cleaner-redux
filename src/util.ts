@@ -98,12 +98,6 @@ export async function runCleanup(app: App, settings: FileCleanerSettings) {
   const files: TFile[] = app.vault
     .getFiles()
     .filter((file) =>
-      // Filter out files from excluded folders
-      settings.excludedFolders.length > 0
-        ? !file.path.match(excludedFoldersRegex)
-        : file,
-    )
-    .filter((file) =>
       // Filters out only allowed extensions (including markdowns)
       file.extension.match(allowedExtensions),
     )
@@ -137,7 +131,12 @@ export async function runCleanup(app: App, settings: FileCleanerSettings) {
         file,
     );
 
-  const filesAndFolders = [...files, ...emptyFolders];
+  const filesAndFolders = [...files, ...emptyFolders].filter((file) =>
+    // Filter out files from excluded folders
+    settings.excludedFolders.length > 0
+      ? !file.path.match(excludedFoldersRegex)
+      : file,
+  );
 
   // Run cleanup
   if (filesAndFolders.length == 0) {
