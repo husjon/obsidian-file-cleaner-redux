@@ -87,16 +87,19 @@ export async function runCleanup(app: App, settings: FileCleanerSettings) {
     [],
   );
 
+  const allFilesAndFolders = app.vault.getAllLoadedFiles();
+  const allFolders = allFilesAndFolders.filter((node) =>
+    node.hasOwnProperty("children"),
+  );
   const emptyFolders = settings.removeFolders
-    ? app.vault
-        .getAllLoadedFiles()
-        .filter((node) => node.hasOwnProperty("children"))
-        .filter((folder: TFolder) => folder.children.length === 0)
+    ? allFolders.filter((folder: TFolder) => folder.children.length === 0)
     : [];
 
   // Get list of all files
-  const files: TFile[] = app.vault
-    .getFiles()
+  const allFiles = allFilesAndFolders.filter(
+    (node) => !node.hasOwnProperty("children"),
+  ) as TFile[];
+  const files: TFile[] = allFiles
     .filter((file) =>
       // Filters out only allowed extensions (including markdowns)
       file.extension.match(allowedExtensions),
