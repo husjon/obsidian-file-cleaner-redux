@@ -8,7 +8,8 @@ Based on https://github.com/Johnson0907/obsidian-file-cleaner
 
 - Removes Markdown files with a size of 0 bytes.
 - Removes user-defined attachment files (e.g: jpg, jpeg, png, gif, svg, pdf)
-- Removes empty folders (Optional)
+- Support for cleaning empty files containing only specific frontmatter (Optional) (See: https://github.com/husjon/obsidian-file-cleaner-redux/issues/16)
+- Removes empty folders recursively (Optional)
 - Set deletion location
   - Move to system trash
   - Move to Obsidian trash (.trash folder)
