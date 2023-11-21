@@ -20,7 +20,7 @@ export const DEFAULT_SETTINGS: FileCleanerSettings = {
   attachmentExtensions: [],
   deletionConfirmation: true,
   runOnStartup: false,
-  removeFolders: true,
+  removeFolders: false,
   ignoredFrontmatter: [],
 };
 
