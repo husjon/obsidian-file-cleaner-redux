@@ -1,6 +1,6 @@
 {
   "name": "obsidian-file-cleaner-redux",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "Remove empty markdown files and unused attachments in your vault.",
   "main": "main.js",
   "scripts": {
