@@ -206,6 +206,8 @@ export class FileCleanerSettingTab extends PluginSettingTab {
               onConfirm: () => {
                 this.plugin.settings = DEFAULT_SETTINGS;
                 this.plugin.saveSettings();
+                this.display();
+                this.plugin.loadSettings();
 
                 new Notice(translate().Notifications.SettingsReset);
               },
