@@ -92,9 +92,23 @@ export async function runCleanup(app: App, settings: FileCleanerSettings) {
   const allFolders = allFilesAndFolders.filter((node) =>
     node.hasOwnProperty("children"),
   );
-  const emptyFolders = settings.removeFolders
+
+  const initialEmptyFolders = settings.removeFolders
     ? allFolders.filter((folder: TFolder) => folder.children.length === 0)
     : [];
+
+  const emptyFolders = [];
+  for (const folder of initialEmptyFolders) {
+    let parent = folder.parent;
+    emptyFolders.push(folder);
+
+    while (parent !== null && parent.children.length === 1) {
+      if (parent.parent === null) break;
+
+      emptyFolders.push(parent);
+      parent = parent.parent;
+    }
+  }
 
   // Get list of all files
   const allFiles = allFilesAndFolders.filter(
