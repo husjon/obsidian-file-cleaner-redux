@@ -15,13 +15,25 @@ const enUS: Locale = {
         },
       },
 
-      ExcludedFolders: {
-        Label: "Excluded folders",
-        Description: `
+      FolderFiltering: {
+        Excluded: {
+          Label: "Excluded folders",
+          Description: `
           Folders that should be excluded during cleanup.
           Paths are case-sensitive.
           One folder per line.`,
+        },
+        Included: {
+          Label: "Included folders",
+          Description: `
+          Folders that should be included during cleanup, only these folders will be scanned.
+          Paths are case-sensitive.
+          One folder per line.`,
+        },
+        Label: "Excluded / Included Folders",
         Placeholder: "Example:\nfolder/subfolder\nfolder2/subfolder2",
+        Description:
+          "The folders below should be excluded from or included in the cleanup process.",
       },
 
       Attachments: {
