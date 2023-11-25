@@ -6,7 +6,7 @@ import { ResetSettingsModal } from "./helpers";
 
 export interface FileCleanerSettings {
   deletionDestination: Deletion;
-  excludeInclude: boolean;
+  excludeInclude: ExcludeInclude;
   excludedFolders: string[];
   attachmentExtensions: string[];
   deletionConfirmation: boolean;
@@ -14,10 +14,14 @@ export interface FileCleanerSettings {
   removeFolders: boolean;
   ignoredFrontmatter: string[];
 }
+export enum ExcludeInclude {
+  Exclude = Number(false),
+  Include = Number(true),
+}
 
 export const DEFAULT_SETTINGS: FileCleanerSettings = {
   deletionDestination: Deletion.SystemTrash,
-  excludeInclude: false,
+  excludeInclude: ExcludeInclude.Exclude,
   excludedFolders: [],
   attachmentExtensions: [],
   deletionConfirmation: true,
@@ -84,10 +88,10 @@ export class FileCleanerSettingTab extends PluginSettingTab {
       .setName(translate().Settings.RegularOptions.FolderFiltering.Label)
       .setDesc(translate().Settings.RegularOptions.FolderFiltering.Description)
       .addToggle((toggle) => {
-        toggle.setValue(this.plugin.settings.excludeInclude);
+        toggle.setValue(Boolean(this.plugin.settings.excludeInclude));
 
         toggle.onChange((value) => {
-          this.plugin.settings.excludeInclude = value;
+          this.plugin.settings.excludeInclude = Number(value);
           this.display();
         });
       });
