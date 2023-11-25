@@ -93,8 +93,18 @@ export class FileCleanerSettingTab extends PluginSettingTab {
       });
 
     new Setting(containerEl)
-      .setName(translate().Settings.RegularOptions.ExcludedFolders.Label)
-      .setDesc(translate().Settings.RegularOptions.ExcludedFolders.Description)
+      .setName(
+        this.plugin.settings.excludeInclude
+          ? translate().Settings.RegularOptions.FolderFiltering.Included.Label
+          : translate().Settings.RegularOptions.FolderFiltering.Excluded.Label,
+      )
+      .setDesc(
+        this.plugin.settings.excludeInclude
+          ? translate().Settings.RegularOptions.FolderFiltering.Included
+              .Description
+          : translate().Settings.RegularOptions.FolderFiltering.Excluded
+              .Description,
+      )
       .addTextArea((text) => {
         text
           .setValue(this.plugin.settings.excludedFolders.join("\n"))
@@ -107,7 +117,7 @@ export class FileCleanerSettingTab extends PluginSettingTab {
             this.plugin.saveSettings();
           });
         text.setPlaceholder(
-          translate().Settings.RegularOptions.ExcludedFolders.Placeholder,
+          translate().Settings.RegularOptions.FolderFiltering.Placeholder,
         );
         text.inputEl.rows = 8;
         text.inputEl.cols = 30;
