@@ -6,6 +6,7 @@ import { ResetSettingsModal } from "./helpers";
 
 export interface FileCleanerSettings {
   deletionDestination: Deletion;
+  excludeInclude: boolean;
   excludedFolders: string[];
   attachmentExtensions: string[];
   deletionConfirmation: boolean;
@@ -16,6 +17,7 @@ export interface FileCleanerSettings {
 
 export const DEFAULT_SETTINGS: FileCleanerSettings = {
   deletionDestination: Deletion.SystemTrash,
+  excludeInclude: false,
   excludedFolders: [],
   attachmentExtensions: [],
   deletionConfirmation: true,
