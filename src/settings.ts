@@ -6,6 +6,7 @@ import { ResetSettingsModal } from "./helpers";
 
 export interface FileCleanerSettings {
   deletionDestination: Deletion;
+  excludeInclude: ExcludeInclude;
   excludedFolders: string[];
   attachmentExtensions: string[];
   deletionConfirmation: boolean;
@@ -13,9 +14,14 @@ export interface FileCleanerSettings {
   removeFolders: boolean;
   ignoredFrontmatter: string[];
 }
+export enum ExcludeInclude {
+  Exclude = Number(false),
+  Include = Number(true),
+}
 
 export const DEFAULT_SETTINGS: FileCleanerSettings = {
   deletionDestination: Deletion.SystemTrash,
+  excludeInclude: ExcludeInclude.Exclude,
   excludedFolders: [],
   attachmentExtensions: [],
   deletionConfirmation: true,
@@ -79,8 +85,30 @@ export class FileCleanerSettingTab extends PluginSettingTab {
       );
 
     new Setting(containerEl)
-      .setName(translate().Settings.RegularOptions.ExcludedFolders.Label)
-      .setDesc(translate().Settings.RegularOptions.ExcludedFolders.Description)
+      .setName(translate().Settings.RegularOptions.FolderFiltering.Label)
+      .setDesc(translate().Settings.RegularOptions.FolderFiltering.Description)
+      .addToggle((toggle) => {
+        toggle.setValue(Boolean(this.plugin.settings.excludeInclude));
+
+        toggle.onChange((value) => {
+          this.plugin.settings.excludeInclude = Number(value);
+          this.display();
+        });
+      });
+
+    new Setting(containerEl)
+      .setName(
+        this.plugin.settings.excludeInclude
+          ? translate().Settings.RegularOptions.FolderFiltering.Included.Label
+          : translate().Settings.RegularOptions.FolderFiltering.Excluded.Label,
+      )
+      .setDesc(
+        this.plugin.settings.excludeInclude
+          ? translate().Settings.RegularOptions.FolderFiltering.Included
+              .Description
+          : translate().Settings.RegularOptions.FolderFiltering.Excluded
+              .Description,
+      )
       .addTextArea((text) => {
         text
           .setValue(this.plugin.settings.excludedFolders.join("\n"))
@@ -93,7 +121,7 @@ export class FileCleanerSettingTab extends PluginSettingTab {
             this.plugin.saveSettings();
           });
         text.setPlaceholder(
-          translate().Settings.RegularOptions.ExcludedFolders.Placeholder,
+          translate().Settings.RegularOptions.FolderFiltering.Placeholder,
         );
         text.inputEl.rows = 8;
         text.inputEl.cols = 30;

@@ -12,10 +12,20 @@ export interface Locale {
         };
       };
 
-      ExcludedFolders: {
+      FolderFiltering: {
+        Excluded: {
+          Label: string;
+          Description: string;
+        };
+
+        Included: {
+          Label: string;
+          Description: string;
+        };
+
         Label: string;
-        Description: string;
         Placeholder: string;
+        Description: string;
       };
 
       Attachments: {
