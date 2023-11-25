@@ -1,5 +1,5 @@
 import { App, Notice, TAbstractFile, TFile, TFolder } from "obsidian";
-import { FileCleanerSettings } from "./settings";
+import { ExcludeInclude, FileCleanerSettings } from "./settings";
 import translate from "./i18n";
 import { Deletion } from "./enums";
 import { DeletionConfirmationModal } from "./helpers";
@@ -149,12 +149,15 @@ export async function runCleanup(app: App, settings: FileCleanerSettings) {
         file,
     );
 
-  const filesAndFolders = [...files, ...emptyFolders].filter((file) =>
-    // Filter out files from excluded folders
-    settings.excludedFolders.length > 0
-      ? !file.path.match(excludedFoldersRegex)
-      : file,
-  );
+  const filesAndFolders = [...files, ...emptyFolders].filter((file) => {
+    // Filter out files from excluded / included folders
+    if (settings.excludedFolders.length === 0) return file;
+    else {
+      return settings.excludeInclude === ExcludeInclude.Exclude
+        ? !file.path.match(excludedFoldersRegex)
+        : file.path.match(excludedFoldersRegex);
+    }
+  });
 
   const indexingDuration = Date.now() - indexingStart;
   console.log(
