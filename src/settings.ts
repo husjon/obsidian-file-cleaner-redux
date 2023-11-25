@@ -79,6 +79,18 @@ export class FileCleanerSettingTab extends PluginSettingTab {
       );
 
     new Setting(containerEl)
+      .setName(translate().Settings.RegularOptions.FolderFiltering.Label)
+      .setDesc(translate().Settings.RegularOptions.FolderFiltering.Description)
+      .addToggle((toggle) => {
+        toggle.setValue(this.plugin.settings.excludeInclude);
+
+        toggle.onChange((value) => {
+          this.plugin.settings.excludeInclude = value;
+          this.display();
+        });
+      });
+
+    new Setting(containerEl)
       .setName(translate().Settings.RegularOptions.ExcludedFolders.Label)
       .setDesc(translate().Settings.RegularOptions.ExcludedFolders.Description)
       .addTextArea((text) => {
