@@ -46,9 +46,15 @@ async function removeFiles(
 export async function runCleanup(app: App, settings: FileCleanerSettings) {
   const indexingStart = Date.now();
   const excludedFoldersRegex = RegExp(`^${settings.excludedFolders.join("|")}`);
-  const allowedExtensions = RegExp(
-    `${["md", ...settings.attachmentExtensions].join("|")}`,
+
+  const extensions = [...settings.attachmentExtensions].filter(
+    (extension) => extension !== "*",
   );
+
+  if (settings.attachmentExtensions.includes("*")) extensions.push("\\.*");
+
+  const allowedExtensions = RegExp(`${["md", ...extensions].join("|")}`);
+
   const inUseAttachments = Object.entries(app.metadataCache.resolvedLinks)
     .map(([parent, child]) => Object.keys(child))
     .filter((file) => file.length > 0)
