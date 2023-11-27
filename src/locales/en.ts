@@ -39,8 +39,8 @@ const enUS: Locale = {
       Attachments: {
         Label: "Attachment extensions",
         Description:
-          "Unused attachements which should be cleaned up, comma-separated.",
-        Placeholder: "Example: .jpg, .png, .pdf",
+          "Unused attachements which should be cleaned up, the `.*` wildcard can be used to select all extensions. Comma-separated.",
+        Placeholder: "Example:.jpg, .png, .pdf, .*",
       },
 
       IgnoredFrontmatter: {
