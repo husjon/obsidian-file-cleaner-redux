@@ -43,6 +43,14 @@ async function removeFiles(
   }
 }
 
+function getInUseAttachments(app: App) {
+  return Object.entries(app.metadataCache.resolvedLinks)
+    .map(([parent, child]) => Object.keys(child))
+    .filter((file) => file.length > 0)
+    .reduce((prev, cur) => [...prev, ...cur], [])
+    .filter((file) => !file.endsWith(".md"));
+}
+
 export async function runCleanup(app: App, settings: FileCleanerSettings) {
   const indexingStart = Date.now();
   const excludedFoldersRegex = RegExp(`^${settings.excludedFolders.join("|")}`);
@@ -55,11 +63,7 @@ export async function runCleanup(app: App, settings: FileCleanerSettings) {
 
   const allowedExtensions = RegExp(`${["md", ...extensions].join("|")}`);
 
-  const inUseAttachments = Object.entries(app.metadataCache.resolvedLinks)
-    .map(([parent, child]) => Object.keys(child))
-    .filter((file) => file.length > 0)
-    .reduce((prev, cur) => [...prev, ...cur], [])
-    .filter((file) => !file.endsWith(".md"));
+  const inUseAttachments = getInUseAttachments(app);
 
   const canvasAttachmentsInitial: string[] = await Promise.all(
     app.vault
