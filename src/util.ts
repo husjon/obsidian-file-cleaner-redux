@@ -62,7 +62,7 @@ function getCanvasCardAttachments(canvasNode: CanvasNode) {
 }
 
 async function getCanvasAttachments(app: App) {
-  const canvasAttachmentsInitial: string[] = await Promise.all(
+  const canvasAttachmentsInitial = await Promise.all(
     app.vault
       .getFiles()
       .filter((file) => file.extension == "canvas")
