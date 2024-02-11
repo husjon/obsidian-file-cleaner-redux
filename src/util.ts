@@ -7,7 +7,8 @@ import { DeletionConfirmationModal } from "./helpers";
 interface CanvasNode {
   id: string;
   type: string;
-  file: string;
+  file?: string;
+  text?: string;
 }
 
 async function removeFile(
@@ -51,6 +52,15 @@ function getInUseAttachments(app: App) {
     .filter((file) => !file.endsWith(".md"));
 }
 
+function getCanvasCardAttachments(canvasNode: CanvasNode) {
+  const matches = canvasNode.text.matchAll(/[!]?\[\[(.*?)\]\]/g);
+  const files = Array.from(matches).map((file) => {
+    if (file[0].startsWith("![[")) return file[1];
+    else return `${file[1]}.md`;
+  });
+  return files;
+}
+
 async function getCanvasAttachments(app: App) {
   const canvasAttachmentsInitial: string[] = await Promise.all(
     app.vault
@@ -66,7 +76,7 @@ async function getCanvasAttachments(app: App) {
               const data = JSON.parse(raw);
               if (!data["nodes"]) return [];
 
-              return data["nodes"]
+              const fileNodes = data["nodes"]
                 .filter(
                   // Filter out non-markdown files
                   (node: CanvasNode) =>
@@ -74,6 +84,13 @@ async function getCanvasAttachments(app: App) {
                 )
                 .map((node: CanvasNode) => node.file)
                 .reduce((prev: [], cur: []) => [...prev, cur], []);
+
+              const cardNodes = data["nodes"]
+                .filter((node: CanvasNode) => node.type === "text")
+                .map((node: CanvasNode) => getCanvasCardAttachments(node))
+                .reduce((prev: [], cur: []) => [...prev, ...cur], []);
+
+              return [...fileNodes, ...cardNodes];
             } catch (error) {
               new Notice(`Failed to parse canvas file: ${file.path}`);
             }
