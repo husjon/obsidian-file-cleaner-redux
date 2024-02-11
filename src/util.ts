@@ -51,20 +51,7 @@ function getInUseAttachments(app: App) {
     .filter((file) => !file.endsWith(".md"));
 }
 
-export async function runCleanup(app: App, settings: FileCleanerSettings) {
-  const indexingStart = Date.now();
-  const excludedFoldersRegex = RegExp(`^${settings.excludedFolders.join("|")}`);
-
-  const extensions = [...settings.attachmentExtensions].filter(
-    (extension) => extension !== "*",
-  );
-
-  if (settings.attachmentExtensions.includes("*")) extensions.push("\\.*");
-
-  const allowedExtensions = RegExp(`${["md", ...extensions].join("|")}`);
-
-  const inUseAttachments = getInUseAttachments(app);
-
+async function getCanvasAttachments(app: App) {
   const canvasAttachmentsInitial: string[] = await Promise.all(
     app.vault
       .getFiles()
@@ -92,11 +79,25 @@ export async function runCleanup(app: App, settings: FileCleanerSettings) {
         );
       }),
   );
-  // Build up a 1-dimensional array of path strings
-  const canvasAttachments = canvasAttachmentsInitial.reduce(
-    (prev, cur) => [...prev, ...cur],
-    [],
+
+  return canvasAttachmentsInitial.reduce((prev, cur) => [...prev, ...cur], []);
+}
+
+export async function runCleanup(app: App, settings: FileCleanerSettings) {
+  const indexingStart = Date.now();
+  const excludedFoldersRegex = RegExp(`^${settings.excludedFolders.join("|")}`);
+
+  const extensions = [...settings.attachmentExtensions].filter(
+    (extension) => extension !== "*",
   );
+
+  if (settings.attachmentExtensions.includes("*")) extensions.push("\\.*");
+
+  const allowedExtensions = RegExp(`${["md", ...extensions].join("|")}`);
+
+  const inUseAttachments = getInUseAttachments(app);
+
+  const canvasAttachments = await getCanvasAttachments(app);
 
   const allFilesAndFolders = app.vault.getAllLoadedFiles();
   const allFolders = allFilesAndFolders.filter((node) =>
