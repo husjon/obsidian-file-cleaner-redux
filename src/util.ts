@@ -82,7 +82,9 @@ async function getCanvasAttachments(app: App) {
       }),
   );
 
-  return canvasAttachmentsInitial.reduce((prev, cur) => [...prev, ...cur], []);
+  return canvasAttachmentsInitial
+    .filter((f) => f.length > 0)
+    .reduce((prev, cur) => [...prev, ...cur], []);
 }
 
 export async function runCleanup(app: App, settings: FileCleanerSettings) {
