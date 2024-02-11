@@ -64,6 +64,8 @@ async function getCanvasAttachments(app: App) {
 
             try {
               const data = JSON.parse(raw);
+              if (!data["nodes"]) return [];
+
               return data["nodes"]
                 .filter(
                   // Filter out non-markdown files
