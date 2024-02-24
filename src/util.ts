@@ -196,10 +196,14 @@ export async function runCleanup(app: App, settings: FileCleanerSettings) {
     `File Cleaner Redux: Finished indexing ${allFiles.length} files and ${allFolders.length} folders in ${indexingDuration}ms`,
   );
 
-  // Run cleanup
-  if (filesAndFolders.length == 0) {
-    new Notice(translate().Notifications.NoFileToClean);
-    return;
+  console.debug("Folders:");
+  for (const folder of emptyFolders) {
+    console.debug(folder);
+  }
+
+  console.debug("Files:");
+  for (const file of files) {
+    console.debug(file);
   }
 
   const fileCountText = `${files.length} file(s)`;
@@ -207,6 +211,12 @@ export async function runCleanup(app: App, settings: FileCleanerSettings) {
   console.log(
     `File Cleaner Redux: Found ${fileCountText} and ${folderCountText} to remove`,
   );
+
+  // Run cleanup
+  if (filesAndFolders.length == 0) {
+    new Notice(translate().Notifications.NoFileToClean);
+    return;
+  }
 
   if (!settings.deletionConfirmation)
     removeFiles(filesAndFolders, app, settings);
