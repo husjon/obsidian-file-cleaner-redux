@@ -196,6 +196,16 @@ export async function runCleanup(app: App, settings: FileCleanerSettings) {
     `File Cleaner Redux: Finished indexing ${allFiles.length} files and ${allFolders.length} folders in ${indexingDuration}ms`,
   );
 
+  console.debug("Folders:");
+  for (const folder of emptyFolders) {
+    console.debug(folder);
+  }
+
+  console.debug("Files:");
+  for (const file of files) {
+    console.debug(file);
+  }
+
   const fileCountText = `${files.length} file(s)`;
   const folderCountText = `${emptyFolders.length} folder(s)`;
   console.log(
