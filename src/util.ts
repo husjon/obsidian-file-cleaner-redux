@@ -114,7 +114,7 @@ export async function runCleanup(app: App, settings: FileCleanerSettings) {
     (extension) => extension !== "*",
   );
 
-  if (settings.attachmentExtensions.includes("*")) extensions.push("\\.*");
+  if (settings.attachmentExtensions.includes("*")) extensions.push(".*");
 
   const allowedExtensions = RegExp(`^(${["md", ...extensions].join("|")})$`);
 
