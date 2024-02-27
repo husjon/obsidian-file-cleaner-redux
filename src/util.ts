@@ -106,6 +106,8 @@ async function getCanvasAttachments(app: App) {
 
 export async function runCleanup(app: App, settings: FileCleanerSettings) {
   const indexingStart = Date.now();
+  console.log(`File Cleaner Redux: Starting cleanup`);
+
   const excludedFoldersRegex = RegExp(`^${settings.excludedFolders.join("|")}`);
 
   const extensions = [...settings.attachmentExtensions].filter(
