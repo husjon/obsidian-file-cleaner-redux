@@ -128,7 +128,10 @@ export async function runCleanup(app: App, settings: FileCleanerSettings) {
   );
 
   const initialEmptyFolders = settings.removeFolders
-    ? allFolders.filter((folder: TFolder) => folder.children.length === 0)
+    ? allFolders.filter((folder: TFolder) => {
+        if (folder.isRoot()) return false; // Make sure the root vault folder is ignored.
+        return folder.children.length === 0;
+      })
     : [];
 
   const emptyFolders = [];
