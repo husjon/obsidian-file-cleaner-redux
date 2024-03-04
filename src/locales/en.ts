@@ -37,10 +37,21 @@ const enUS: Locale = {
       },
 
       Attachments: {
-        Label: "Attachment extensions",
+        Excluded: {
+          Label: "Excluded Attachment extensions",
+          Description:
+            "List of extensions that should be ignored during cleanup, all other files are included. Comma-separated.",
+          Placeholder: "Example:.jpg, .png, .pdf",
+        },
+        Included: {
+          Label: "Included Attachment extensions",
+          Description:
+            "List of extensions that should be included during cleanup, the `.*` wildcard can be used to select all extensions, all other files are ignored. Comma-separated.",
+          Placeholder: "Example:.jpg, .png, .pdf, .*",
+        },
+        Label: "Excluded / Included Folders",
         Description:
-          "Unused attachements which should be cleaned up, the `.*` wildcard can be used to select all extensions. Comma-separated.",
-        Placeholder: "Example:.jpg, .png, .pdf, .*",
+          "The attachment extensiosn below should be excluded from or included in the cleanup process.",
       },
 
       IgnoredFrontmatter: {

@@ -8,6 +8,7 @@ export interface FileCleanerSettings {
   deletionDestination: Deletion;
   excludeInclude: ExcludeInclude;
   excludedFolders: string[];
+  attachmentsExcludeInclude: ExcludeInclude;
   attachmentExtensions: string[];
   deletionConfirmation: boolean;
   runOnStartup: boolean;
@@ -23,6 +24,7 @@ export const DEFAULT_SETTINGS: FileCleanerSettings = {
   deletionDestination: Deletion.SystemTrash,
   excludeInclude: ExcludeInclude.Exclude,
   excludedFolders: [],
+  attachmentsExcludeInclude: ExcludeInclude.Include,
   attachmentExtensions: [],
   deletionConfirmation: true,
   runOnStartup: false,
@@ -130,6 +132,28 @@ export class FileCleanerSettingTab extends PluginSettingTab {
     new Setting(containerEl)
       .setName(translate().Settings.RegularOptions.Attachments.Label)
       .setDesc(translate().Settings.RegularOptions.Attachments.Description)
+      .addToggle((toggle) => {
+        toggle.setValue(
+          Boolean(this.plugin.settings.attachmentsExcludeInclude),
+        );
+
+        toggle.onChange((value) => {
+          this.plugin.settings.attachmentsExcludeInclude = Number(value);
+          this.display();
+        });
+      });
+    new Setting(containerEl)
+      .setName(
+        this.plugin.settings.attachmentsExcludeInclude
+          ? translate().Settings.RegularOptions.Attachments.Included.Label
+          : translate().Settings.RegularOptions.Attachments.Excluded.Label,
+      )
+      .setDesc(
+        this.plugin.settings.attachmentsExcludeInclude
+          ? translate().Settings.RegularOptions.Attachments.Included.Description
+          : translate().Settings.RegularOptions.Attachments.Excluded
+              .Description,
+      )
       .addTextArea((text) => {
         text
           .setValue(
