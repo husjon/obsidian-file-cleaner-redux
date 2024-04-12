@@ -156,6 +156,17 @@ export async function runCleanup(app: App, settings: FileCleanerSettings) {
       // Filters out only allowed extensions (including markdowns)
       file.extension.match(allowedExtensions),
     )
+    .filter((file) => {
+      // Filter out all files that are not canvas files
+      if (file.extension !== "canvas") return true;
+
+      // Newly created or cleared out canvas files are currently 28bytes or less
+      // A single node adds at a minumum about 80 bytes,
+      //   hence any canvas file less than 50 bytes are tagged as candidates for cleanup
+      if (file.stat.size < 50) return true;
+
+      return false;
+    })
     // Filters out files for further processing
     .filter((file) => {
       // Filter out all files that are not markdown
