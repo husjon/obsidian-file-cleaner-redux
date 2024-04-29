@@ -172,7 +172,11 @@ export class FileCleanerSettingTab extends PluginSettingTab {
             this.plugin.saveSettings();
           });
         text.setPlaceholder(
-          translate().Settings.RegularOptions.Attachments.Placeholder,
+          this.plugin.settings.attachmentsExcludeInclude
+            ? translate().Settings.RegularOptions.Attachments.Included
+                .Placeholder
+            : translate().Settings.RegularOptions.Attachments.Excluded
+                .Placeholder,
         );
         text.inputEl.rows = 3;
         text.inputEl.cols = 30;
