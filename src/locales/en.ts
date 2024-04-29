@@ -40,16 +40,16 @@ const enUS: Locale = {
         Excluded: {
           Label: "Excluded Attachment extensions",
           Description:
-            "List of extensions that should be ignored during cleanup, all other files are included. Comma-separated.",
-          Placeholder: "Example:.jpg, .png, .pdf",
+            "List of extensions that should be ignored during cleanup, all other files are included, the `.*` wildcard can be used to select all extensions. Comma-separated.",
+          Placeholder: "Example:.jpg, .png, .pdf, .*",
         },
         Included: {
           Label: "Included Attachment extensions",
           Description:
-            "List of extensions that should be included during cleanup, the `.*` wildcard can be used to select all extensions, all other files are ignored. Comma-separated.",
+            "List of extensions that should be included during cleanup, all other files are ignored, the `.*` wildcard can be used to select all extensions. Comma-separated.",
           Placeholder: "Example:.jpg, .png, .pdf, .*",
         },
-        Label: "Excluded / Included Folders",
+        Label: "Excluded / Included Extensions",
         Description:
           "The attachment extensiosn below should be excluded from or included in the cleanup process.",
       },
