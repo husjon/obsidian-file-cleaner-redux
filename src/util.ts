@@ -185,8 +185,11 @@ export async function runCleanup(app: App, settings: FileCleanerSettings) {
       if (settings.ignoredFrontmatter.length === 0) return false;
 
       if (sections.length === 1 && sections.at(0).type === "yaml") {
-        if (fileFrontmatter.toString() === settingsFrontmatter.toString())
-          return true;
+        // If the files frontmatter contains any frontmatter that is not allowed, we skip it
+        for (const frontmatter of fileFrontmatter) {
+          if (!settingsFrontmatter.contains(frontmatter)) return false;
+        }
+        return true;
       }
 
       return false; // Ignore all other files
