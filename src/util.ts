@@ -154,7 +154,9 @@ export async function runCleanup(app: App, settings: FileCleanerSettings) {
   const files: TFile[] = allFiles
     .filter((file) =>
       // Filters out only allowed extensions (including markdowns)
-      file.extension.match(allowedExtensions),
+      settings.attachmentsExcludeInclude
+        ? file.extension.match(allowedExtensions)
+        : !file.extension.match(allowedExtensions),
     )
     // Filters out files for further processing
     .filter((file) => {
