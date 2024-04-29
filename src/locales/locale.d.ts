@@ -29,9 +29,19 @@ export interface Locale {
       };
 
       Attachments: {
+        Excluded: {
+          Label: string;
+          Description: string;
+          Placeholder: string;
+        };
+        Included: {
+          Label: string;
+          Description: string;
+          Placeholder: string;
+        };
+
         Label: string;
         Description: string;
-        Placeholder: string;
       };
 
       IgnoredFrontmatter: {

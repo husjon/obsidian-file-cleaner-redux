@@ -154,7 +154,9 @@ export async function runCleanup(app: App, settings: FileCleanerSettings) {
   const files: TFile[] = allFiles
     .filter((file) =>
       // Filters out only allowed extensions (including markdowns)
-      file.extension.match(allowedExtensions),
+      settings.attachmentsExcludeInclude
+        ? file.extension.match(allowedExtensions)
+        : !file.extension.match(allowedExtensions),
     )
     .filter((file) => {
       // Filter out all files that are not canvas files
