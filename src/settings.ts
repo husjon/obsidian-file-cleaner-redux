@@ -2,7 +2,7 @@ import { App, Notice, PluginSettingTab, Setting } from "obsidian";
 import FileCleanerPlugin from ".";
 import translate from "./i18n";
 import { Deletion } from "./enums";
-import { ResetSettingsModal } from "./helpers";
+import { ResetSettingsModal } from "./modals";
 
 export interface FileCleanerSettings {
   deletionDestination: Deletion;

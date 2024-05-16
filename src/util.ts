@@ -2,7 +2,7 @@ import { App, Notice, TAbstractFile, TFile, TFolder } from "obsidian";
 import { ExcludeInclude, FileCleanerSettings } from "./settings";
 import translate from "./i18n";
 import { Deletion } from "./enums";
-import { DeletionConfirmationModal } from "./helpers";
+import { DeletionConfirmationModal } from "./modals";
 
 interface CanvasNode {
   id: string;
