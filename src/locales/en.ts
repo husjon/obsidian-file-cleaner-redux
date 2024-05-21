@@ -51,7 +51,7 @@ const enUS: Locale = {
         },
         Label: "Excluded / Included Extensions",
         Description:
-          "The attachment extensiosn below should be excluded from or included in the cleanup process.",
+          "The attachment extension below should be excluded from or included in the cleanup process.",
       },
 
       IgnoredFrontmatter: {
