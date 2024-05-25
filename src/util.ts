@@ -1,4 +1,4 @@
-import { App, TFile } from "obsidian";
+import { App, TFile, TFolder } from "obsidian";
 import { ExcludeInclude, FileCleanerSettings } from "./settings";
 import { getExtensions, getInUseAttachments } from "./helpers/helpers";
 import { getFolders } from "./helpers/helpers";
@@ -20,6 +20,21 @@ async function checkFile(
   }
 
   return false;
+}
+
+function isFolderExcluded(settings: FileCleanerSettings, folder: TFolder) {
+  return (
+    settings.excludedFolders
+      .map((excludedFolder) => folder.path.match(RegExp(`^${excludedFolder}`)))
+      .filter((x) => x).length > 0
+  );
+}
+function isFolderIncluded(settings: FileCleanerSettings, folder: TFolder) {
+  return (
+    settings.excludedFolders
+      .map((excludedFolder) => folder.path.match(RegExp(`^${excludedFolder}`)))
+      .filter((x) => x).length === 0
+  );
 }
 
 export async function runCleanup(app: App, settings: FileCleanerSettings) {
@@ -45,17 +60,25 @@ export async function runCleanup(app: App, settings: FileCleanerSettings) {
   const extensions = getExtensions(settings);
 
   for (const folder of folders) {
+    if (
+      (settings.excludeInclude === ExcludeInclude.Exclude &&
+        isFolderExcluded(settings, folder)) ||
+      (settings.excludeInclude === ExcludeInclude.Include &&
+        isFolderIncluded(settings, folder))
+    )
+      continue;
+
     const files = folder.children.filter(
       (node) => !node.hasOwnProperty("children"),
     ) as TFile[];
 
     let childrenCount = files.length;
     for (const file of files) {
-      if (!inUseAttachments.includes(file.path)) {
-        if (await checkFile(app, settings, file, extensions)) {
-          filesToRemove.push(file);
-          childrenCount -= 1;
-        }
+      if (inUseAttachments.includes(file.path)) continue;
+
+      if (await checkFile(app, settings, file, extensions)) {
+        filesToRemove.push(file);
+        childrenCount -= 1;
       }
     }
 
