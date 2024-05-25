@@ -83,7 +83,6 @@ export async function runCleanup(app: App, settings: FileCleanerSettings) {
       }
     }
 
-    // 3. If childrenCount is 0, folder will be removed as well (unless it is the root folder)
     if (
       childrenCount === 0 &&
       !settings.excludedFolders.includes(folder.path) &&
