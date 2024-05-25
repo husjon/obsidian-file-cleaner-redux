@@ -1,4 +1,4 @@
-import { App, Notice } from "obsidian";
+import { App, Notice, TFile } from "obsidian";
 
 interface CanvasNode {
   id: string;
@@ -57,4 +57,19 @@ async function getCanvasAttachments(app: App) {
   return canvasAttachmentsInitial
     .filter((f) => f.length > 0)
     .reduce((prev, cur) => [...prev, ...cur], []);
+}
+
+export async function checkCanvas(app: App, file: TFile) {
+  if (file.extension !== "canvas") return false;
+
+  // A canvas file that has been emptied is 28 bytes by default (24 bytes minified).
+  // A brand new canvas file is 2 bytes
+  if (file.stat.size <= 28) return true;
+
+  const rawContent = await app.vault.cachedRead(file);
+  const canvas = JSON.parse(rawContent);
+
+  if (canvas.nodes.length === 0 && canvas.edges.length === 0) return true;
+
+  return false;
 }

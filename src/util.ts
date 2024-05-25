@@ -3,9 +3,11 @@ import { FileCleanerSettings } from "./settings";
 import { getInUseAttachments } from "./helpers/helpers";
 import { getFolders } from "./helpers/helpers";
 import { checkMarkdown } from "./helpers/markdown";
+import { checkCanvas } from "./helpers/canvas";
 
 async function checkFile(app: App, file: TFile) {
   if (file.extension === "md") return await checkMarkdown(app, file);
+  else if (file.extension === "canvas") return await checkCanvas(app, file);
 
   return false;
 }
