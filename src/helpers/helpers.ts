@@ -48,7 +48,8 @@ export function getFolders(app: App) {
     .getAllLoadedFiles()
     .filter((node) => node.hasOwnProperty("children")) as TFolder[];
 }
-function getExtensions(settings: FileCleanerSettings) {
+
+export function getExtensions(settings: FileCleanerSettings) {
   const extensions = [...settings.attachmentExtensions].filter(
     (extension) => extension !== "*",
   );

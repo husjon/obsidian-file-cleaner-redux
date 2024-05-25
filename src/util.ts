@@ -1,13 +1,23 @@
 import { App, TFile } from "obsidian";
-import { FileCleanerSettings } from "./settings";
-import { getInUseAttachments } from "./helpers/helpers";
+import { ExcludeInclude, FileCleanerSettings } from "./settings";
+import { getExtensions, getInUseAttachments } from "./helpers/helpers";
 import { getFolders } from "./helpers/helpers";
 import { checkMarkdown } from "./helpers/markdown";
 import { checkCanvas } from "./helpers/canvas";
 
-async function checkFile(app: App, file: TFile) {
+async function checkFile(
+  app: App,
+  settings: FileCleanerSettings,
+  file: TFile,
+  extensions: RegExp,
+) {
   if (file.extension === "md") return await checkMarkdown(app, file);
   else if (file.extension === "canvas") return await checkCanvas(app, file);
+  else if (settings.attachmentsExcludeInclude === ExcludeInclude.Include) {
+    return file.extension.match(extensions);
+  } else if (settings.attachmentsExcludeInclude === ExcludeInclude.Exclude) {
+    return !file.extension.match(extensions);
+  }
 
   return false;
 }
@@ -32,6 +42,7 @@ export async function runCleanup(app: App, settings: FileCleanerSettings) {
 
   const filesToRemove = [];
   const foldersToRemove = [];
+  const extensions = getExtensions(settings);
 
   for (const folder of folders) {
     const files = folder.children.filter(
@@ -41,7 +52,7 @@ export async function runCleanup(app: App, settings: FileCleanerSettings) {
     let childrenCount = files.length;
     for (const file of files) {
       if (!inUseAttachments.includes(file.path)) {
-        if (await checkFile(app, file)) {
+        if (await checkFile(app, settings, file, extensions)) {
           filesToRemove.push(file);
           childrenCount -= 1;
         }
