@@ -124,140 +124,46 @@ export async function runCleanup(app: App, settings: FileCleanerSettings) {
   const indexingStart = Date.now();
   console.log(`File Cleaner Redux: Starting cleanup`);
 
-  const excludedFoldersRegex = RegExp(`^${settings.excludedFolders.join("|")}`);
+  // Attachments which are linked to according to Obsidian
+  let inUseAttachments = getInUseAttachments(app);
+  // TODO: Extend to also include files linked to Canvas files
+  // TODO: Extend to also include files linked to by Admonition
 
-  const allowedExtensions = getExtensions(settings);
-
-  const inUseAttachments = getInUseAttachments(app);
-
-  const canvasAttachments = await getCanvasAttachments(app);
-
-  const allFilesAndFolders = app.vault.getAllLoadedFiles();
-  const allFolders = allFilesAndFolders.filter((node) =>
-    node.hasOwnProperty("children"),
-  );
-
-  const initialEmptyFolders = settings.removeFolders
-    ? allFolders.filter((folder: TFolder) => {
-        if (folder.isRoot()) return false; // Make sure the root vault folder is ignored.
-        return folder.children.length === 0;
-      })
-    : [];
-
-  const emptyFolders = [];
-  for (const folder of initialEmptyFolders) {
-    let parent = folder.parent;
-    emptyFolders.push(folder);
-
-    while (parent !== null && parent.children.length === 1) {
-      if (parent.parent === null) break;
-
-      emptyFolders.push(parent);
-      parent = parent.parent;
-    }
-  }
-
-  // Get list of all files
-  const allFiles = allFilesAndFolders.filter(
-    (node) => !node.hasOwnProperty("children"),
-  ) as TFile[];
-  const files: TFile[] = allFiles
-    .filter((file) =>
-      // Filters out only allowed extensions (including markdowns)
-      settings.attachmentsExcludeInclude
-        ? file.extension.match(allowedExtensions)
-        : !file.extension.match(allowedExtensions),
+  const folders = getFolders(app)
+    .filter((folder) => folder.path !== "/")
+    .sort((a, b) =>
+      // Sort list of folders by amount of nested subfolders (deepest to shallowest)
+      b.path.localeCompare(b.path),
     )
-    .filter((file) => {
-      // Filter out all files that are not canvas files
-      if (file.extension !== "canvas") return true;
+    .reverse();
+  folders.push(app.vault.getFolderByPath("/"));
 
-      // Newly created or cleared out canvas files are currently 28bytes or less
-      // A single node adds at a minumum about 80 bytes,
-      //   hence any canvas file less than 50 bytes are tagged as candidates for cleanup
-      if (file.stat.size < 50) return true;
+  const filesToRemove = [];
+  const foldersToRemove = [];
 
-      return false;
-    })
-    // Filters out files for further processing
-    .filter((file) => {
-      // Filter out all files that are not markdown
-      if (file.extension !== "md") return true;
+  for (const folder of folders) {
+    const files = folder.children.filter(
+      (node) => !node.hasOwnProperty("children"),
+    ) as TFile[];
+    console.log(folder.path);
 
-      // Filter out any markdown files that are empty including only whitespace
-      const fileCache = app.metadataCache.getFileCache(file);
-      const sections = fileCache.sections;
-      if (sections === undefined) return true;
+    let childrenCount = files.length;
+    for (const file of files) {
+      console.log(` - ${file.path}`);
 
-      // Filter out any files that are empty and only contains ignored frontmatter properties
-      const fileFrontmatter = Object.keys(fileCache.frontmatter || {}).sort();
-      const settingsFrontmatter = settings.ignoredFrontmatter.sort();
-      if (settings.ignoredFrontmatter.length === 0) return false;
+      if (!inUseAttachments.includes(file.path)) {
+        // 1. Check if file can be cleaned up
+        //   1.1. If markdown, verify size and frontmatter
 
-      if (sections.length === 1 && sections.at(0).type === "yaml") {
-        // If the files frontmatter contains any frontmatter that is not allowed, we skip it
-        for (const frontmatter of fileFrontmatter) {
-          if (!settingsFrontmatter.contains(frontmatter)) return false;
-        }
-        return true;
+        if (true === undefined) filesToRemove.push(file);
+        // 2. Reduce childrenCount if it will be
+        childrenCount -= 1;
       }
-
-      return false; // Ignore all other files
-    })
-    .filter(
-      (file) =>
-        // Filters any attachment that is not in use
-        !inUseAttachments.includes(file.path) &&
-        !canvasAttachments.includes(file.path) &&
-        file,
-    );
-
-  const filesAndFolders = [...files, ...emptyFolders].filter((file) => {
-    // Filter out files from excluded / included folders
-    if (settings.excludedFolders.length === 0) return file;
-    else {
-      return settings.excludeInclude === ExcludeInclude.Exclude
-        ? !file.path.match(excludedFoldersRegex)
-        : file.path.match(excludedFoldersRegex);
     }
-  });
 
-  const indexingDuration = Date.now() - indexingStart;
-  console.log(
-    `File Cleaner Redux: Finished indexing ${allFiles.length} files and ${allFolders.length} folders in ${indexingDuration}ms`,
-  );
-
-  console.debug("Folders:");
-  for (const folder of emptyFolders) {
-    console.debug(folder);
-  }
-
-  console.debug("Files:");
-  for (const file of files) {
-    console.debug(file);
-  }
-
-  const fileCountText = `${files.length} file(s)`;
-  const folderCountText = `${emptyFolders.length} folder(s)`;
-  console.log(
-    `File Cleaner Redux: Found ${fileCountText} and ${folderCountText} to remove`,
-  );
-
-  // Run cleanup
-  if (filesAndFolders.length == 0) {
-    new Notice(translate().Notifications.NoFileToClean);
-    return;
-  }
-
-  if (!settings.deletionConfirmation)
-    removeFiles(filesAndFolders, app, settings);
-  else {
-    await DeletionConfirmationModal({
-      files: filesAndFolders,
-      onConfirm: () => {
-        removeFiles(filesAndFolders, app, settings);
-      },
-      app,
-    });
+    // 3. If childrenCount is 0, folder will be removed as well (unless it is the root folder)
+    if (childrenCount === 0 && !folder.isRoot()) {
+      foldersToRemove.push(folder);
+    }
   }
 }
