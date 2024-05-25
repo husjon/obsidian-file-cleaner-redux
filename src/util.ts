@@ -39,7 +39,8 @@ function isFolderIncluded(settings: FileCleanerSettings, folder: TFolder) {
 
 export async function runCleanup(app: App, settings: FileCleanerSettings) {
   const indexingStart = Date.now();
-  console.log(`File Cleaner Redux: Starting cleanup`);
+  console.group("File Cleaner Redux");
+  console.log(`Starting cleanup`);
 
   // Attachments which are linked to according to Obsidian
   let inUseAttachments = getInUseAttachments(app);
@@ -91,4 +92,7 @@ export async function runCleanup(app: App, settings: FileCleanerSettings) {
       foldersToRemove.push(folder);
     }
   }
+
+  console.log(`Finished cleanup`);
+  console.groupEnd();
 }
