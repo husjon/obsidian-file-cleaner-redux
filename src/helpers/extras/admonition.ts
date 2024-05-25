@@ -38,7 +38,9 @@ export async function getAdmonitionAttachments(app: App) {
       if (!codeBlock.match(/^```ad-\w+/)) continue;
 
       // Match the link signature of `![](FILENAME)` and capture the filename itself
-      const matches = codeBlock.matchAll(/!\[\]\((.+?)\)/g);
+      const matches = codeBlock.matchAll(
+        /!(\[.*?\]\((.+?)\)|\[\[(.+?)(\|.*?)?\]\])/g,
+      );
 
       // Push the attachments we find to the resulting attachments array
       Array.from(matches).forEach((match) => attachments.push(match[1]));
