@@ -104,6 +104,16 @@ async function getCanvasAttachments(app: App) {
     .reduce((prev, cur) => [...prev, ...cur], []);
 }
 
+function getExtensions(settings: FileCleanerSettings) {
+  const extensions = [...settings.attachmentExtensions].filter(
+    (extension) => extension !== "*",
+  );
+
+  if (settings.attachmentExtensions.includes("*")) extensions.push(".*");
+
+  return RegExp(`^(${["md", ...extensions].join("|")})$`);
+}
+
 function getFolders(app: App) {
   return app.vault
     .getAllLoadedFiles()
@@ -116,13 +126,7 @@ export async function runCleanup(app: App, settings: FileCleanerSettings) {
 
   const excludedFoldersRegex = RegExp(`^${settings.excludedFolders.join("|")}`);
 
-  const extensions = [...settings.attachmentExtensions].filter(
-    (extension) => extension !== "*",
-  );
-
-  if (settings.attachmentExtensions.includes("*")) extensions.push(".*");
-
-  const allowedExtensions = RegExp(`^(${["md", ...extensions].join("|")})$`);
+  const allowedExtensions = getExtensions(settings);
 
   const inUseAttachments = getInUseAttachments(app);
 
