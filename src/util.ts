@@ -3,7 +3,7 @@ import { ExcludeInclude, FileCleanerSettings } from "./settings";
 import { getExtensions, getInUseAttachments } from "./helpers/helpers";
 import { getFolders } from "./helpers/helpers";
 import { checkMarkdown } from "./helpers/markdown";
-import { checkCanvas } from "./helpers/canvas";
+import { checkCanvas, getCanvasAttachments } from "./helpers/canvas";
 
 async function checkFile(
   app: App,
@@ -44,7 +44,7 @@ export async function runCleanup(app: App, settings: FileCleanerSettings) {
 
   // Attachments which are linked to according to Obsidian
   let inUseAttachments = getInUseAttachments(app);
-  // TODO: Extend to also include files linked to Canvas files
+  inUseAttachments.push(...(await getCanvasAttachments(app)));
   // TODO: Extend to also include files linked to by Admonition
 
   const folders = getFolders(app)
