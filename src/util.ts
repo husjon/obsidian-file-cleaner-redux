@@ -35,12 +35,9 @@ export async function runCleanup(app: App, settings: FileCleanerSettings) {
     const files = folder.children.filter(
       (node) => !node.hasOwnProperty("children"),
     ) as TFile[];
-    console.log(folder.path);
 
     let childrenCount = files.length;
     for (const file of files) {
-      console.log(` - ${file.path}`);
-
       if (!inUseAttachments.includes(file.path)) {
         if (await checkFile(app, file)) {
           filesToRemove.push(file);
