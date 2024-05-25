@@ -37,7 +37,9 @@ export async function getAdmonitionAttachments(app: App) {
       // If the block is not an admonition block, we'll skip it
       if (!codeBlock.match(/^```ad-\w+/)) continue;
 
-      // Match the link signature of `![](FILENAME)` and capture the filename itself
+      // Matches the following signatures and capture the filename itself
+      // * Admonition: ![](image.png) or ![|100](image.png)
+      // * Obsidian:   ![[image.png]] or ![[image.png|100]]
       const matches = codeBlock.matchAll(
         /!(\[.*?\]\((.+?)\)|\[\[(.+?)(\|.*?)?\]\])/g,
       );
