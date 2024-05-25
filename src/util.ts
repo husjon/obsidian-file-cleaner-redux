@@ -2,6 +2,13 @@ import { App, TFile } from "obsidian";
 import { FileCleanerSettings } from "./settings";
 import { getInUseAttachments } from "./helpers/helpers";
 import { getFolders } from "./helpers/helpers";
+import { checkMarkdown } from "./helpers/markdown";
+
+async function checkFile(app: App, file: TFile) {
+  if (file.extension === "md") return await checkMarkdown(app, file);
+
+  return false;
+}
 
 export async function runCleanup(app: App, settings: FileCleanerSettings) {
   const indexingStart = Date.now();
@@ -35,12 +42,10 @@ export async function runCleanup(app: App, settings: FileCleanerSettings) {
       console.log(` - ${file.path}`);
 
       if (!inUseAttachments.includes(file.path)) {
-        // 1. Check if file can be cleaned up
-        //   1.1. If markdown, verify size and frontmatter
-
-        if (true === undefined) filesToRemove.push(file);
-        // 2. Reduce childrenCount if it will be
-        childrenCount -= 1;
+        if (await checkFile(app, file)) {
+          filesToRemove.push(file);
+          childrenCount -= 1;
+        }
       }
     }
 
