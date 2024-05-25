@@ -104,6 +104,12 @@ async function getCanvasAttachments(app: App) {
     .reduce((prev, cur) => [...prev, ...cur], []);
 }
 
+function getFolders(app: App) {
+  return app.vault
+    .getAllLoadedFiles()
+    .filter((node) => node.hasOwnProperty("children")) as TFolder[];
+}
+
 export async function runCleanup(app: App, settings: FileCleanerSettings) {
   const indexingStart = Date.now();
   console.log(`File Cleaner Redux: Starting cleanup`);
