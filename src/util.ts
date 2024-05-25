@@ -93,6 +93,19 @@ export async function runCleanup(app: App, settings: FileCleanerSettings) {
     }
   }
 
-  console.log(`Finished cleanup`);
+  const indexingDuration = (Date.now() - indexingStart) / 1000;
+  console.log(`Finished cleanup after ${indexingDuration}ms`);
+  console.log(
+    `Found ${filesToRemove.length} files and ${foldersToRemove.length} folders to clean up.`,
+  );
+
+  console.group("Files:");
+  filesToRemove.forEach((item) => console.debug(item.path));
+  console.groupEnd();
+
+  console.group("Folders:");
+  foldersToRemove.forEach((item) => console.debug(item.path));
+  console.groupEnd();
+
   console.groupEnd();
 }
