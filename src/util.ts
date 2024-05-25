@@ -43,9 +43,12 @@ export async function runCleanup(app: App, settings: FileCleanerSettings) {
   console.log(`Starting cleanup`);
 
   // Attachments which are linked to according to Obsidian
-  let inUseAttachments = getInUseAttachments(app);
-  inUseAttachments.push(...(await getCanvasAttachments(app)));
+  let inUseAttachmentsInitial = getInUseAttachments(app);
+  inUseAttachmentsInitial.push(...(await getCanvasAttachments(app)));
   // TODO: Extend to also include files linked to by Admonition
+
+  // Deduplicated array of attachments
+  const inUseAttachments = Array.from(new Set(inUseAttachmentsInitial));
 
   const folders = getFolders(app)
     .filter((folder) => folder.path !== "/")
