@@ -2,6 +2,7 @@ import { App } from "obsidian";
 
 export async function getAdmonitionAttachments(app: App) {
   console.group("Admonition");
+  const indexingStart = Date.now();
 
   const attachments: string[] = [];
 
@@ -23,7 +24,9 @@ export async function getAdmonitionAttachments(app: App) {
       ),
   );
 
-  console.log("Iterating over files with codeblocks");
+  console.log(
+    `Iterating over ${admonitionCandidates.length} files with codeblocks`,
+  );
   for (const { file, cache } of admonitionCandidates) {
     const content = await app.vault.cachedRead(file);
 
@@ -52,7 +55,10 @@ export async function getAdmonitionAttachments(app: App) {
       });
     }
   }
-  console.log(`Found ${attachments.length} attachments in Admonition blocks.`);
+  const duration = (Date.now() - indexingStart) / 1000;
+  console.log(
+    `Found ${attachments.length} attachments in Admonition blocks in ${duration}ms.`,
+  );
   console.groupEnd();
   return attachments;
 }
