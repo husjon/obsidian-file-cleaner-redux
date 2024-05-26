@@ -72,3 +72,7 @@ export function getExtensions(settings: FileCleanerSettings) {
 
   return RegExp(`^(${["md", ...extensions].join("|")})$`);
 }
+
+export interface AppWithPlugins extends App {
+  plugins: { plugins: Record<string, any> };
+}
