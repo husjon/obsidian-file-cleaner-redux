@@ -95,7 +95,8 @@ export async function runCleanup(app: App, settings: FileCleanerSettings) {
     if (
       childrenCount === 0 &&
       !settings.excludedFolders.includes(folder.path) &&
-      !folder.isRoot()
+      !folder.isRoot() &&
+      settings.removeFolders
     ) {
       foldersToRemove.push(folder);
     }
