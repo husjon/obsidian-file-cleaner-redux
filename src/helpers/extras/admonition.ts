@@ -45,7 +45,11 @@ export async function getAdmonitionAttachments(app: App) {
       );
 
       // Push the attachments we find to the resulting attachments array
-      Array.from(matches).forEach((match) => attachments.push(match[1]));
+      Array.from(matches).forEach((match) => {
+        const attachmentPath = match[1];
+        if (!attachments.contains(attachmentPath))
+          attachments.push(attachmentPath);
+      });
     }
   }
   console.log(`Found ${attachments.length} attachments in Admonition blocks.`);
