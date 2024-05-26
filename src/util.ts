@@ -60,7 +60,7 @@ export async function runCleanup(app: App, settings: FileCleanerSettings) {
     .filter((folder) => folder.path !== "/")
     .sort((a, b) =>
       // Sort list of folders by amount of nested subfolders (deepest to shallowest)
-      b.path.localeCompare(b.path),
+      b.path.localeCompare(a.path),
     )
     .reverse();
   folders.push(app.vault.getFolderByPath("/"));
