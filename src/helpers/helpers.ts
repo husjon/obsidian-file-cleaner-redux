@@ -21,7 +21,7 @@ async function removeFile(
   }
 }
 
-async function removeFiles(
+export async function removeFiles(
   files: TAbstractFile[],
   app: App,
   settings: FileCleanerSettings,

@@ -1,9 +1,15 @@
-import { App, TFile, TFolder } from "obsidian";
+import { App, Notice, TAbstractFile, TFile, TFolder } from "obsidian";
 import { ExcludeInclude, FileCleanerSettings } from "./settings";
-import { getExtensions, getInUseAttachments } from "./helpers/helpers";
+import {
+  getExtensions,
+  getInUseAttachments,
+  removeFiles,
+} from "./helpers/helpers";
 import { getFolders } from "./helpers/helpers";
 import { checkMarkdown } from "./helpers/markdown";
 import { checkCanvas, getCanvasAttachments } from "./helpers/canvas";
+import { DeletionConfirmationModal } from "./modals";
+import translate from "./i18n";
 
 async function checkFile(
   app: App,
@@ -59,8 +65,8 @@ export async function runCleanup(app: App, settings: FileCleanerSettings) {
     .reverse();
   folders.push(app.vault.getFolderByPath("/"));
 
-  const filesToRemove = [];
-  const foldersToRemove = [];
+  const filesToRemove: TFile[] = [];
+  const foldersToRemove: TFolder[] = [];
   const extensions = getExtensions(settings);
 
   for (const folder of folders) {
@@ -101,13 +107,32 @@ export async function runCleanup(app: App, settings: FileCleanerSettings) {
     `Found ${filesToRemove.length} files and ${foldersToRemove.length} folders to clean up.`,
   );
 
-  console.group("Files:");
-  filesToRemove.forEach((item) => console.debug(item.path));
-  console.groupEnd();
+  const filesAndFolders: TAbstractFile[] = [...filesToRemove];
+  filesAndFolders.push(...foldersToRemove);
 
-  console.group("Folders:");
-  foldersToRemove.forEach((item) => console.debug(item.path));
-  console.groupEnd();
+  if (filesAndFolders.length === 0)
+    new Notice(translate().Notifications.NoFileToClean);
+  else {
+    if (!settings.deletionConfirmation)
+      await removeFiles(filesAndFolders, app, settings);
+    else {
+      DeletionConfirmationModal({
+        app,
+        files: filesAndFolders,
+        onConfirm: async () => {
+          await removeFiles(filesAndFolders, app, settings);
+        },
+      });
+    }
+
+    console.group("Files:");
+    filesToRemove.forEach((item) => console.debug(item.path));
+    console.groupEnd();
+
+    console.group("Folders:");
+    foldersToRemove.forEach((item) => console.debug(item.path));
+    console.groupEnd();
+  }
 
   console.groupEnd();
 }
