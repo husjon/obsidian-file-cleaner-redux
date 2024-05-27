@@ -80,7 +80,7 @@ export async function runCleanup(app: App, settings: FileCleanerSettings) {
     )
       continue;
 
-    const files = getFilesInFolder(folder, app);
+    const files = getFilesInFolder(folder);
 
     let childrenCount = files.length;
     for (const file of files) {
@@ -104,7 +104,7 @@ export async function runCleanup(app: App, settings: FileCleanerSettings) {
 
   // Post-index check to omit folders that have subfolders that should not be cleaned up from the final list
   [...foldersToRemove].reverse().forEach((folder) => {
-    const subFolders = getSubFoldersInFolder(folder, app);
+    const subFolders = getSubFoldersInFolder(folder);
 
     subFolders.forEach((subFolder) => {
       if (!foldersToRemove.contains(subFolder)) foldersToRemove.remove(folder);

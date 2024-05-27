@@ -49,13 +49,13 @@ export function getFolders(app: App) {
     .filter((node) => node.hasOwnProperty("children")) as TFolder[];
 }
 
-export function getFilesInFolder(folder: TFolder, app: App) {
+export function getFilesInFolder(folder: TFolder) {
   return folder.children.filter(
     (f) => !f.hasOwnProperty("children"),
   ) as TFile[];
 }
 
-export function getSubFoldersInFolder(folder: TFolder, app: App) {
+export function getSubFoldersInFolder(folder: TFolder) {
   return folder.children.filter((f) =>
     f.hasOwnProperty("children"),
   ) as TFolder[];
