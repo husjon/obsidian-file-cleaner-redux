@@ -14,13 +14,9 @@ export default class FileCleanerPlugin extends Plugin {
   async onload() {
     await this.loadSettings();
 
-    this.addRibbonIcon(
-      "trash",
-      translate().Buttons.CleanFiles,
-      (evt: MouseEvent) => {
-        runCleanup(this.app, this.settings);
-      },
-    );
+    this.addRibbonIcon("trash", translate().Buttons.CleanFiles, () => {
+      runCleanup(this.app, this.settings);
+    });
 
     this.addCommand({
       id: "clean-files",
