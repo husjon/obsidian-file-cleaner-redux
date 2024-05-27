@@ -1,4 +1,4 @@
-import { App, Notice, TAbstractFile, TFolder } from "obsidian";
+import { App, Notice, TAbstractFile, TFile, TFolder } from "obsidian";
 import { FileCleanerSettings } from "../settings";
 import { Deletion } from "../enums";
 import translate from "../i18n";
@@ -47,6 +47,12 @@ export function getFolders(app: App) {
   return app.vault
     .getAllLoadedFiles()
     .filter((node) => node.hasOwnProperty("children")) as TFolder[];
+}
+
+export function getFilesInFolder(folder: TFolder, app: App) {
+  return folder.children.filter(
+    (f) => !f.hasOwnProperty("children"),
+  ) as TFile[];
 }
 
 export function getExtensions(settings: FileCleanerSettings) {

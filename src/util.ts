@@ -2,6 +2,7 @@ import { App, Notice, TAbstractFile, TFile, TFolder } from "obsidian";
 import { ExcludeInclude, FileCleanerSettings } from "./settings";
 import {
   getExtensions,
+  getFilesInFolder,
   getInUseAttachments,
   removeFiles,
 } from "./helpers/helpers";
@@ -78,9 +79,7 @@ export async function runCleanup(app: App, settings: FileCleanerSettings) {
     )
       continue;
 
-    const files = folder.children.filter(
-      (node) => !node.hasOwnProperty("children"),
-    ) as TFile[];
+    const files = getFilesInFolder(folder, app);
 
     let childrenCount = files.length;
     for (const file of files) {
