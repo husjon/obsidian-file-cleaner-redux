@@ -55,6 +55,12 @@ export function getFilesInFolder(folder: TFolder, app: App) {
   ) as TFile[];
 }
 
+export function getSubFoldersInFolder(folder: TFolder, app: App) {
+  return folder.children.filter((f) =>
+    f.hasOwnProperty("children"),
+  ) as TFolder[];
+}
+
 export function getExtensions(settings: FileCleanerSettings) {
   const extensions = [...settings.attachmentExtensions].filter(
     (extension) => extension !== "*",
