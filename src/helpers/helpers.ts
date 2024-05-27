@@ -37,8 +37,8 @@ export async function removeFiles(
 }
 
 export function getInUseAttachments(app: App) {
-  return Object.entries(app.metadataCache.resolvedLinks)
-    .map(([parent, child]) => Object.keys(child))
+  return Object.values(app.metadataCache.resolvedLinks)
+    .map((child) => Object.keys(child))
     .filter((file) => file.length > 0)
     .reduce((prev, cur) => [...prev, ...cur], [])
     .filter((file) => !file.endsWith(".md"));
