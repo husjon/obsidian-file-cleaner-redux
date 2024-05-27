@@ -4,6 +4,7 @@ import {
   getExtensions,
   getFilesInFolder,
   getInUseAttachments,
+  getSubFoldersInFolder,
   removeFiles,
 } from "./helpers/helpers";
 import { getFolders } from "./helpers/helpers";
@@ -100,6 +101,15 @@ export async function runCleanup(app: App, settings: FileCleanerSettings) {
       foldersToRemove.push(folder);
     }
   }
+
+  // Post-index check to omit folders that have subfolders that should not be cleaned up from the final list
+  [...foldersToRemove].reverse().forEach((folder) => {
+    const subFolders = getSubFoldersInFolder(folder, app);
+
+    subFolders.forEach((subFolder) => {
+      if (!foldersToRemove.contains(subFolder)) foldersToRemove.remove(folder);
+    });
+  });
 
   const indexingDuration = (Date.now() - indexingStart) / 1000;
   console.log(`Finished indexing after ${indexingDuration}ms`);
