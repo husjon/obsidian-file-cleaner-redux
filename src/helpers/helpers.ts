@@ -46,18 +46,20 @@ export function getInUseAttachments(app: App) {
 export function getFolders(app: App) {
   return app.vault
     .getAllLoadedFiles()
-    .filter((node) => node.hasOwnProperty("children")) as TFolder[];
+    .filter((node) =>
+      Object.prototype.hasOwnProperty.call(node, "children"),
+    ) as TFolder[];
 }
 
 export function getFilesInFolder(folder: TFolder) {
   return folder.children.filter(
-    (f) => !f.hasOwnProperty("children"),
+    (node) => !Object.prototype.hasOwnProperty.call(node, "children"),
   ) as TFile[];
 }
 
 export function getSubFoldersInFolder(folder: TFolder) {
-  return folder.children.filter((f) =>
-    f.hasOwnProperty("children"),
+  return folder.children.filter((node) =>
+    Object.prototype.hasOwnProperty.call(node, "children"),
   ) as TFolder[];
 }
 
