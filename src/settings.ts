@@ -94,6 +94,7 @@ export class FileCleanerSettingTab extends PluginSettingTab {
 
         toggle.onChange((value) => {
           this.plugin.settings.excludeInclude = Number(value);
+          this.plugin.saveSettings();
           this.display();
         });
       });
@@ -139,6 +140,7 @@ export class FileCleanerSettingTab extends PluginSettingTab {
 
         toggle.onChange((value) => {
           this.plugin.settings.attachmentsExcludeInclude = Number(value);
+          this.plugin.saveSettings();
           this.display();
         });
       });
