@@ -20,7 +20,7 @@ async function checkFile(
   extensions: RegExp,
 ) {
   if (file.extension === "md") {
-    return await checkMarkdown(file, app);
+    return await checkMarkdown(file, app, settings);
   } else if (file.extension === "canvas") {
     return await checkCanvas(file, app);
   } else if (settings.attachmentsExcludeInclude === ExcludeInclude.Include) {
