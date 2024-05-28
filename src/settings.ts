@@ -44,7 +44,8 @@ export class FileCleanerSettingTab extends PluginSettingTab {
     const { containerEl } = this;
     this.containerEl.empty();
 
-    //#region Regular Options {{{
+    // #region Regular Options
+    // #region Deleted files
     new Setting(containerEl)
       .setName(translate().Settings.RegularOptions.CleanedFiles.Label)
       .setDesc(translate().Settings.RegularOptions.CleanedFiles.Description)
@@ -85,7 +86,9 @@ export class FileCleanerSettingTab extends PluginSettingTab {
             this.plugin.saveSettings();
           }),
       );
+    // #endregion
 
+    // #region Folder inclusion / exclusion
     new Setting(containerEl)
       .setName(translate().Settings.RegularOptions.FolderFiltering.Label)
       .setDesc(translate().Settings.RegularOptions.FolderFiltering.Description)
@@ -129,7 +132,9 @@ export class FileCleanerSettingTab extends PluginSettingTab {
         text.inputEl.rows = 8;
         text.inputEl.cols = 30;
       });
+    // #endregion
 
+    // #region Extension inclusion / exclusion
     new Setting(containerEl)
       .setName(translate().Settings.RegularOptions.Attachments.Label)
       .setDesc(translate().Settings.RegularOptions.Attachments.Description)
@@ -144,6 +149,7 @@ export class FileCleanerSettingTab extends PluginSettingTab {
           this.display();
         });
       });
+
     new Setting(containerEl)
       .setName(
         this.plugin.settings.attachmentsExcludeInclude
@@ -183,7 +189,9 @@ export class FileCleanerSettingTab extends PluginSettingTab {
         text.inputEl.rows = 3;
         text.inputEl.cols = 30;
       });
+    // #endregion
 
+    // #region Ignored frontmatter
     new Setting(containerEl)
       .setName(translate().Settings.RegularOptions.IgnoredFrontmatter.Label)
       .setDesc(
@@ -206,7 +214,9 @@ export class FileCleanerSettingTab extends PluginSettingTab {
         text.inputEl.rows = 4;
         text.inputEl.cols = 30;
       });
+    // #endregion
 
+    // #region Preview deleted files
     new Setting(containerEl)
       .setName(translate().Settings.RegularOptions.PreviewDeletedFiles.Label)
       .setDesc(
@@ -220,7 +230,9 @@ export class FileCleanerSettingTab extends PluginSettingTab {
           this.plugin.saveSettings();
         });
       });
+    // #endregion
 
+    // #region Remove folders
     new Setting(containerEl)
       .setName(translate().Settings.RegularOptions.RemoveFolders.Label)
       .setDesc(translate().Settings.RegularOptions.RemoveFolders.Description)
@@ -232,7 +244,9 @@ export class FileCleanerSettingTab extends PluginSettingTab {
           this.plugin.saveSettings();
         });
       });
+    // #endregion
 
+    // #region Run on startup
     new Setting(containerEl)
       .setName(translate().Settings.RegularOptions.RunOnStartup.Label)
       .setDesc(translate().Settings.RegularOptions.RunOnStartup.Description)
@@ -244,13 +258,15 @@ export class FileCleanerSettingTab extends PluginSettingTab {
           this.plugin.saveSettings();
         });
       });
-    //#endregion Regular Options }}}
+    // #endregion
+    // #endregion Regular Options
 
-    //#region Danger Zone {{{
+    // #region Danger Zone
     this.containerEl.createEl("h3", {
       text: translate().Settings.DangerZone.Header,
     });
 
+    // #region Reset settings
     new Setting(containerEl)
       .setName(translate().Settings.DangerZone.ResetSettings.Label)
       .setDesc(translate().Settings.DangerZone.ResetSettings.Description)
@@ -272,6 +288,7 @@ export class FileCleanerSettingTab extends PluginSettingTab {
             });
           });
       });
-    //#endregion Danger Zone }}}
+    // #endregion
+    // #endregion Danger Zone
   }
 }
