@@ -59,7 +59,7 @@ export async function getCanvasAttachments(app: App) {
     .reduce((prev, cur) => [...prev, ...cur], []);
 }
 
-export async function checkCanvas(app: App, file: TFile) {
+export async function checkCanvas(file: TFile, app: App) {
   if (file.extension !== "canvas") return false;
 
   // A canvas file that has been emptied is 28 bytes by default (24 bytes minified).

@@ -19,9 +19,11 @@ async function checkFile(
   file: TFile,
   extensions: RegExp,
 ) {
-  if (file.extension === "md") return await checkMarkdown(app, file);
-  else if (file.extension === "canvas") return await checkCanvas(app, file);
-  else if (settings.attachmentsExcludeInclude === ExcludeInclude.Include) {
+  if (file.extension === "md") {
+    return await checkMarkdown(file, app);
+  } else if (file.extension === "canvas") {
+    return await checkCanvas(file, app);
+  } else if (settings.attachmentsExcludeInclude === ExcludeInclude.Include) {
     return file.extension.match(extensions);
   } else if (settings.attachmentsExcludeInclude === ExcludeInclude.Exclude) {
     return !file.extension.match(extensions);
@@ -30,14 +32,14 @@ async function checkFile(
   return false;
 }
 
-function isFolderExcluded(settings: FileCleanerSettings, folder: TFolder) {
+function isFolderExcluded(folder: TFolder, settings: FileCleanerSettings) {
   return (
     settings.excludedFolders
       .map((excludedFolder) => folder.path.match(RegExp(`^${excludedFolder}`)))
       .filter((x) => x).length > 0
   );
 }
-function isFolderIncluded(settings: FileCleanerSettings, folder: TFolder) {
+function isFolderIncluded(folder: TFolder, settings: FileCleanerSettings) {
   return (
     settings.excludedFolders
       .map((excludedFolder) => folder.path.match(RegExp(`^${excludedFolder}`)))
@@ -74,9 +76,9 @@ export async function runCleanup(app: App, settings: FileCleanerSettings) {
   for (const folder of folders) {
     if (
       (settings.excludeInclude === ExcludeInclude.Exclude &&
-        isFolderExcluded(settings, folder)) ||
+        isFolderExcluded(folder, settings)) ||
       (settings.excludeInclude === ExcludeInclude.Include &&
-        isFolderIncluded(settings, folder))
+        isFolderIncluded(folder, settings))
     )
       continue;
 

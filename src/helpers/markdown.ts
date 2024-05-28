@@ -1,6 +1,6 @@
 import { App, TFile } from "obsidian";
 
-export async function checkMarkdown(app: App, file: TFile) {
+export async function checkMarkdown(file: TFile, app: App) {
   if (file.extension !== "md") return false;
 
   if (file.stat.size === 0) return true;
