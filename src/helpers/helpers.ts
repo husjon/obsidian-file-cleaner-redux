@@ -10,7 +10,7 @@ async function removeFile(
 ) {
   switch (settings.deletionDestination) {
     case Deletion.Permanent:
-      await app.vault.delete(file);
+      await app.vault.delete(file, true);
       break;
     case Deletion.SystemTrash:
       await app.vault.trash(file, true);
