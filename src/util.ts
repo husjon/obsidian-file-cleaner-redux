@@ -120,7 +120,7 @@ export async function runCleanup(app: App, settings: FileCleanerSettings) {
   );
 
   const filesAndFolders: TAbstractFile[] = [...filesToRemove];
-  filesAndFolders.push(...foldersToRemove);
+  filesAndFolders.push(...foldersToRemove.reverse());
 
   if (filesAndFolders.length === 0)
     new Notice(translate().Notifications.NoFileToClean);
