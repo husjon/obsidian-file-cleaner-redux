@@ -52,4 +52,4 @@ const ctx = await esbuild
   })
   .catch(() => process.exit(1));
 
-await ctx.watch();
+if (!prod) await ctx.watch();
