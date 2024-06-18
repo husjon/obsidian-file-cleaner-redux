@@ -6,12 +6,14 @@ import {
   getInUseAttachments,
   getSubFoldersInFolder,
   removeFiles,
+  AppWithPlugins,
 } from "./helpers/helpers";
 import { getFolders } from "./helpers/helpers";
 import { checkMarkdown } from "./helpers/markdown";
 import { checkCanvas, getCanvasAttachments } from "./helpers/canvas";
 import { DeletionConfirmationModal } from "./modals";
 import translate from "./i18n";
+import { getAdmonitionAttachments } from "./helpers/extras/admonition";
 
 async function checkFile(
   app: App,
@@ -55,7 +57,10 @@ export async function runCleanup(app: App, settings: FileCleanerSettings) {
   // Attachments which are linked to according to Obsidian
   const inUseAttachmentsInitial = getInUseAttachments(app);
   inUseAttachmentsInitial.push(...(await getCanvasAttachments(app)));
-  // TODO: Extend to also include files linked to by Admonition
+
+  const plugins = (app as AppWithPlugins).plugins.plugins;
+  if (plugins.hasOwnProperty("obsidian-admonition"))
+    inUseAttachmentsInitial.push(...(await getAdmonitionAttachments(app)));
 
   // Deduplicated array of attachments
   const inUseAttachments = Array.from(new Set(inUseAttachmentsInitial));
