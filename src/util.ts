@@ -14,6 +14,7 @@ import { checkCanvas, getCanvasAttachments } from "./helpers/canvas";
 import { DeletionConfirmationModal } from "./modals";
 import translate from "./i18n";
 import { getAdmonitionAttachments } from "./helpers/extras/admonition";
+import { checkExcalidraw } from "./helpers/extras/excalidraw";
 
 async function checkFile(
   app: App,
@@ -22,6 +23,9 @@ async function checkFile(
   extensions: RegExp,
 ) {
   if (file.extension === "md") {
+    if (file.basename.endsWith(".excalidraw"))
+      return checkExcalidraw(file, app);
+
     return await checkMarkdown(file, app, settings);
   } else if (file.extension === "canvas") {
     return await checkCanvas(file, app);
