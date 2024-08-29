@@ -129,8 +129,10 @@ export class FileCleanerSettingTab extends PluginSettingTab {
         text.setPlaceholder(
           translate().Settings.RegularOptions.FolderFiltering.Placeholder,
         );
-        text.inputEl.rows = 8;
-        text.inputEl.cols = 30;
+        text.inputEl.style.minWidth = "18rem";
+        text.inputEl.style.maxWidth = "18rem";
+        text.inputEl.style.minHeight = "8rem";
+        text.inputEl.style.maxHeight = "16rem";
       });
     // #endregion
 
@@ -186,8 +188,10 @@ export class FileCleanerSettingTab extends PluginSettingTab {
             : translate().Settings.RegularOptions.Attachments.Excluded
                 .Placeholder,
         );
-        text.inputEl.rows = 3;
-        text.inputEl.cols = 30;
+        text.inputEl.style.minWidth = "18rem";
+        text.inputEl.style.maxWidth = "18rem";
+        text.inputEl.style.minHeight = "4rem";
+        text.inputEl.style.maxHeight = "8rem";
       });
     // #endregion
 
@@ -211,8 +215,10 @@ export class FileCleanerSettingTab extends PluginSettingTab {
         text.setPlaceholder(
           translate().Settings.RegularOptions.IgnoredFrontmatter.Placeholder,
         );
-        text.inputEl.rows = 4;
-        text.inputEl.cols = 30;
+        text.inputEl.style.minWidth = "18rem";
+        text.inputEl.style.maxWidth = "18rem";
+        text.inputEl.style.minHeight = "4rem";
+        text.inputEl.style.maxHeight = "12rem";
       });
     // #endregion
 
