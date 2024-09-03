@@ -23,8 +23,7 @@ async function checkFile(
   extensions: RegExp,
 ) {
   if (file.extension === "md") {
-    if (file.basename.endsWith(".excalidraw"))
-      return checkExcalidraw(file, app);
+    if (await checkExcalidraw(file, app)) return true
 
     return await checkMarkdown(file, app, settings);
   } else if (file.extension === "canvas") {
