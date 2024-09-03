@@ -6,7 +6,7 @@ import {
   getInUseAttachments,
   getSubFoldersInFolder,
   removeFiles,
-  AppWithPlugins,
+  userHasPlugin,
 } from "./helpers/helpers";
 import { getFolders } from "./helpers/helpers";
 import { checkMarkdown } from "./helpers/markdown";
@@ -61,8 +61,7 @@ export async function runCleanup(app: App, settings: FileCleanerSettings) {
   const inUseAttachmentsInitial = getInUseAttachments(app);
   inUseAttachmentsInitial.push(...(await getCanvasAttachments(app)));
 
-  const plugins = (app as AppWithPlugins).plugins.plugins;
-  if (plugins.hasOwnProperty("obsidian-admonition"))
+  if (userHasPlugin("obsidian-admonition", app))
     inUseAttachmentsInitial.push(...(await getAdmonitionAttachments(app)));
 
   // Deduplicated array of attachments
