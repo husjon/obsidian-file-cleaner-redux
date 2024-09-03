@@ -17,6 +17,8 @@ Based on https://github.com/Johnson0907/obsidian-file-cleaner
   - Permanently delete
 - Preview of list of files and folders that will be removed (Optional)
 - Run on Startup (Optional)
+- Supports the following external plugins:
+  - Admonition (as of v1.0.0 - [#57](https://github.com/husjon/obsidian-file-cleaner-redux/pull/57))
 
 ### How to use the plugin
 
