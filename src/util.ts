@@ -23,7 +23,11 @@ async function checkFile(
   extensions: RegExp,
 ) {
   if (file.extension === "md") {
-    if (await checkExcalidraw(file, app)) return true
+    if (
+      userHasPlugin("obsidian-excalidraw-plugin", app) &&
+      (await checkExcalidraw(file, app))
+    )
+      return true;
 
     return await checkMarkdown(file, app, settings);
   } else if (file.extension === "canvas") {
