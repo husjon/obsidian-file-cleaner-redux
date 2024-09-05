@@ -6,7 +6,7 @@ import {
   getInUseAttachments,
   getSubFoldersInFolder,
   removeFiles,
-  AppWithPlugins,
+  userHasPlugin,
 } from "./helpers/helpers";
 import { getFolders } from "./helpers/helpers";
 import { checkMarkdown } from "./helpers/markdown";
@@ -15,6 +15,7 @@ import { DeletionConfirmationModal } from "./modals";
 import translate from "./i18n";
 import { getAdmonitionAttachments } from "./helpers/extras/admonition";
 import { Deletion } from "./enums";
+import { checkExcalidraw } from "./helpers/extras/excalidraw";
 
 async function checkFile(
   app: App,
@@ -23,6 +24,12 @@ async function checkFile(
   extensions: RegExp,
 ) {
   if (file.extension === "md") {
+    if (
+      userHasPlugin("obsidian-excalidraw-plugin", app) &&
+      (await checkExcalidraw(file, app))
+    )
+      return true;
+
     return await checkMarkdown(file, app, settings);
   } else if (file.extension === "canvas") {
     return await checkCanvas(file, app);
@@ -89,8 +96,7 @@ export async function runCleanup(app: App, settings: FileCleanerSettings) {
   const inUseAttachmentsInitial = getInUseAttachments(app);
   inUseAttachmentsInitial.push(...(await getCanvasAttachments(app)));
 
-  const plugins = (app as AppWithPlugins).plugins.plugins;
-  if (plugins.hasOwnProperty("obsidian-admonition"))
+  if (userHasPlugin("obsidian-admonition", app))
     inUseAttachmentsInitial.push(...(await getAdmonitionAttachments(app)));
 
   // Deduplicated array of attachments

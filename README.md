@@ -19,6 +19,7 @@ Based on https://github.com/Johnson0907/obsidian-file-cleaner
 - Run on Startup (Optional)
 - Supports the following external plugins:
   - Admonition (as of v1.0.0 - [#57](https://github.com/husjon/obsidian-file-cleaner-redux/pull/57))
+  - Excalidraw (as of v1.1.0)
 
 ### How to use the plugin
 
