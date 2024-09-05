@@ -33,14 +33,3 @@ export async function checkMarkdown(
 
   return false;
 }
-
-export async function getMarkdownSections(file: TFile, app: App, type = "") {
-  const cache = app.metadataCache.getFileCache(file);
-
-  if (!cache.sections) return [];
-
-  if (type !== "")
-    return cache.sections.filter((section) => section.type === type);
-
-  return cache.sections;
-}
