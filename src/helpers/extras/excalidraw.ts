@@ -6,6 +6,12 @@ interface ExcalidrawElement {
 }
 
 export async function checkExcalidraw(file: TFile, app: App) {
+  const metadata = app.metadataCache;
+  // @ts-ignore (getBacklinksForFile is not part of the type definition)
+  const links = Object.keys(metadata.getBacklinksForFile(file).data);
+
+  if (links.length > 0) return false
+
   const content = await app.vault.cachedRead(file);
 
   const blockStart = content.search(/{[ \t\n]*"type":[ ]*"excalidraw"/);
