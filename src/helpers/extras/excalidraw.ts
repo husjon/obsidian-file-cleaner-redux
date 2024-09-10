@@ -8,7 +8,7 @@ interface ExcalidrawElement {
 export async function checkExcalidraw(file: TFile, app: App) {
   const metadata = app.metadataCache;
   // @ts-ignore (getBacklinksForFile is not part of the type definition)
-  const links = Object.keys(metadata.getBacklinksForFile(file).data);
+  const links = metadata.getBacklinksForFile(file).keys();
 
   if (links.length > 0) return false;
 
