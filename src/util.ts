@@ -182,7 +182,8 @@ export async function runCleanup(app: App, settings: FileCleanerSettings) {
     console.groupEnd();
   }
 
-  cleanTrashFolder(app, settings);
+  if (settings.deletionDestination === Deletion.ObsidianTrash)
+    cleanTrashFolder(app, settings);
 
   console.groupEnd();
 }
