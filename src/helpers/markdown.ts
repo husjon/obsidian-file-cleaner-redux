@@ -11,7 +11,10 @@ export async function checkMarkdown(
   // Check if file has any backlinks
   const metadata = app.metadataCache;
   // @ts-expect-error (getBacklinksForFile is not part of the type definition)
-  const links = metadata.getBacklinksForFile(file).data as Map<String, Array<any>>;
+  const links = metadata.getBacklinksForFile(file).data as Map<
+    String,
+    Array<any>
+  >;
   if (links.size > 0) return false;
 
   // Checks for filesize to be literally 0 bytes
