@@ -6,6 +6,7 @@ import { ResetSettingsModal } from "./modals";
 
 export interface FileCleanerSettings {
   deletionDestination: Deletion;
+  obsidianTrashCleanupAge: number;
   excludeInclude: ExcludeInclude;
   excludedFolders: string[];
   attachmentsExcludeInclude: ExcludeInclude;
@@ -22,6 +23,7 @@ export enum ExcludeInclude {
 
 export const DEFAULT_SETTINGS: FileCleanerSettings = {
   deletionDestination: Deletion.SystemTrash,
+  obsidianTrashCleanupAge: -1,
   excludeInclude: ExcludeInclude.Exclude,
   excludedFolders: [],
   attachmentsExcludeInclude: ExcludeInclude.Include,
