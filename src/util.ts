@@ -14,6 +14,7 @@ import { checkCanvas, getCanvasAttachments } from "./helpers/canvas";
 import { DeletionConfirmationModal } from "./modals";
 import translate from "./i18n";
 import { getAdmonitionAttachments } from "./helpers/extras/admonition";
+import { Deletion } from "./enums";
 
 async function checkFile(
   app: App,
@@ -58,17 +59,25 @@ async function cleanTrashFolder(app: App, settings: FileCleanerSettings) {
     date.getDate() - settings.obsidianTrashCleanupAge,
   );
 
+  console.group("Checking '.trash' folder");
   const trashDirectory = await app.vault.adapter.list(".trash");
   for (const file of trashDirectory.files) {
     const f = await app.vault.adapter.stat(file);
 
-    if (f.ctime < ageThreshold) app.vault.adapter.remove(file);
+    if (f.ctime < ageThreshold) {
+      app.vault.adapter.remove(file);
+      console.debug("Removed file:", file);
+    }
   }
   for (const folder of trashDirectory.folders) {
     const f = await app.vault.adapter.stat(folder);
 
-    if (f.ctime < ageThreshold) app.vault.adapter.rmdir(folder, true);
+    if (f.ctime < ageThreshold) {
+      app.vault.adapter.rmdir(folder, true);
+      console.debug("Removed folder:", folder);
+    }
   }
+  console.groupEnd();
 }
 
 export async function runCleanup(app: App, settings: FileCleanerSettings) {
