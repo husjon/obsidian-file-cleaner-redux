@@ -14,6 +14,11 @@ const enUS: Locale = {
           PermanentDelete: "Permanently delete",
         },
       },
+      ObsidianTrashCleanupAge: {
+        Label: "Trash directory age threshold",
+        Description:
+          "Amount of days files can be in the `.trash` folder before they are permanently removed.",
+      },
 
       FolderFiltering: {
         Excluded: {
