@@ -11,6 +11,10 @@ export interface Locale {
           PermanentDelete: string;
         };
       };
+      ObsidianTrashCleanupAge: {
+        Label: string;
+        Description: string;
+      };
 
       FolderFiltering: {
         Excluded: {
