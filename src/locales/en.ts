@@ -17,7 +17,7 @@ const enUS: Locale = {
       ObsidianTrashCleanupAge: {
         Label: "Trash directory age threshold",
         Description:
-          "Amount of days files can be in the `.trash` folder before they are permanently removed.",
+          "Amount of days files can be in the `.trash` folder before they are permanently removed (minimum 1 day).",
       },
 
       FolderFiltering: {
