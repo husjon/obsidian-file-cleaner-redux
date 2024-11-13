@@ -89,6 +89,29 @@ export class FileCleanerSettingTab extends PluginSettingTab {
             this.display();
           }),
       );
+    this.plugin.settings.deletionDestination === Deletion.ObsidianTrash &&
+      new Setting(containerEl)
+        .setName(
+          translate().Settings.RegularOptions.ObsidianTrashCleanupAge.Label,
+        )
+        .setDesc(
+          translate().Settings.RegularOptions.ObsidianTrashCleanupAge
+            .Description,
+        )
+        .addText((text) => {
+          const days = this.plugin.settings.obsidianTrashCleanupAge;
+
+          text.setPlaceholder("7");
+          text.setValue(days >= 0 ? String(days) : "");
+          text.inputEl.style.minWidth = "18rem";
+
+          text.onChange((value) => {
+            const days = Number(value.match(/^\d+/)) || -1;
+
+            this.plugin.settings.obsidianTrashCleanupAge = days;
+            this.plugin.saveSettings();
+          });
+        });
     // #endregion
 
     // #region Folder inclusion / exclusion
