@@ -84,6 +84,7 @@ export class FileCleanerSettingTab extends PluginSettingTab {
                 break;
             }
             this.plugin.saveSettings();
+            this.display();
           }),
       );
     // #endregion
