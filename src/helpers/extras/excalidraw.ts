@@ -11,7 +11,7 @@ export async function checkExcalidraw(file: TFile, app: App) {
   const frontmatter = metadata.getFileCache(file).frontmatter;
   if (!frontmatter) return false;
   if (
-    !Object.keys(frontmatter).contains("excalidraw") &&
+    !Object.keys(frontmatter).contains("excalidraw-plugin") &&
     frontmatter.excalidraw !== "parsed"
   )
     return false;
