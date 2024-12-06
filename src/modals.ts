@@ -72,12 +72,20 @@ export function DeletionConfirmationModal({
     onConfirm,
   );
 
+  const container = modal.content.createDiv();
+
+  container.setCssStyles({
+    marginTop: "0.5rem",
+    maxHeight: "50vh",
+    overflowY: "auto",
+  });
+
   const files = filesAndFolders.filter((file) => file instanceof TFile);
   if (files.length > 0) {
-    modal.content.createEl("p", {
+    container.createEl("p", {
       text: translate().Modals.DeletionConfirmation.Files + ":",
     });
-    const ulFiles = modal.content.createEl("ul");
+    const ulFiles = container.createEl("ul");
     files.map((file: TFile) => {
       const li = ulFiles.createEl("li");
       li.createEl("a", { text: file.path });
@@ -90,10 +98,10 @@ export function DeletionConfirmationModal({
 
   const folders = filesAndFolders.filter((file) => file instanceof TFolder);
   if (folders.length > 0) {
-    modal.content.createEl("p", {
+    container.createEl("p", {
       text: translate().Modals.DeletionConfirmation.Folders + ":",
     });
-    const ulFolders = modal.content.createEl("ul");
+    const ulFolders = container.createEl("ul");
     folders.map((file) => {
       const li = ulFolders.createEl("li");
       li.createEl("a", { text: file.path });
