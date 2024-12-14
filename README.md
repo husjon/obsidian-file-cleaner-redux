@@ -19,7 +19,9 @@ Based on https://github.com/Johnson0907/obsidian-file-cleaner
 - Run on Startup (Optional)
 - Supports the following external plugins:
   - Admonition (as of v1.0.0 - [#57](https://github.com/husjon/obsidian-file-cleaner-redux/pull/57))
-  - Excalidraw (as of v1.1.0)
+  - Excalidraw (as of v1.3.0)
+    Note: This does require JSON compression in Excalidraw to be turned off.
+    This can be done in Excalidraw Setting > Saving > Compress Excalidraw JSON in Markdown
 
 ### How to use the plugin
 
