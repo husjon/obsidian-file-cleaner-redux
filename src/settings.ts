@@ -248,6 +248,21 @@ export class FileCleanerSettingTab extends PluginSettingTab {
         text.inputEl.style.minHeight = "4rem";
         text.inputEl.style.maxHeight = "12rem";
       });
+
+    new Setting(containerEl)
+      .setName(translate().Settings.RegularOptions.IgnoreAllFrontmatter.Label)
+      .setDesc(
+        translate().Settings.RegularOptions.IgnoreAllFrontmatter.Description,
+      )
+      .addToggle((toggle) => {
+        toggle.setValue(this.plugin.settings.ignoreAllFrontmatter);
+
+        toggle.onChange((value) => {
+          this.plugin.settings.ignoreAllFrontmatter = value;
+          this.plugin.saveSettings();
+          this.display();
+        });
+      });
     // #endregion
 
     // #region Preview deleted files
