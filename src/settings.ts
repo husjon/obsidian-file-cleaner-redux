@@ -15,6 +15,7 @@ export interface FileCleanerSettings {
   runOnStartup: boolean;
   removeFolders: boolean;
   ignoredFrontmatter: string[];
+  ignoreAllFrontmatter: boolean;
 }
 export enum ExcludeInclude {
   Exclude = Number(false),
@@ -32,6 +33,7 @@ export const DEFAULT_SETTINGS: FileCleanerSettings = {
   runOnStartup: false,
   removeFolders: false,
   ignoredFrontmatter: [],
+  ignoreAllFrontmatter: false,
 };
 
 export class FileCleanerSettingTab extends PluginSettingTab {
