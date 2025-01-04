@@ -68,6 +68,11 @@ const enUS: Locale = {
         Placeholder: "Example:\ncreated, updated",
       },
 
+      IgnoreAllFrontmatter: {
+        Label: "Ignore all frontmatter",
+        Description: "Ignores all frontmatter, including the ones set above.",
+      },
+
       PreviewDeletedFiles: {
         Label: "Preview deleted files",
         Description: "Show a confirmation box with list of files to be removed",
