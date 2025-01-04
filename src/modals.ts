@@ -90,7 +90,7 @@ export function DeletionConfirmationModal({
       const li = ulFiles.createEl("li");
       li.createEl("a", { text: file.path });
       li.onClickEvent(async () => {
-        const leaf = await app.workspace.getLeaf();
+        const leaf = app.workspace.getLeaf();
         leaf.openFile(file);
       });
     });
