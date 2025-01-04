@@ -247,7 +247,13 @@ export class FileCleanerSettingTab extends PluginSettingTab {
         text.inputEl.style.maxWidth = "18rem";
         text.inputEl.style.minHeight = "4rem";
         text.inputEl.style.maxHeight = "12rem";
-      });
+      })
+      .setDisabled(this.plugin.settings.ignoreAllFrontmatter)
+      .controlEl.setCssStyles(
+        this.plugin.settings.ignoreAllFrontmatter && {
+          color: "",
+        },
+      );
 
     new Setting(containerEl)
       .setName(translate().Settings.RegularOptions.IgnoreAllFrontmatter.Label)
