@@ -27,6 +27,8 @@ export async function checkMarkdown(
   // Check for file which contains only frontmatter whihc contains only the properties defined in the settings
   const fileCache = app.metadataCache.getFileCache(file);
   if (fileCache.sections.length === 1 && fileCache.frontmatter) {
+    if (settings.ignoreAllFrontmatter) return true;
+
     const frontmatterKeys = Object.keys(fileCache.frontmatter);
 
     return frontmatterKeys.every((frontmatterKey) =>
