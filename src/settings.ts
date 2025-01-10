@@ -15,6 +15,7 @@ export interface FileCleanerSettings {
   runOnStartup: boolean;
   removeFolders: boolean;
   ignoredFrontmatter: string[];
+  ignoreAllFrontmatter: boolean;
 }
 export enum ExcludeInclude {
   Exclude = Number(false),
@@ -32,6 +33,7 @@ export const DEFAULT_SETTINGS: FileCleanerSettings = {
   runOnStartup: false,
   removeFolders: false,
   ignoredFrontmatter: [],
+  ignoreAllFrontmatter: false,
 };
 
 export class FileCleanerSettingTab extends PluginSettingTab {
@@ -245,6 +247,27 @@ export class FileCleanerSettingTab extends PluginSettingTab {
         text.inputEl.style.maxWidth = "18rem";
         text.inputEl.style.minHeight = "4rem";
         text.inputEl.style.maxHeight = "12rem";
+      })
+      .setDisabled(this.plugin.settings.ignoreAllFrontmatter)
+      .controlEl.setCssStyles(
+        this.plugin.settings.ignoreAllFrontmatter && {
+          color: "",
+        },
+      );
+
+    new Setting(containerEl)
+      .setName(translate().Settings.RegularOptions.IgnoreAllFrontmatter.Label)
+      .setDesc(
+        translate().Settings.RegularOptions.IgnoreAllFrontmatter.Description,
+      )
+      .addToggle((toggle) => {
+        toggle.setValue(this.plugin.settings.ignoreAllFrontmatter);
+
+        toggle.onChange((value) => {
+          this.plugin.settings.ignoreAllFrontmatter = value;
+          this.plugin.saveSettings();
+          this.display();
+        });
       });
     // #endregion
 
