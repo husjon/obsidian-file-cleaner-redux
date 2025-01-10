@@ -24,16 +24,18 @@ const enUS: Locale = {
         Excluded: {
           Label: "Excluded folders",
           Description: `
-          Folders that should be excluded during cleanup.
+          Folders that should be excluded during cleanup, all other folders will be scanned.
           Paths are case-sensitive.
-          One folder per line.`,
+          One folder per line.
+          Supports regular expressions (wildcard matching can be done using \`.*\`)`,
         },
         Included: {
           Label: "Included folders",
           Description: `
           Folders that should be included during cleanup, only these folders will be scanned.
           Paths are case-sensitive.
-          One folder per line.`,
+          One folder per line.
+          Supports regular expressions (wildcard matching can be done using \`.*\`)`,
         },
         Label: "Excluded / Included Folders",
         Placeholder: "Example:\nfolder/subfolder\nfolder2/subfolder2",
