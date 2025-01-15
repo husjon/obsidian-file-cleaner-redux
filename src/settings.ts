@@ -3,6 +3,7 @@ import FileCleanerPlugin from ".";
 import translate from "./i18n";
 import { Deletion } from "./enums";
 import { ResetSettingsModal } from "./modals";
+import { FolderSuggester } from "./suggester";
 
 export interface FileCleanerSettings {
   deletionDestination: Deletion;
@@ -55,6 +56,49 @@ export class FileCleanerSettingTab extends PluginSettingTab {
   display(): void {
     const { containerEl } = this;
     this.containerEl.empty();
+
+    const attachmentsSetting = new ExtensionSetting(
+      containerEl,
+      this.plugin.settings,
+    )
+      .setName(
+        this.plugin.settings.attachmentsExcludeInclude
+          ? translate().Settings.RegularOptions.Attachments.Included.Label
+          : translate().Settings.RegularOptions.Attachments.Excluded.Label,
+      )
+      .setDesc(
+        this.plugin.settings.attachmentsExcludeInclude
+          ? translate().Settings.RegularOptions.Attachments.Included.Description
+          : translate().Settings.RegularOptions.Attachments.Excluded
+              .Description,
+      )
+      .addText((text) => {
+        const extensionsInVault = this.app.vault
+          .getFiles()
+          .map((file) => file.extension)
+          .sort((a, b) => a.localeCompare(b));
+        extensionsInVault.push("*");
+        const extensions = new Set(extensionsInVault);
+
+        // Remove existing extensions from the list of available extensions
+        this.plugin.settings.attachmentExtensions.forEach((extension) => {
+          extensions.delete(extension);
+        });
+
+        new FolderSuggester(
+          text.inputEl,
+          extensions,
+          (value) => {
+            attachmentsSetting.addExtension(value);
+            extensions.delete(value);
+          },
+          this.app,
+        );
+      });
+    this.plugin.settings.attachmentExtensions.forEach((extension) => {
+      attachmentsSetting.addExtension(extension);
+    });
+    attachmentsSetting.render();
 
     // #region Regular Options
     // #region Deleted files
@@ -441,5 +485,51 @@ export class FileCleanerSettingTab extends PluginSettingTab {
       });
     // #endregion
     // #endregion Danger Zone
+  }
+}
+
+class ExtensionSetting extends Setting {
+  extensions = new Set<string>();
+  extensionContainer: HTMLElement;
+  settings: FileCleanerSettings;
+
+  constructor(containerEl: HTMLElement, settings: FileCleanerSettings) {
+    super(containerEl);
+    this.settings = settings;
+
+    this.controlEl.style.display = "grid";
+
+    this.extensionContainer = createDiv({ cls: "setting-command-hotkeys" });
+    this.extensionContainer.style.width = "18rem";
+
+    this.controlEl.appendChild(this.extensionContainer);
+    this.render();
+  }
+
+  addExtension(extension: string) {
+    this.extensions.add(extension);
+    this.settings.attachmentExtensions = Array.from(this.extensions);
+    this.render();
+  }
+
+  render() {
+    this.controlEl.style.minWidth = "18rem";
+
+    this.extensionContainer.empty();
+    Array.from(this.extensions.values()).forEach((extension) => {
+      console.log(extension);
+      const extensionEl = createEl("span", {
+        text: `.${extension}`,
+        cls: "setting-hotkey",
+      });
+      extensionEl.style.padding = "0.25rem 0.5rem";
+      this.extensionContainer.appendChild(extensionEl);
+    });
+
+    // Re-order the elements so that the input is above the list of extensions
+    if (this.controlEl.childElementCount > 1) {
+      this.controlEl.removeChild(this.extensionContainer);
+      this.controlEl.appendChild(this.extensionContainer);
+    }
   }
 }
