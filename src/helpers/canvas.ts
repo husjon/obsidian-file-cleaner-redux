@@ -7,12 +7,27 @@ interface CanvasNode {
   text?: string;
 }
 
-function getCanvasCardAttachments(canvasNode: CanvasNode) {
-  const matches = canvasNode.text.matchAll(/[!]?\[\[(.*?)\]\]/g);
-  const files = Array.from(matches).map((file) => {
-    if (file[0].startsWith("![[")) return file[1];
-    else return `${file[1]}.md`;
+function getCanvasCardAttachments(
+  canvasNode: CanvasNode,
+  canvas: TFile,
+  app: App,
+) {
+  const matchedFiles = [];
+
+  // Match attachments using the syntax `![[path_to_file|imagelabel]]`
+  for (const match of canvasNode.text.matchAll(/[!]?\[\[(.*?)\]\]/g)) {
+    matchedFiles.push(match[1].split("|")[0]); // strip of the label
+  }
+
+  // Match attachments using the syntax `![imagelabel](path_to_file)`
+  for (const match of canvasNode.text.matchAll(/[!]\[.*?\]\((.*?)\)/g)) {
+    matchedFiles.push(match[1]);
+  }
+
+  const files = matchedFiles.map((filePath) => {
+    return app.metadataCache.getFirstLinkpathDest(filePath, canvas.path).path;
   });
+
   return files;
 }
 
@@ -42,7 +57,9 @@ export async function getCanvasAttachments(app: App) {
 
               const cardNodes = data["nodes"]
                 .filter((node: CanvasNode) => node.type === "text")
-                .map((node: CanvasNode) => getCanvasCardAttachments(node))
+                .map((node: CanvasNode) =>
+                  getCanvasCardAttachments(node, file, app),
+                )
                 .reduce((prev: [], cur: []) => [...prev, ...cur], []);
 
               return [...fileNodes, ...cardNodes];
