@@ -7,7 +7,11 @@ interface CanvasNode {
   text?: string;
 }
 
-function getCanvasCardAttachments(canvasNode: CanvasNode, app: App) {
+function getCanvasCardAttachments(
+  canvasNode: CanvasNode,
+  canvas: TFile,
+  app: App,
+) {
   const matchedFiles = [];
 
   // Match attachments using the syntax `![[path_to_file|imagelabel]]`
@@ -21,8 +25,7 @@ function getCanvasCardAttachments(canvasNode: CanvasNode, app: App) {
   }
 
   const files = matchedFiles.map((filePath) => {
-    if (app.vault.getFileByPath(filePath)) return filePath;
-    else return `${filePath}.md`;
+    return app.metadataCache.getFirstLinkpathDest(filePath, canvas.path).path;
   });
 
   return files;
@@ -54,7 +57,9 @@ export async function getCanvasAttachments(app: App) {
 
               const cardNodes = data["nodes"]
                 .filter((node: CanvasNode) => node.type === "text")
-                .map((node: CanvasNode) => getCanvasCardAttachments(node, app))
+                .map((node: CanvasNode) =>
+                  getCanvasCardAttachments(node, file, app),
+                )
                 .reduce((prev: [], cur: []) => [...prev, ...cur], []);
 
               return [...fileNodes, ...cardNodes];
