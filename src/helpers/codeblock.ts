@@ -1,7 +1,31 @@
+import { App, TFile } from "obsidian";
+
 type CodeBlock = {
   content: string;
   language: string;
 };
+export async function getMarkdownCodeblocks(
+  file: TFile,
+  app: App,
+): Promise<CodeBlock[]> {
+  const cache = app.metadataCache.getFileCache(file);
+  if (!cache.sections) return [];
+
+  const fileContentRaw = await app.vault.cachedRead(file);
+
+  const sections = cache.sections
+    .filter((section) => section.type === "code")
+    .map(async (section) => {
+      const content = fileContentRaw.slice(
+        section.position.start.offset,
+        section.position.end.offset,
+      );
+      return parseCodeblock(content);
+    });
+
+  return Promise.all(sections);
+}
+
 function parseCodeblock(codeblock: string): CodeBlock | null {
   /* Parses a complete codeblock including the fence markers
    * Example:
