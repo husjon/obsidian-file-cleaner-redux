@@ -1,5 +1,39 @@
 import { App, TFile } from "obsidian";
 
+export async function getCodeblockAttachments(
+  app: App,
+  languageFilter?: RegExp,
+) {
+  if (!languageFilter) return [];
+
+  const files = await getCodeblocksFromMarkdownFiles(app);
+
+  const attachments = files.map(({ file, codeblocks }) => {
+    const foundAttachments: string[] = [];
+
+    codeblocks.forEach((block) => {
+      if (!block.language.match(languageFilter)) return;
+
+      // Match attachments using the syntax `![[path_to_file|imagelabel]]`
+      for (const match of block.content.matchAll(/[!]?\[\[(.*?)\]\]/g)) {
+        foundAttachments.push(match[1].split("|")[0]); // strip of the label
+      }
+
+      // Match attachments using the syntax `![imagelabel](path_to_file)`
+      for (const match of block.content.matchAll(/[!]\[.*?\]\((.*?)\)/g)) {
+        foundAttachments.push(match[1]);
+      }
+    });
+
+    return foundAttachments.map(
+      (filePath) =>
+        app.metadataCache.getFirstLinkpathDest(filePath, file.path).path,
+    );
+  });
+
+  return attachments.flatMap((attachment) => [...attachment]);
+}
+
 async function getCodeblocksFromMarkdownFiles(app: App) {
   // Get list of all markdown files that contains code blocks.
   // Since FileCache doesn't include which type of block it is,
