@@ -1,5 +1,34 @@
 import { App, TFile } from "obsidian";
 
+async function getCodeblocksFromMarkdownFiles(app: App) {
+  // Get list of all markdown files that contains code blocks.
+  // Since FileCache doesn't include which type of block it is,
+  //   this is as good as it gets for now.
+  const files = await Promise.all(
+    app.vault
+      .getFiles()
+      .filter((file) => file.extension == "md")
+      .map((file) => {
+        return { file: file, cache: app.metadataCache.getFileCache(file) };
+      })
+      .filter((file) => file.cache.sections)
+      .filter(
+        (file) =>
+          file.cache.sections.filter((section) => section.type === "code")
+            .length > 0,
+      )
+      .map(({ file }) => file)
+      .map(async (file) => {
+        return {
+          file,
+          codeblocks: await getMarkdownCodeblocks(file, app),
+        };
+      }),
+  );
+
+  return files;
+}
+
 type CodeBlock = {
   content: string;
   language: string;
