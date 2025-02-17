@@ -6,7 +6,7 @@ Based on https://github.com/Johnson0907/obsidian-file-cleaner
 
 ## What this plugin does
 
-- Removes Markdown files with a size of 0 bytes.
+- Removes Markdown files with a size of 0 bytes (Optional) (See: [#88](https://github.com/husjon/obsidian-file-cleaner-redux/issues/88))
 - Removes user-defined attachment files (e.g: jpg, jpeg, png, gif, svg, pdf)
 - Support for cleaning empty files containing only specific frontmatter (Optional) (See: https://github.com/husjon/obsidian-file-cleaner-redux/issues/16)
 - Removes empty folders recursively (Optional)
