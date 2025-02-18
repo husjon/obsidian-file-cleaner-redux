@@ -16,6 +16,7 @@ export interface FileCleanerSettings {
   removeFolders: boolean;
   ignoredFrontmatter: string[];
   ignoreAllFrontmatter: boolean;
+  codeblockTypes: string[];
   deleteEmptyMarkdownFiles: boolean;
 }
 export enum ExcludeInclude {
@@ -35,6 +36,7 @@ export const DEFAULT_SETTINGS: FileCleanerSettings = {
   removeFolders: false,
   ignoredFrontmatter: [],
   ignoreAllFrontmatter: false,
+  codeblockTypes: [],
   deleteEmptyMarkdownFiles: true,
 };
 
@@ -295,6 +297,36 @@ export class FileCleanerSettingTab extends PluginSettingTab {
         });
       })
       .setDisabled(!this.plugin.settings.deleteEmptyMarkdownFiles);
+    // #endregion
+
+    // #region Codeblock parsing
+    new Setting(containerEl)
+      .setName(translate().Settings.RegularOptions.CodeblockParsing.Label)
+      .setDesc(translate().Settings.RegularOptions.CodeblockParsing.Description)
+      .addTextArea((text) => {
+        text
+          .setValue(this.plugin.settings.codeblockTypes.join(", "))
+          .onChange(async (value) => {
+            this.plugin.settings.codeblockTypes = value
+              .split(",")
+              .map((ext) => ext.trim())
+              .filter((ext) => ext.length > 1 && ext !== "");
+
+            this.plugin.saveSettings();
+          });
+        text.setPlaceholder(
+          translate().Settings.RegularOptions.CodeblockParsing.Placeholder,
+        );
+        text.inputEl.style.minWidth = "18rem";
+        text.inputEl.style.maxWidth = "18rem";
+        text.inputEl.style.minHeight = "4rem";
+        text.inputEl.style.maxHeight = "12rem";
+      })
+      .controlEl.setCssStyles(
+        this.plugin.settings.ignoreAllFrontmatter && {
+          color: "",
+        },
+      );
     // #endregion
 
     // #region Preview deleted files
