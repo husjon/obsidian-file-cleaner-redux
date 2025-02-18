@@ -16,6 +16,7 @@ import translate from "./i18n";
 import { getAdmonitionAttachments } from "./helpers/extras/admonition";
 import { Deletion } from "./enums";
 import { checkExcalidraw } from "./helpers/extras/excalidraw";
+import { getCodeblockAttachments } from "./helpers/codeblock";
 
 async function checkFile(
   app: App,
@@ -98,6 +99,13 @@ export async function runCleanup(app: App, settings: FileCleanerSettings) {
 
   if (userHasPlugin("obsidian-admonition", app))
     inUseAttachmentsInitial.push(...(await getAdmonitionAttachments(app)));
+
+  if (settings.codeblockTypes.length > 0) {
+    const codeblockLanguages = RegExp(`${settings.codeblockTypes.join("|")}`);
+    inUseAttachmentsInitial.push(
+      ...(await getCodeblockAttachments(app, codeblockLanguages)),
+    );
+  }
 
   // Deduplicated array of attachments
   const inUseAttachments = Array.from(new Set(inUseAttachmentsInitial));
