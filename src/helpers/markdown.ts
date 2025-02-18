@@ -6,8 +6,8 @@ export async function checkMarkdown(
   app: App,
   settings: FileCleanerSettings,
 ) {
-    if (file.extension !== "md") return false;
-    if (!settings.deleteEmptyMarkdownFiles) return false;
+  if (file.extension !== "md") return false;
+  if (!settings.deleteEmptyMarkdownFiles) return false;
 
   // Check if file has any backlinks
   const metadata = app.metadataCache;

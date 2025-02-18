@@ -81,8 +81,8 @@ const enUS: Locale = {
       },
 
       DeleteEmptyMarkdownFiles: {
-          Label: "Delete empty Markdown files",
-          Description: "Removes Markdown files if their size is 0",
+        Label: "Delete empty Markdown files",
+        Description: "Removes Markdown files if their size is 0",
       },
 
       RemoveFolders: {

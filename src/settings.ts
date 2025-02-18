@@ -227,21 +227,23 @@ export class FileCleanerSettingTab extends PluginSettingTab {
 
     // #region Delete empty Markdown files
     new Setting(containerEl)
-        .setName(translate().Settings.RegularOptions.DeleteEmptyMarkdownFiles.Label)
-        .setDesc(
-            translate().Settings.RegularOptions.DeleteEmptyMarkdownFiles.Description,
-        )
-        .addToggle((toggle) => {
-            toggle.setValue(this.plugin.settings.deleteEmptyMarkdownFiles);
+      .setName(
+        translate().Settings.RegularOptions.DeleteEmptyMarkdownFiles.Label,
+      )
+      .setDesc(
+        translate().Settings.RegularOptions.DeleteEmptyMarkdownFiles
+          .Description,
+      )
+      .addToggle((toggle) => {
+        toggle.setValue(this.plugin.settings.deleteEmptyMarkdownFiles);
 
-            toggle.onChange((value) => {
-                this.plugin.settings.deleteEmptyMarkdownFiles = value;
-                this.plugin.saveSettings();
-                this.display();
-            });
+        toggle.onChange((value) => {
+          this.plugin.settings.deleteEmptyMarkdownFiles = value;
+          this.plugin.saveSettings();
+          this.display();
         });
+      });
     // #endregion
-
 
     // #region Ignored frontmatter
     new Setting(containerEl)
@@ -268,7 +270,10 @@ export class FileCleanerSettingTab extends PluginSettingTab {
         text.inputEl.style.minHeight = "4rem";
         text.inputEl.style.maxHeight = "12rem";
       })
-        .setDisabled(this.plugin.settings.ignoreAllFrontmatter || !this.plugin.settings.deleteEmptyMarkdownFiles)
+      .setDisabled(
+        this.plugin.settings.ignoreAllFrontmatter ||
+          !this.plugin.settings.deleteEmptyMarkdownFiles,
+      )
       .controlEl.setCssStyles(
         this.plugin.settings.ignoreAllFrontmatter && {
           color: "",
