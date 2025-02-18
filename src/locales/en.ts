@@ -75,6 +75,16 @@ const enUS: Locale = {
         Description: "Ignores all frontmatter, including the ones set above.",
       },
 
+      CodeblockParsing: {
+        Label: "Codeblock parsing",
+        Description: `
+          List of codeblock-types that should be checked for attachments.
+          Supports regular expressions.
+          Comma-separated.
+        `,
+        Placeholder: "Example:\nad-summary, ad-.*, tabs",
+      },
+
       PreviewDeletedFiles: {
         Label: "Preview deleted files",
         Description: "Show a confirmation box with list of files to be removed",
