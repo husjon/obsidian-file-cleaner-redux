@@ -6,6 +6,9 @@ export async function getCodeblockAttachments(
 ) {
   if (!languageFilter) return [];
 
+  console.group("Codeblock attachments");
+  const indexingStart = Date.now();
+
   const files = await getCodeblocksFromMarkdownFiles(app);
 
   const attachments = files.map(({ file, codeblocks }) => {
@@ -30,6 +33,12 @@ export async function getCodeblockAttachments(
         app.metadataCache.getFirstLinkpathDest(filePath, file.path).path,
     );
   });
+
+  const duration = (Date.now() - indexingStart) / 1000;
+  console.log(
+    `Found ${attachments.length} attachments in codeblocks in ${duration}ms.`,
+  );
+  console.groupEnd();
 
   return attachments.flatMap((attachment) => [...attachment]);
 }
