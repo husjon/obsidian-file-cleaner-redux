@@ -80,6 +80,11 @@ const enUS: Locale = {
         Description: "Show a confirmation box with list of files to be removed",
       },
 
+      DeleteEmptyMarkdownFiles: {
+        Label: "Delete empty Markdown files",
+        Description: "Removes Markdown files if their size is 0",
+      },
+
       RemoveFolders: {
         Label: "Remove folders",
         Description: "Include folders in cleanup",

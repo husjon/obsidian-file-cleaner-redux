@@ -16,6 +16,7 @@ export interface FileCleanerSettings {
   removeFolders: boolean;
   ignoredFrontmatter: string[];
   ignoreAllFrontmatter: boolean;
+  deleteEmptyMarkdownFiles: boolean;
 }
 export enum ExcludeInclude {
   Exclude = Number(false),
@@ -34,6 +35,7 @@ export const DEFAULT_SETTINGS: FileCleanerSettings = {
   removeFolders: false,
   ignoredFrontmatter: [],
   ignoreAllFrontmatter: false,
+  deleteEmptyMarkdownFiles: true,
 };
 
 export class FileCleanerSettingTab extends PluginSettingTab {
@@ -223,6 +225,26 @@ export class FileCleanerSettingTab extends PluginSettingTab {
       });
     // #endregion
 
+    // #region Delete empty Markdown files
+    new Setting(containerEl)
+      .setName(
+        translate().Settings.RegularOptions.DeleteEmptyMarkdownFiles.Label,
+      )
+      .setDesc(
+        translate().Settings.RegularOptions.DeleteEmptyMarkdownFiles
+          .Description,
+      )
+      .addToggle((toggle) => {
+        toggle.setValue(this.plugin.settings.deleteEmptyMarkdownFiles);
+
+        toggle.onChange((value) => {
+          this.plugin.settings.deleteEmptyMarkdownFiles = value;
+          this.plugin.saveSettings();
+          this.display();
+        });
+      });
+    // #endregion
+
     // #region Ignored frontmatter
     new Setting(containerEl)
       .setName(translate().Settings.RegularOptions.IgnoredFrontmatter.Label)
@@ -248,7 +270,10 @@ export class FileCleanerSettingTab extends PluginSettingTab {
         text.inputEl.style.minHeight = "4rem";
         text.inputEl.style.maxHeight = "12rem";
       })
-      .setDisabled(this.plugin.settings.ignoreAllFrontmatter)
+      .setDisabled(
+        this.plugin.settings.ignoreAllFrontmatter ||
+          !this.plugin.settings.deleteEmptyMarkdownFiles,
+      )
       .controlEl.setCssStyles(
         this.plugin.settings.ignoreAllFrontmatter && {
           color: "",
@@ -268,7 +293,8 @@ export class FileCleanerSettingTab extends PluginSettingTab {
           this.plugin.saveSettings();
           this.display();
         });
-      });
+      })
+      .setDisabled(!this.plugin.settings.deleteEmptyMarkdownFiles);
     // #endregion
 
     // #region Preview deleted files
