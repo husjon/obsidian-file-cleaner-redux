@@ -21,7 +21,10 @@ function getCanvasCardAttachments(
 
   // Match attachments using Markdown syntax `![imagelabel](path_to_file)`
   for (const match of canvasNode.text.matchAll(/[!]\[.*?\]\((.*?)\)/g)) {
-    matchedFiles.push(match[1]);
+    matchedFiles.push(
+      // markdown link uses URL encoding for links (%20 is a space)
+      match[1].replace(/%20/gi, " "),
+    );
   }
 
   const files = matchedFiles.map((filePath) => {
