@@ -14,12 +14,12 @@ function getCanvasCardAttachments(
 ) {
   const matchedFiles = [];
 
-  // Match attachments using the syntax `![[path_to_file|imagelabel]]`
+  // Match attachments using Wikilink syntax `![[path_to_file|imagelabel]]`
   for (const match of canvasNode.text.matchAll(/[!]?\[\[(.*?)\]\]/g)) {
     matchedFiles.push(match[1].split("|")[0]); // strip of the label
   }
 
-  // Match attachments using the syntax `![imagelabel](path_to_file)`
+  // Match attachments using Markdown syntax `![imagelabel](path_to_file)`
   for (const match of canvasNode.text.matchAll(/[!]\[.*?\]\((.*?)\)/g)) {
     matchedFiles.push(match[1]);
   }
