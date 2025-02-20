@@ -14,6 +14,8 @@ export function DeletionConfirmationModal({
   files: filesAndFolders,
   settings,
 }: DeletionConfirmationModalProps) {
+  const filesAndFoldersToRemove = [...filesAndFolders];
+
   const modal = new ConfirmationModal(
     app,
     translate().Modals.DeletionConfirmation.Title,
@@ -21,7 +23,7 @@ export function DeletionConfirmationModal({
       text: translate().Modals.DeletionConfirmation.Text,
     }),
     async () => {
-      await removeFiles(filesAndFolders, app, settings);
+      await removeFiles(filesAndFoldersToRemove, app, settings);
     },
   );
 
