@@ -27,6 +27,8 @@ export function DeletionConfirmationModal({
     },
   );
 
+  function updatedFilesAndFoldersToRemove(path: string, isSelected: boolean) {}
+
   const container = modal.content.createDiv();
 
   container.setCssStyles({
@@ -43,6 +45,15 @@ export function DeletionConfirmationModal({
     const ulFiles = container.createEl("ul");
     files.map((file: TFile) => {
       const li = ulFiles.createEl("li");
+      const checkbox = li.createEl("input", {
+        type: "checkbox",
+        value: file.path,
+      });
+      checkbox.checked = filesAndFoldersToRemove.contains(file);
+      checkbox.onClickEvent((e) => {
+        updatedFilesAndFoldersToRemove(file.path, checkbox.checked);
+      });
+
       li.createEl("a", { text: file.path });
       li.onClickEvent(async () => {
         const leaf = app.workspace.getLeaf();
@@ -59,6 +70,15 @@ export function DeletionConfirmationModal({
     const ulFolders = container.createEl("ul");
     folders.map((file) => {
       const li = ulFolders.createEl("li");
+      const checkbox = li.createEl("input", {
+        type: "checkbox",
+        value: file.path,
+      });
+      checkbox.checked = filesAndFoldersToRemove.contains(file);
+      checkbox.onClickEvent((e) => {
+        updatedFilesAndFoldersToRemove(file.path, checkbox.checked);
+      });
+
       li.createEl("a", { text: file.path });
     });
   }
