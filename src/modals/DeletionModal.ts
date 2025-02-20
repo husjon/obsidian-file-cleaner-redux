@@ -27,7 +27,37 @@ export function DeletionConfirmationModal({
     },
   );
 
-  function updatedFilesAndFoldersToRemove(path: string, isSelected: boolean) {}
+  function updatedFilesAndFoldersToRemove(path: string, isSelected: boolean) {
+    const files = filesAndFolders.filter((file) =>
+      Object.keys(file).contains("extension"),
+    ) as TFile[];
+    const folders = filesAndFolders.filter(
+      (folder) => !Object.keys(folder).contains("extension"),
+    ) as TFolder[];
+
+    const targetFile = files.filter((file) => file.path === path).pop();
+    const targetFolder = folders.filter((folder) => folder.path === path).pop();
+
+    if (isSelected) {
+      if (targetFile)
+        updatedFilesAndFoldersToRemove(targetFile.parent.path, isSelected);
+      else
+        targetFolder.children.forEach((child) =>
+          filesAndFoldersToRemove.push(child),
+        );
+
+      filesAndFoldersToRemove.push(targetFile || targetFolder);
+    } else {
+      if (targetFile)
+        updatedFilesAndFoldersToRemove(targetFile.parent.path, isSelected);
+      else
+        targetFolder.children.forEach((child) =>
+          filesAndFoldersToRemove.remove(child),
+        );
+
+      filesAndFoldersToRemove.remove(targetFile || targetFolder);
+    }
+  }
 
   const container = modal.content.createDiv();
 
