@@ -88,6 +88,7 @@ async function cleanTrashFolder(app: App, settings: FileCleanerSettings) {
 }
 
 export async function runCleanup(app: App, settings: FileCleanerSettings) {
+  console.clear();
   const indexingStart = Date.now();
   console.group("File Cleaner Redux");
   console.log(`Starting cleanup`);
