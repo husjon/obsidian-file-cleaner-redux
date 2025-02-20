@@ -11,7 +11,7 @@ import {
 import { getFolders } from "./helpers/helpers";
 import { checkMarkdown } from "./helpers/markdown";
 import { checkCanvas, getCanvasAttachments } from "./helpers/canvas";
-import { DeletionConfirmationModal } from "./modals";
+import { DeletionConfirmationModal } from "./modals/DeletionModal";
 import translate from "./i18n";
 import { getAdmonitionAttachments } from "./helpers/extras/admonition";
 import { Deletion } from "./enums";
