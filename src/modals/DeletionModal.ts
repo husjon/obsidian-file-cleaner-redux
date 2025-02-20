@@ -57,61 +57,69 @@ export function DeletionConfirmationModal({
 
       filesAndFoldersToRemove.remove(targetFile || targetFolder);
     }
+
+    renderContainer();
   }
 
   const container = modal.content.createDiv();
 
-  container.setCssStyles({
-    marginTop: "0.5rem",
-    maxHeight: "50vh",
-    overflowY: "auto",
-  });
+  function renderContainer() {
+    container.empty();
 
-  const files = filesAndFolders.filter((file) => file instanceof TFile);
-  if (files.length > 0) {
-    container.createEl("p", {
-      text: translate().Modals.DeletionConfirmation.Files + ":",
+    container.setCssStyles({
+      marginTop: "0.5rem",
+      maxHeight: "50vh",
+      overflowY: "auto",
     });
-    const ulFiles = container.createEl("ul");
-    files.map((file: TFile) => {
-      const li = ulFiles.createEl("li");
-      const checkbox = li.createEl("input", {
-        type: "checkbox",
-        value: file.path,
-      });
-      checkbox.checked = filesAndFoldersToRemove.contains(file);
-      checkbox.onClickEvent((e) => {
-        updatedFilesAndFoldersToRemove(file.path, checkbox.checked);
-      });
 
-      li.createEl("a", { text: file.path });
-      li.onClickEvent(async () => {
-        const leaf = app.workspace.getLeaf();
-        leaf.openFile(file);
+    const files = filesAndFolders.filter((file) => file instanceof TFile);
+    if (files.length > 0) {
+      container.createEl("p", {
+        text: translate().Modals.DeletionConfirmation.Files + ":",
       });
-    });
+      const ulFiles = container.createEl("ul");
+      files.map((file: TFile) => {
+        const li = ulFiles.createEl("li");
+        const checkbox = li.createEl("input", {
+          type: "checkbox",
+          value: file.path,
+        });
+        checkbox.checked = filesAndFoldersToRemove.contains(file);
+        checkbox.onClickEvent((e) => {
+          updatedFilesAndFoldersToRemove(file.path, checkbox.checked);
+        });
+
+        li.createEl("a", { text: file.path });
+        li.onClickEvent(async () => {
+          const leaf = app.workspace.getLeaf();
+          leaf.openFile(file);
+        });
+      });
+    }
+
+    const folders = filesAndFolders.filter((file) => file instanceof TFolder);
+    if (folders.length > 0) {
+      container.createEl("p", {
+        text: translate().Modals.DeletionConfirmation.Folders + ":",
+      });
+      const ulFolders = container.createEl("ul");
+      folders.map((file) => {
+        const li = ulFolders.createEl("li");
+        const checkbox = li.createEl("input", {
+          type: "checkbox",
+          value: file.path,
+        });
+        checkbox.checked = filesAndFoldersToRemove.contains(file);
+        checkbox.onClickEvent((e) => {
+          updatedFilesAndFoldersToRemove(file.path, checkbox.checked);
+        });
+
+        li.createEl("a", { text: file.path });
+      });
+    }
   }
 
-  const folders = filesAndFolders.filter((file) => file instanceof TFolder);
-  if (folders.length > 0) {
-    container.createEl("p", {
-      text: translate().Modals.DeletionConfirmation.Folders + ":",
-    });
-    const ulFolders = container.createEl("ul");
-    folders.map((file) => {
-      const li = ulFolders.createEl("li");
-      const checkbox = li.createEl("input", {
-        type: "checkbox",
-        value: file.path,
-      });
-      checkbox.checked = filesAndFoldersToRemove.contains(file);
-      checkbox.onClickEvent((e) => {
-        updatedFilesAndFoldersToRemove(file.path, checkbox.checked);
-      });
-
-      li.createEl("a", { text: file.path });
-    });
-  }
+  renderContainer();
 
   modal.open();
 }
