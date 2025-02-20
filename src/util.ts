@@ -174,9 +174,7 @@ export async function runCleanup(app: App, settings: FileCleanerSettings) {
       DeletionConfirmationModal({
         app,
         files: filesAndFolders,
-        onConfirm: async () => {
-          await removeFiles(filesAndFolders, app, settings);
-        },
+        settings,
       });
     }
 

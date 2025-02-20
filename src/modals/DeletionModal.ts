@@ -1,16 +1,18 @@
 import { App, TAbstractFile, TFile, TFolder } from "obsidian";
+import { removeFiles } from "src/helpers/helpers";
 import translate from "src/i18n";
 import { ConfirmationModal } from "src/modals";
+import { FileCleanerSettings } from "src/settings";
 
 interface DeletionConfirmationModalProps {
   app: App;
   files: TAbstractFile[];
-  onConfirm?: () => void;
+  settings: FileCleanerSettings;
 }
 export function DeletionConfirmationModal({
   app,
   files: filesAndFolders,
-  onConfirm,
+  settings,
 }: DeletionConfirmationModalProps) {
   const modal = new ConfirmationModal(
     app,
@@ -18,7 +20,9 @@ export function DeletionConfirmationModal({
     createEl("p", {
       text: translate().Modals.DeletionConfirmation.Text,
     }),
-    onConfirm,
+    async () => {
+      await removeFiles(filesAndFolders, app, settings);
+    },
   );
 
   const container = modal.content.createDiv();
