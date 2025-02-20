@@ -29,6 +29,12 @@ export default class FileCleanerPlugin extends Plugin {
     this.addSettingTab(new FileCleanerSettingTab(this.app, this));
 
     setTimeout(() => {
+      try {
+        const el: HTMLElement = document.querySelector(
+          "body > div.modal-container.mod-dim > div.modal > div.modal-content > div:nth-child(2) > button:nth-child(2)",
+        );
+        el.click();
+      } catch {}
       if (this.settings.runOnStartup) runCleanup(this.app, this.settings);
     }, 1000);
   }
