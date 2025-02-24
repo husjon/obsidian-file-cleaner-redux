@@ -74,9 +74,15 @@ export async function getCanvasAttachments(app: App) {
       }),
   );
 
-  return canvasAttachmentsInitial
-    .filter((f) => f.length > 0)
-    .reduce((prev, cur) => [...prev, ...cur], []);
+  return (
+    canvasAttachmentsInitial
+      // filter out undefined (falsely reported files)
+      // this can happen for example if a canvas node uses template strings that is prefixed with attachment-style syntax.
+      // e.g. prefixed with Wikilink-style `[[` and `![[` or Markdown-style `![`
+      .filter((f) => f)
+      .filter((f) => f.length > 0)
+      .reduce((prev, cur) => [...prev, ...cur], [])
+  );
 }
 
 export async function checkCanvas(file: TFile, app: App) {
