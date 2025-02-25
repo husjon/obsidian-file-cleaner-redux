@@ -28,7 +28,11 @@ function getCanvasCardAttachments(
   }
 
   const files = matchedFiles.map((filePath) => {
-    return app.metadataCache.getFirstLinkpathDest(filePath, canvas.path).path;
+    const fileLink = app.metadataCache.getFirstLinkpathDest(
+      filePath,
+      canvas.path,
+    );
+    if (fileLink) return fileLink.path;
   });
 
   return files;
