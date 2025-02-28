@@ -28,10 +28,13 @@ export async function getCodeblockAttachments(
       }
     });
 
-    return foundAttachments.map(
-      (filePath) =>
-        app.metadataCache.getFirstLinkpathDest(filePath, file.path).path,
-    );
+    return foundAttachments.map((filePath) => {
+      const fileLink = app.metadataCache.getFirstLinkpathDest(
+        filePath,
+        file.path,
+      );
+      if (fileLink) return fileLink.path;
+    });
   });
 
   const duration = (Date.now() - indexingStart) / 1000;
