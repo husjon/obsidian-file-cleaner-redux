@@ -59,6 +59,12 @@ export interface Locale {
         Description: string;
       };
 
+      CodeblockParsing: {
+        Label: string;
+        Description: string;
+        Placeholder: string;
+      };
+
       PreviewDeletedFiles: {
         Label: string;
         Description: string;
