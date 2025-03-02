@@ -15,7 +15,7 @@ export async function getCodeblockAttachments(
     const foundAttachments: string[] = [];
 
     codeblocks.forEach((block) => {
-      if (!block.language.match(languageFilter)) return;
+      if (!block || !block.language.match(languageFilter)) return;
 
       // Match attachments using the syntax `![[path_to_file|imagelabel]]`
       for (const match of block.content.matchAll(/[!]?\[\[(.*?)\]\]/g)) {
@@ -109,7 +109,7 @@ function parseCodeblock(codeblock: string): CodeBlock | null {
    *   ```
    */
 
-  if (!codeblock.matchAll(/^[`~]{3,}.*?[`~]{3,}$/g)) return null;
+  if (!codeblock.match(/^[`~]{3,}.*?[`~]{3,}$/g)) return null;
 
   const fenceType = codeblock[0];
 
