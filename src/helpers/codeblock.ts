@@ -109,13 +109,13 @@ function parseCodeblock(codeblock: string): CodeBlock | null {
    *   ```
    */
 
-  if (!codeblock.match(/^[`~]{3,}.*?[`~]{3,}$/g)) return null;
+  const fence = codeblock.match(/^[`~]{3,}/g);
 
-  const fenceType = codeblock[0];
+  if (!fence) return null;
 
   const content = codeblock
-    .replace(RegExp(`^${fenceType}+`), "") //  strip of the code block fence at the beginning
-    .replace(RegExp(`${fenceType}+$`), ""); // strip of the code block fence at the end
+    .replace(RegExp(`^${fence}+`), "") //  strip of the code block fence at the beginning
+    .replace(RegExp(`${fence}+$`), ""); // strip of the code block fence at the end
 
   const language = content.split(/[\r\n]+/)[0];
 
