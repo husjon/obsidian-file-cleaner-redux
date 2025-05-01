@@ -18,6 +18,7 @@ export interface FileCleanerSettings {
   ignoreAllFrontmatter: boolean;
   codeblockTypes: string[];
   deleteEmptyMarkdownFiles: boolean;
+  fileAgeThreshold: number;
 }
 export enum ExcludeInclude {
   Exclude = Number(false),
@@ -38,6 +39,7 @@ export const DEFAULT_SETTINGS: FileCleanerSettings = {
   ignoreAllFrontmatter: false,
   codeblockTypes: [],
   deleteEmptyMarkdownFiles: true,
+  fileAgeThreshold: 0,
 };
 
 export class FileCleanerSettingTab extends PluginSettingTab {
@@ -327,6 +329,26 @@ export class FileCleanerSettingTab extends PluginSettingTab {
           color: "",
         },
       );
+    // #endregion
+
+    // #region Preview deleted files
+    new Setting(containerEl)
+      .setName(translate().Settings.RegularOptions.FileAgeThreshold.Label)
+      .setDesc(translate().Settings.RegularOptions.FileAgeThreshold.Description)
+      .addText((text) => {
+        text.setPlaceholder("0");
+
+        if (this.plugin.settings.fileAgeThreshold > 0)
+          text.setValue(String(this.plugin.settings.fileAgeThreshold));
+
+        text.onChange((value) => {
+          const newAge = Number(value.trim());
+          if (newAge >= 0) {
+            this.plugin.settings.fileAgeThreshold = newAge;
+            this.plugin.saveSettings();
+          }
+        });
+      });
     // #endregion
 
     // #region Preview deleted files

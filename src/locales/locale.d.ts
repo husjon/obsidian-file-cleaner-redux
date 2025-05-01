@@ -65,6 +65,11 @@ export interface Locale {
         Placeholder: string;
       };
 
+      FileAgeThreshold: {
+        Label: string;
+        Description: string;
+      };
+
       PreviewDeletedFiles: {
         Label: string;
         Description: string;

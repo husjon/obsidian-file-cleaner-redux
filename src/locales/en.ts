@@ -85,6 +85,12 @@ const enUS: Locale = {
         Placeholder: "Example:\nad-summary, ad-.*, tabs",
       },
 
+      FileAgeThreshold: {
+        Label: "File age threshold",
+        Description:
+          "Only files and folders over the specified threshold will be cleaned up (in number of days)",
+      },
+
       PreviewDeletedFiles: {
         Label: "Preview deleted files",
         Description: "Show a confirmation box with list of files to be removed",
