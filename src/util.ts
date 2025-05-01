@@ -24,6 +24,13 @@ async function checkFile(
   file: TFile,
   extensions: RegExp,
 ) {
+  const NOW = Date.now();
+  const ageThreshold = settings.fileAgeThreshold * 24 * 60 * 60 * 1000;
+  const fileAge = file.stat.mtime;
+
+  // Files that have not yet hit the threshold (if it's set) will be skipped
+  if (ageThreshold > 0 && fileAge > NOW - ageThreshold) return false;
+
   if (file.extension === "md") {
     if (
       userHasPlugin("obsidian-excalidraw-plugin", app) &&
