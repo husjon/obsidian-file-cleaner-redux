@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { File, FolderOpen } from "lucide-svelte";
   import { TFolder, type App, type TAbstractFile, type TFile } from "obsidian";
   import { removeFiles } from "src/helpers/helpers";
   import translate from "src/i18n";
@@ -56,7 +57,15 @@
         onclick={() =>
           !toBeDeleted.includes(file) ? addEntry(file) : removeEntry(file)}
       />
-      <label for={file.path}>
+      <label
+        for={file.path}
+        style={!toBeDeleted.includes(file) && "opacity:0.6"}
+      >
+        {#if isFolder(file)}
+          <FolderOpen size="1em" />
+        {:else}
+          <File size="1em" />
+        {/if}
         {file.path}
       </label>
     </li>
