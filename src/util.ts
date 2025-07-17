@@ -11,7 +11,7 @@ import {
 import { getFolders } from "./helpers/helpers";
 import { checkMarkdown } from "./helpers/markdown";
 import { checkCanvas, getCanvasAttachments } from "./helpers/canvas";
-import { DeletionConfirmationModal } from "./modals";
+import { DeletionConfirmationModal } from "./modals/DeletionConfirmationModal";
 import translate from "./i18n";
 import { getAdmonitionAttachments } from "./helpers/extras/admonition";
 import { Deletion } from "./enums";
@@ -185,12 +185,10 @@ export async function runCleanup(app: App, settings: FileCleanerSettings) {
     if (!settings.deletionConfirmation)
       await removeFiles(filesAndFolders, app, settings);
     else {
-      DeletionConfirmationModal({
+      new DeletionConfirmationModal({
         app,
-        files: filesAndFolders,
-        onConfirm: async () => {
-          await removeFiles(filesAndFolders, app, settings);
-        },
+        filesAndFolders,
+        settings,
       });
     }
 
