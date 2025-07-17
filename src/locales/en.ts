@@ -130,7 +130,7 @@ const enUS: Locale = {
     },
     DeletionConfirmation: {
       Title: "Deletion confirmation",
-      Text: "The following will be deleted",
+      Text: "Selected files and folders will be removed, uncheck any files that you'd wish to keep.",
 
       Files: "Files",
       Folders: "Folders",
