@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { File, FolderOpen } from "lucide-svelte";
+  import { ExternalLink, File, FolderOpen } from "lucide-svelte";
   import { TFolder, type App, type TAbstractFile, type TFile } from "obsidian";
   import { removeFiles } from "src/helpers/helpers";
   import translate from "src/i18n";
@@ -67,6 +67,18 @@
           <File size="1em" />
         {/if}
         {file.path}
+        <span
+          class="clickable-icon"
+          style="cursor:pointer; display: inline-block"
+          onclick={(e) => {
+            e.preventDefault();
+
+            const leaf = app.workspace.getLeaf();
+            leaf.openFile(file as TFile);
+          }}
+        >
+          <ExternalLink size="1em" />
+        </span>
       </label>
     </li>
   {/each}
