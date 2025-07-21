@@ -1,4 +1,4 @@
-import { Locale } from "./locale";
+import type { Locale } from "./locale";
 import enUS from "./en";
 
 //Simplified Chinese - 简体中文

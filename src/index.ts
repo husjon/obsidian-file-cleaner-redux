@@ -1,6 +1,6 @@
 import { Plugin } from "obsidian";
 import {
-  FileCleanerSettings,
+  type FileCleanerSettings,
   DEFAULT_SETTINGS,
   FileCleanerSettingTab,
 } from "./settings";

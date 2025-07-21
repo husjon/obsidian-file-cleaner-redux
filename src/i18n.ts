@@ -1,7 +1,7 @@
 import * as moment from "moment";
 import enUS from "./locales/en";
 import zhCN from "./locales/zh-cn";
-import { Locale } from "./locales/locale";
+import type { Locale } from "./locales/locale";
 
 interface LOCALE {
   [locale: string]: Locale;

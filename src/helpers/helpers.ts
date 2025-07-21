@@ -1,5 +1,5 @@
 import { App, Notice, TAbstractFile, TFile, TFolder } from "obsidian";
-import { FileCleanerSettings } from "../settings";
+import { type FileCleanerSettings } from "../settings";
 import { Deletion } from "../enums";
 import translate from "../i18n";
 

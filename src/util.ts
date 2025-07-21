@@ -1,5 +1,5 @@
 import { App, Notice, TAbstractFile, TFile, TFolder } from "obsidian";
-import { ExcludeInclude, FileCleanerSettings } from "./settings";
+import { ExcludeInclude, type FileCleanerSettings } from "./settings";
 import {
   getExtensions,
   getFilesInFolder,
