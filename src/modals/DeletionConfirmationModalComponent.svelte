@@ -61,11 +61,13 @@
         for={file.path}
         style={!toBeDeleted.includes(file) && "opacity:0.6"}
       >
-        {#if isFolder(file)}
-          <FolderOpen size="1em" />
-        {:else}
-          <File size="1em" />
-        {/if}
+        <span style="vertical-align: middle;">
+          {#if isFolder(file)}
+            <FolderOpen size="1em" />
+          {:else}
+            <File size="1em" />
+          {/if}
+        </span>
         {file.path}
         <span
           class="clickable-icon"
