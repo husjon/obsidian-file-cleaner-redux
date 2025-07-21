@@ -69,7 +69,7 @@
           {/if}
         </span>
         {file.path}
-        <span
+        <button
           class="clickable-icon"
           style="cursor:pointer; display: inline-block"
           onclick={(e) => {
@@ -80,7 +80,7 @@
           }}
         >
           <ExternalLink size="1em" />
-        </span>
+        </button>
       </label>
     </li>
   {/each}
