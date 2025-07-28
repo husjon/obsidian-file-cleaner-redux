@@ -204,5 +204,7 @@ export async function runCleanup(app: App, settings: FileCleanerSettings) {
   if (settings.deletionDestination === Deletion.ObsidianTrash)
     cleanTrashFolder(app, settings);
 
+  if (settings.closeNewTabs) app.workspace.detachLeavesOfType("empty");
+
   console.groupEnd();
 }
