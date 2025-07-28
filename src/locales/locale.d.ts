@@ -65,6 +65,11 @@ export interface Locale {
         Placeholder: string;
       };
 
+      CloseNewTabs: {
+        Label: string;
+        Description: string;
+      };
+
       FileAgeThreshold: {
         Label: string;
         Description: string;

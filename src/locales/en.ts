@@ -85,6 +85,11 @@ const enUS: Locale = {
         Placeholder: "Example:\nad-summary, ad-.*, tabs",
       },
 
+      CloseNewTabs: {
+        Label: "Close new tabs",
+        Description: "Close leftover New tabs",
+      },
+
       FileAgeThreshold: {
         Label: "File age threshold",
         Description:
