@@ -331,7 +331,7 @@ export class FileCleanerSettingTab extends PluginSettingTab {
       );
     // #endregion
 
-    // #region Preview deleted files
+    // #region File age threshold
     new Setting(containerEl)
       .setName(translate().Settings.RegularOptions.FileAgeThreshold.Label)
       .setDesc(translate().Settings.RegularOptions.FileAgeThreshold.Description)
