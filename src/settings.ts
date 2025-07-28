@@ -19,6 +19,7 @@ export interface FileCleanerSettings {
   codeblockTypes: string[];
   deleteEmptyMarkdownFiles: boolean;
   fileAgeThreshold: number;
+  closeNewTabs: boolean;
 }
 export enum ExcludeInclude {
   Exclude = Number(false),
@@ -40,6 +41,7 @@ export const DEFAULT_SETTINGS: FileCleanerSettings = {
   codeblockTypes: [],
   deleteEmptyMarkdownFiles: true,
   fileAgeThreshold: 0,
+  closeNewTabs: false,
 };
 
 export class FileCleanerSettingTab extends PluginSettingTab {
@@ -347,6 +349,20 @@ export class FileCleanerSettingTab extends PluginSettingTab {
             this.plugin.settings.fileAgeThreshold = newAge;
             this.plugin.saveSettings();
           }
+        });
+      });
+    // #endregion
+
+    // #region Close new tabs
+    new Setting(containerEl)
+      .setName(translate().Settings.RegularOptions.CloseNewTabs.Label)
+      .setDesc(translate().Settings.RegularOptions.CloseNewTabs.Description)
+      .addToggle((toggle) => {
+        toggle.setValue(this.plugin.settings.closeNewTabs);
+
+        toggle.onChange((value) => {
+          this.plugin.settings.closeNewTabs = value;
+          this.plugin.saveSettings();
         });
       });
     // #endregion
