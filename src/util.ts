@@ -41,13 +41,13 @@ async function checkFile(
     return await checkMarkdown(file, app, settings);
   } else if (file.extension === "canvas") {
     return await checkCanvas(file, app);
-  } else if (settings.attachmentsExcludeInclude === ExcludeInclude.Include) {
+  }
+
+  if (settings.attachmentsExcludeInclude === ExcludeInclude.Include) {
     return file.extension.match(extensions);
   } else if (settings.attachmentsExcludeInclude === ExcludeInclude.Exclude) {
     return !file.extension.match(extensions);
   }
-
-  return false;
 }
 
 function isFolderExcluded(folder: TFolder, settings: FileCleanerSettings) {
