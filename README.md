@@ -22,8 +22,6 @@ Based on https://github.com/Johnson0907/obsidian-file-cleaner
   - Excalidraw (as of v1.3.0)
     Note: This does require JSON compression in Excalidraw to be turned off.
     This can be done in Excalidraw Setting > Saving > Compress Excalidraw JSON in Markdown
-  - Meld Encrypt (as of v1.9.0)
-    Note: File Cleaner Redux cannot parse these encrypted files or inline blobs and can therefore not find file links or references.
 
 ### How to use the plugin
 
