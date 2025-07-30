@@ -43,11 +43,6 @@ async function checkFile(
     return await checkCanvas(file, app);
   }
 
-  // Explicit plugin support
-  if (userHasPlugin("meld-encrypt", app) && file.extension === "mdenc") {
-    return false;
-  }
-
   if (settings.attachmentsExcludeInclude === ExcludeInclude.Include) {
     return file.extension.match(extensions);
   } else if (settings.attachmentsExcludeInclude === ExcludeInclude.Exclude) {
