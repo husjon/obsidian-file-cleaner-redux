@@ -18,6 +18,7 @@ export interface FileCleanerSettings {
   ignoreAllFrontmatter: boolean;
   codeblockTypes: string[];
   deleteEmptyMarkdownFiles: boolean;
+  deleteEmptyMarkdownFilesWithBacklinks: boolean;
   fileAgeThreshold: number;
   closeNewTabs: boolean;
 }
@@ -40,6 +41,7 @@ export const DEFAULT_SETTINGS: FileCleanerSettings = {
   ignoreAllFrontmatter: false,
   codeblockTypes: [],
   deleteEmptyMarkdownFiles: true,
+  deleteEmptyMarkdownFilesWithBacklinks: false,
   fileAgeThreshold: 0,
   closeNewTabs: false,
 };
@@ -249,6 +251,30 @@ export class FileCleanerSettingTab extends PluginSettingTab {
           this.display();
         });
       });
+    // #endregion
+
+    // #region Delete empty Markdown files
+    this.plugin.settings.deleteEmptyMarkdownFiles &&
+      new Setting(containerEl)
+        .setName(
+          translate().Settings.RegularOptions
+            .DeleteEmptyMarkdownFilesWithBacklinks.Label,
+        )
+        .setDesc(
+          translate().Settings.RegularOptions
+            .DeleteEmptyMarkdownFilesWithBacklinks.Description,
+        )
+        .addToggle((toggle) => {
+          toggle.setValue(
+            this.plugin.settings.deleteEmptyMarkdownFilesWithBacklinks,
+          );
+
+          toggle.onChange((value) => {
+            this.plugin.settings.deleteEmptyMarkdownFilesWithBacklinks = value;
+            this.plugin.saveSettings();
+            this.display();
+          });
+        });
     // #endregion
 
     // #region Ignored frontmatter
