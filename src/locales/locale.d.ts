@@ -85,6 +85,11 @@ export interface Locale {
         Description: string;
       };
 
+      DeleteEmptyMarkdownFilesWithBacklinks: {
+        Label: string;
+        Description: string;
+      };
+
       RemoveFolders: {
         Label: string;
         Description: string;
