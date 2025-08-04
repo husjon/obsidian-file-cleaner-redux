@@ -106,6 +106,12 @@ const enUS: Locale = {
         Description: "Removes Markdown files if their size is 0",
       },
 
+      DeleteEmptyMarkdownFilesWithBacklinks: {
+        Label: "Delete empty Markdown files with backlinks",
+        Description:
+          "Removes empty Markdown files even if they are linked to by other files.",
+      },
+
       RemoveFolders: {
         Label: "Remove folders",
         Description: "Include folders in cleanup",

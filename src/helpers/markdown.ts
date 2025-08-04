@@ -16,7 +16,11 @@ export async function checkMarkdown(
     String,
     Array<any>
   >;
-  if (links.size > 0) return false;
+  if (
+    links.size > 0 &&
+    settings.deleteEmptyMarkdownFilesWithBacklinks === false
+  )
+    return false;
 
   // Checks for filesize to be literally 0 bytes
   if (file.stat.size === 0) return true;
