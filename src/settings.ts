@@ -132,6 +132,18 @@ export class FileCleanerSettingTab extends PluginSettingTab {
     });
 
     new Setting(containerEl)
+      .setName(translate().Settings.RegularOptions.RemoveFolders.Label)
+      .setDesc(translate().Settings.RegularOptions.RemoveFolders.Description)
+      .addToggle((toggle) => {
+        toggle.setValue(this.plugin.settings.removeFolders);
+
+        toggle.onChange((value) => {
+          this.plugin.settings.removeFolders = value;
+          this.plugin.saveSettings();
+        });
+      });
+
+    new Setting(containerEl)
       .setName(translate().Settings.RegularOptions.FolderFiltering.Label)
       .setDesc(translate().Settings.RegularOptions.FolderFiltering.Description)
       .addToggle((toggle) => {
@@ -240,6 +252,30 @@ export class FileCleanerSettingTab extends PluginSettingTab {
         text.inputEl.style.maxHeight = "8rem";
       });
     // #endregion
+
+    // #region File age threshold
+    new Setting(containerEl)
+      .setName(translate().Settings.RegularOptions.FileAgeThreshold.Label)
+      .setDesc(translate().Settings.RegularOptions.FileAgeThreshold.Description)
+      .addText((text) => {
+        text.setPlaceholder("0");
+
+        if (this.plugin.settings.fileAgeThreshold > 0)
+          text.setValue(String(this.plugin.settings.fileAgeThreshold));
+
+        text.onChange((value) => {
+          const newAge = Number(value.trim());
+          if (newAge >= 0) {
+            this.plugin.settings.fileAgeThreshold = newAge;
+            this.plugin.saveSettings();
+          }
+        });
+      });
+    // #endregion
+
+    this.containerEl.createEl("h4", {
+      text: "Markdown files",
+    });
 
     // #region Delete empty Markdown files
     new Setting(containerEl)
@@ -367,26 +403,6 @@ export class FileCleanerSettingTab extends PluginSettingTab {
       );
     // #endregion
 
-    // #region File age threshold
-    new Setting(containerEl)
-      .setName(translate().Settings.RegularOptions.FileAgeThreshold.Label)
-      .setDesc(translate().Settings.RegularOptions.FileAgeThreshold.Description)
-      .addText((text) => {
-        text.setPlaceholder("0");
-
-        if (this.plugin.settings.fileAgeThreshold > 0)
-          text.setValue(String(this.plugin.settings.fileAgeThreshold));
-
-        text.onChange((value) => {
-          const newAge = Number(value.trim());
-          if (newAge >= 0) {
-            this.plugin.settings.fileAgeThreshold = newAge;
-            this.plugin.saveSettings();
-          }
-        });
-      });
-    // #endregion
-
     // #region Close new tabs
     this.containerEl.createEl("h3", {
       text: "Other",
@@ -416,20 +432,6 @@ export class FileCleanerSettingTab extends PluginSettingTab {
 
         toggle.onChange((value) => {
           this.plugin.settings.deletionConfirmation = value;
-          this.plugin.saveSettings();
-        });
-      });
-    // #endregion
-
-    // #region Remove folders
-    new Setting(containerEl)
-      .setName(translate().Settings.RegularOptions.RemoveFolders.Label)
-      .setDesc(translate().Settings.RegularOptions.RemoveFolders.Description)
-      .addToggle((toggle) => {
-        toggle.setValue(this.plugin.settings.removeFolders);
-
-        toggle.onChange((value) => {
-          this.plugin.settings.removeFolders = value;
           this.plugin.saveSettings();
         });
       });
