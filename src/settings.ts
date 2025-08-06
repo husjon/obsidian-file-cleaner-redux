@@ -188,6 +188,18 @@ export class FileCleanerSettingTab extends PluginSettingTab {
         text.inputEl.style.minHeight = "8rem";
         text.inputEl.style.maxHeight = "16rem";
       });
+
+    new Setting(containerEl)
+      .setName(translate().Settings.RegularOptions.RemoveFolders.Label)
+      .setDesc(translate().Settings.RegularOptions.RemoveFolders.Description)
+      .addToggle((toggle) => {
+        toggle.setValue(this.plugin.settings.removeFolders);
+
+        toggle.onChange((value) => {
+          this.plugin.settings.removeFolders = value;
+          this.plugin.saveSettings();
+        });
+      });
     // #endregion
 
     this.containerEl.createEl("h3", {
