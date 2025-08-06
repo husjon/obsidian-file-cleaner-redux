@@ -32,6 +32,11 @@ export interface Locale {
         Description: string;
       };
 
+      RemoveFolders: {
+        Label: string;
+        Description: string;
+      };
+
       Attachments: {
         Excluded: {
           Label: string;
@@ -44,6 +49,21 @@ export interface Locale {
           Placeholder: string;
         };
 
+        Label: string;
+        Description: string;
+      };
+
+      FileAgeThreshold: {
+        Label: string;
+        Description: string;
+      };
+
+      DeleteEmptyMarkdownFiles: {
+        Label: string;
+        Description: string;
+      };
+
+      DeleteEmptyMarkdownFilesWithBacklinks: {
         Label: string;
         Description: string;
       };
@@ -70,27 +90,7 @@ export interface Locale {
         Description: string;
       };
 
-      FileAgeThreshold: {
-        Label: string;
-        Description: string;
-      };
-
       PreviewDeletedFiles: {
-        Label: string;
-        Description: string;
-      };
-
-      DeleteEmptyMarkdownFiles: {
-        Label: string;
-        Description: string;
-      };
-
-      DeleteEmptyMarkdownFilesWithBacklinks: {
-        Label: string;
-        Description: string;
-      };
-
-      RemoveFolders: {
         Label: string;
         Description: string;
       };
