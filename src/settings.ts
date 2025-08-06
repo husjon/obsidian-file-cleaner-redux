@@ -127,6 +127,10 @@ export class FileCleanerSettingTab extends PluginSettingTab {
     // #endregion
 
     // #region Folder inclusion / exclusion
+    this.containerEl.createEl("h3", {
+      text: "Folders",
+    });
+
     new Setting(containerEl)
       .setName(translate().Settings.RegularOptions.FolderFiltering.Label)
       .setDesc(translate().Settings.RegularOptions.FolderFiltering.Description)
@@ -173,6 +177,10 @@ export class FileCleanerSettingTab extends PluginSettingTab {
         text.inputEl.style.maxHeight = "16rem";
       });
     // #endregion
+
+    this.containerEl.createEl("h3", {
+      text: "Files",
+    });
 
     // #region Extension inclusion / exclusion
     new Setting(containerEl)
@@ -380,6 +388,10 @@ export class FileCleanerSettingTab extends PluginSettingTab {
     // #endregion
 
     // #region Close new tabs
+    this.containerEl.createEl("h3", {
+      text: "Other",
+    });
+
     new Setting(containerEl)
       .setName(translate().Settings.RegularOptions.CloseNewTabs.Label)
       .setDesc(translate().Settings.RegularOptions.CloseNewTabs.Description)
