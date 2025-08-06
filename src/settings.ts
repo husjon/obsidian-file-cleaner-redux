@@ -61,23 +61,23 @@ export class FileCleanerSettingTab extends PluginSettingTab {
     // #region Regular Options
     // #region Deleted files
     new Setting(containerEl)
-      .setName(translate().Settings.RegularOptions.CleanedFiles.Label)
-      .setDesc(translate().Settings.RegularOptions.CleanedFiles.Description)
+      .setName(translate().Settings.RegularOptions.DeletedFiles.Label)
+      .setDesc(translate().Settings.RegularOptions.DeletedFiles.Description)
       .addDropdown((dropdown) =>
         dropdown
           .addOption(
             "system",
-            translate().Settings.RegularOptions.CleanedFiles.Options
+            translate().Settings.RegularOptions.DeletedFiles.Options
               .MoveToSystemTrash,
           )
           .addOption(
             "obsidian",
-            translate().Settings.RegularOptions.CleanedFiles.Options
+            translate().Settings.RegularOptions.DeletedFiles.Options
               .MoveToObsidianTrash,
           )
           .addOption(
             "permanent",
-            translate().Settings.RegularOptions.CleanedFiles.Options
+            translate().Settings.RegularOptions.DeletedFiles.Options
               .PermanentDelete,
           )
           .setValue(this.plugin.settings.deletionDestination)

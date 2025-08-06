@@ -1,7 +1,7 @@
 export interface Locale {
   Settings: {
     RegularOptions: {
-      CleanedFiles: {
+      DeletedFiles: {
         Label: string;
         Description: string;
 
