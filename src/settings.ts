@@ -132,8 +132,8 @@ export class FileCleanerSettingTab extends PluginSettingTab {
     });
 
     new Setting(containerEl)
-      .setName(translate().Settings.RegularOptions.RemoveFolders.Label)
-      .setDesc(translate().Settings.RegularOptions.RemoveFolders.Description)
+      .setName(translate().Settings.Folders.RemoveFolders.Label)
+      .setDesc(translate().Settings.Folders.RemoveFolders.Description)
       .addToggle((toggle) => {
         toggle.setValue(this.plugin.settings.removeFolders);
 
@@ -144,8 +144,8 @@ export class FileCleanerSettingTab extends PluginSettingTab {
       });
 
     new Setting(containerEl)
-      .setName(translate().Settings.RegularOptions.FolderFiltering.Label)
-      .setDesc(translate().Settings.RegularOptions.FolderFiltering.Description)
+      .setName(translate().Settings.Folders.FolderFiltering.Label)
+      .setDesc(translate().Settings.Folders.FolderFiltering.Description)
       .addToggle((toggle) => {
         toggle.setValue(Boolean(this.plugin.settings.excludeInclude));
 
@@ -159,15 +159,13 @@ export class FileCleanerSettingTab extends PluginSettingTab {
     new Setting(containerEl)
       .setName(
         this.plugin.settings.excludeInclude
-          ? translate().Settings.RegularOptions.FolderFiltering.Included.Label
-          : translate().Settings.RegularOptions.FolderFiltering.Excluded.Label,
+          ? translate().Settings.Folders.FolderFiltering.Included.Label
+          : translate().Settings.Folders.FolderFiltering.Excluded.Label,
       )
       .setDesc(
         this.plugin.settings.excludeInclude
-          ? translate().Settings.RegularOptions.FolderFiltering.Included
-              .Description
-          : translate().Settings.RegularOptions.FolderFiltering.Excluded
-              .Description,
+          ? translate().Settings.Folders.FolderFiltering.Included.Description
+          : translate().Settings.Folders.FolderFiltering.Excluded.Description,
       )
       .addTextArea((text) => {
         text
@@ -181,24 +179,12 @@ export class FileCleanerSettingTab extends PluginSettingTab {
             this.plugin.saveSettings();
           });
         text.setPlaceholder(
-          translate().Settings.RegularOptions.FolderFiltering.Placeholder,
+          translate().Settings.Folders.FolderFiltering.Placeholder,
         );
         text.inputEl.style.minWidth = "18rem";
         text.inputEl.style.maxWidth = "18rem";
         text.inputEl.style.minHeight = "8rem";
         text.inputEl.style.maxHeight = "16rem";
-      });
-
-    new Setting(containerEl)
-      .setName(translate().Settings.RegularOptions.RemoveFolders.Label)
-      .setDesc(translate().Settings.RegularOptions.RemoveFolders.Description)
-      .addToggle((toggle) => {
-        toggle.setValue(this.plugin.settings.removeFolders);
-
-        toggle.onChange((value) => {
-          this.plugin.settings.removeFolders = value;
-          this.plugin.saveSettings();
-        });
       });
     // #endregion
 
@@ -208,8 +194,8 @@ export class FileCleanerSettingTab extends PluginSettingTab {
 
     // #region Extension inclusion / exclusion
     new Setting(containerEl)
-      .setName(translate().Settings.RegularOptions.Attachments.Label)
-      .setDesc(translate().Settings.RegularOptions.Attachments.Description)
+      .setName(translate().Settings.Files.Attachments.Label)
+      .setDesc(translate().Settings.Files.Attachments.Description)
       .addToggle((toggle) => {
         toggle.setValue(
           Boolean(this.plugin.settings.attachmentsExcludeInclude),
@@ -225,14 +211,13 @@ export class FileCleanerSettingTab extends PluginSettingTab {
     new Setting(containerEl)
       .setName(
         this.plugin.settings.attachmentsExcludeInclude
-          ? translate().Settings.RegularOptions.Attachments.Included.Label
-          : translate().Settings.RegularOptions.Attachments.Excluded.Label,
+          ? translate().Settings.Files.Attachments.Included.Label
+          : translate().Settings.Files.Attachments.Excluded.Label,
       )
       .setDesc(
         this.plugin.settings.attachmentsExcludeInclude
-          ? translate().Settings.RegularOptions.Attachments.Included.Description
-          : translate().Settings.RegularOptions.Attachments.Excluded
-              .Description,
+          ? translate().Settings.Files.Attachments.Included.Description
+          : translate().Settings.Files.Attachments.Excluded.Description,
       )
       .addTextArea((text) => {
         text
@@ -253,10 +238,8 @@ export class FileCleanerSettingTab extends PluginSettingTab {
           });
         text.setPlaceholder(
           this.plugin.settings.attachmentsExcludeInclude
-            ? translate().Settings.RegularOptions.Attachments.Included
-                .Placeholder
-            : translate().Settings.RegularOptions.Attachments.Excluded
-                .Placeholder,
+            ? translate().Settings.Files.Attachments.Included.Placeholder
+            : translate().Settings.Files.Attachments.Excluded.Placeholder,
         );
         text.inputEl.style.minWidth = "18rem";
         text.inputEl.style.maxWidth = "18rem";
@@ -267,8 +250,8 @@ export class FileCleanerSettingTab extends PluginSettingTab {
 
     // #region File age threshold
     new Setting(containerEl)
-      .setName(translate().Settings.RegularOptions.FileAgeThreshold.Label)
-      .setDesc(translate().Settings.RegularOptions.FileAgeThreshold.Description)
+      .setName(translate().Settings.Files.FileAgeThreshold.Label)
+      .setDesc(translate().Settings.Files.FileAgeThreshold.Description)
       .addText((text) => {
         text.setPlaceholder("0");
 
@@ -292,11 +275,10 @@ export class FileCleanerSettingTab extends PluginSettingTab {
     // #region Delete empty Markdown files
     new Setting(containerEl)
       .setName(
-        translate().Settings.RegularOptions.DeleteEmptyMarkdownFiles.Label,
+        translate().Settings.MarkdownFiles.DeleteEmptyMarkdownFiles.Label,
       )
       .setDesc(
-        translate().Settings.RegularOptions.DeleteEmptyMarkdownFiles
-          .Description,
+        translate().Settings.MarkdownFiles.DeleteEmptyMarkdownFiles.Description,
       )
       .addToggle((toggle) => {
         toggle.setValue(this.plugin.settings.deleteEmptyMarkdownFiles);
@@ -313,11 +295,11 @@ export class FileCleanerSettingTab extends PluginSettingTab {
     this.plugin.settings.deleteEmptyMarkdownFiles &&
       new Setting(containerEl)
         .setName(
-          translate().Settings.RegularOptions
+          translate().Settings.MarkdownFiles
             .DeleteEmptyMarkdownFilesWithBacklinks.Label,
         )
         .setDesc(
-          translate().Settings.RegularOptions
+          translate().Settings.MarkdownFiles
             .DeleteEmptyMarkdownFilesWithBacklinks.Description,
         )
         .addToggle((toggle) => {
@@ -335,9 +317,9 @@ export class FileCleanerSettingTab extends PluginSettingTab {
 
     // #region Ignored frontmatter
     new Setting(containerEl)
-      .setName(translate().Settings.RegularOptions.IgnoredFrontmatter.Label)
+      .setName(translate().Settings.MarkdownFiles.IgnoredFrontmatter.Label)
       .setDesc(
-        translate().Settings.RegularOptions.IgnoredFrontmatter.Description,
+        translate().Settings.MarkdownFiles.IgnoredFrontmatter.Description,
       )
       .addTextArea((text) => {
         text
@@ -351,7 +333,7 @@ export class FileCleanerSettingTab extends PluginSettingTab {
             this.plugin.saveSettings();
           });
         text.setPlaceholder(
-          translate().Settings.RegularOptions.IgnoredFrontmatter.Placeholder,
+          translate().Settings.MarkdownFiles.IgnoredFrontmatter.Placeholder,
         );
         text.inputEl.style.minWidth = "18rem";
         text.inputEl.style.maxWidth = "18rem";
@@ -369,9 +351,9 @@ export class FileCleanerSettingTab extends PluginSettingTab {
       );
 
     new Setting(containerEl)
-      .setName(translate().Settings.RegularOptions.IgnoreAllFrontmatter.Label)
+      .setName(translate().Settings.MarkdownFiles.IgnoreAllFrontmatter.Label)
       .setDesc(
-        translate().Settings.RegularOptions.IgnoreAllFrontmatter.Description,
+        translate().Settings.MarkdownFiles.IgnoreAllFrontmatter.Description,
       )
       .addToggle((toggle) => {
         toggle.setValue(this.plugin.settings.ignoreAllFrontmatter);
@@ -387,8 +369,8 @@ export class FileCleanerSettingTab extends PluginSettingTab {
 
     // #region Codeblock parsing
     new Setting(containerEl)
-      .setName(translate().Settings.RegularOptions.CodeblockParsing.Label)
-      .setDesc(translate().Settings.RegularOptions.CodeblockParsing.Description)
+      .setName(translate().Settings.MarkdownFiles.CodeblockParsing.Label)
+      .setDesc(translate().Settings.MarkdownFiles.CodeblockParsing.Description)
       .addTextArea((text) => {
         text
           .setValue(this.plugin.settings.codeblockTypes.join(", "))
@@ -401,7 +383,7 @@ export class FileCleanerSettingTab extends PluginSettingTab {
             this.plugin.saveSettings();
           });
         text.setPlaceholder(
-          translate().Settings.RegularOptions.CodeblockParsing.Placeholder,
+          translate().Settings.MarkdownFiles.CodeblockParsing.Placeholder,
         );
         text.inputEl.style.minWidth = "18rem";
         text.inputEl.style.maxWidth = "18rem";
@@ -421,8 +403,8 @@ export class FileCleanerSettingTab extends PluginSettingTab {
     });
 
     new Setting(containerEl)
-      .setName(translate().Settings.RegularOptions.CloseNewTabs.Label)
-      .setDesc(translate().Settings.RegularOptions.CloseNewTabs.Description)
+      .setName(translate().Settings.Other.CloseNewTabs.Label)
+      .setDesc(translate().Settings.Other.CloseNewTabs.Description)
       .addToggle((toggle) => {
         toggle.setValue(this.plugin.settings.closeNewTabs);
 
@@ -435,10 +417,8 @@ export class FileCleanerSettingTab extends PluginSettingTab {
 
     // #region Preview deleted files
     new Setting(containerEl)
-      .setName(translate().Settings.RegularOptions.PreviewDeletedFiles.Label)
-      .setDesc(
-        translate().Settings.RegularOptions.PreviewDeletedFiles.Description,
-      )
+      .setName(translate().Settings.Other.PreviewDeletedFiles.Label)
+      .setDesc(translate().Settings.Other.PreviewDeletedFiles.Description)
       .addToggle((toggle) => {
         toggle.setValue(this.plugin.settings.deletionConfirmation);
 
@@ -451,8 +431,8 @@ export class FileCleanerSettingTab extends PluginSettingTab {
 
     // #region Run on startup
     new Setting(containerEl)
-      .setName(translate().Settings.RegularOptions.RunOnStartup.Label)
-      .setDesc(translate().Settings.RegularOptions.RunOnStartup.Description)
+      .setName(translate().Settings.Other.RunOnStartup.Label)
+      .setDesc(translate().Settings.Other.RunOnStartup.Description)
       .addToggle((toggle) => {
         toggle.setValue(this.plugin.settings.runOnStartup);
 

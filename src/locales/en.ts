@@ -19,7 +19,9 @@ const enUS: Locale = {
         Description:
           "Amount of days files can be in the `.trash` folder before they are permanently removed (minimum 1 day).",
       },
+    },
 
+    Folders: {
       RemoveFolders: {
         Label: "Remove folders",
         Description: "Include folders in cleanup",
@@ -47,7 +49,9 @@ const enUS: Locale = {
         Description:
           "The folders below should be excluded from or included in the cleanup process.",
       },
+    },
 
+    Files: {
       Attachments: {
         Excluded: {
           Label: "Excluded Attachment extensions",
@@ -71,7 +75,9 @@ const enUS: Locale = {
         Description:
           "Only files and folders over the specified threshold will be cleaned up (in number of days)",
       },
+    },
 
+    MarkdownFiles: {
       DeleteEmptyMarkdownFiles: {
         Label: "Delete empty Markdown files",
         Description: "Removes Markdown files if their size is 0",
@@ -106,7 +112,9 @@ const enUS: Locale = {
         `,
         Placeholder: "Example:\nad-summary, ad-.*, tabs",
       },
+    },
 
+    Other: {
       CloseNewTabs: {
         Label: "Close new tabs",
         Description: "Close leftover New tabs",
