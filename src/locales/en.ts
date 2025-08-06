@@ -43,6 +43,11 @@ const enUS: Locale = {
           "The folders below should be excluded from or included in the cleanup process.",
       },
 
+      RemoveFolders: {
+        Label: "Remove folders",
+        Description: "Include folders in cleanup",
+      },
+
       Attachments: {
         Excluded: {
           Label: "Excluded Attachment extensions",
@@ -59,6 +64,23 @@ const enUS: Locale = {
         Label: "Excluded / Included Extensions",
         Description:
           "The attachment extensions below should be excluded from or included in the cleanup process.",
+      },
+
+      FileAgeThreshold: {
+        Label: "File age threshold",
+        Description:
+          "Only files and folders over the specified threshold will be cleaned up (in number of days)",
+      },
+
+      DeleteEmptyMarkdownFiles: {
+        Label: "Delete empty Markdown files",
+        Description: "Removes Markdown files if their size is 0",
+      },
+
+      DeleteEmptyMarkdownFilesWithBacklinks: {
+        Label: "Delete empty Markdown files with backlinks",
+        Description:
+          "Removes empty Markdown files even if they are linked to by other files.",
       },
 
       IgnoredFrontmatter: {
@@ -90,31 +112,9 @@ const enUS: Locale = {
         Description: "Close leftover New tabs",
       },
 
-      FileAgeThreshold: {
-        Label: "File age threshold",
-        Description:
-          "Only files and folders over the specified threshold will be cleaned up (in number of days)",
-      },
-
       PreviewDeletedFiles: {
         Label: "Preview deleted files",
         Description: "Show a confirmation box with list of files to be removed",
-      },
-
-      DeleteEmptyMarkdownFiles: {
-        Label: "Delete empty Markdown files",
-        Description: "Removes Markdown files if their size is 0",
-      },
-
-      DeleteEmptyMarkdownFilesWithBacklinks: {
-        Label: "Delete empty Markdown files with backlinks",
-        Description:
-          "Removes empty Markdown files even if they are linked to by other files.",
-      },
-
-      RemoveFolders: {
-        Label: "Remove folders",
-        Description: "Include folders in cleanup",
       },
 
       RunOnStartup: {
