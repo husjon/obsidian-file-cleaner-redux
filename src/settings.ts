@@ -128,7 +128,7 @@ export class FileCleanerSettingTab extends PluginSettingTab {
 
     // #region Folder inclusion / exclusion
     this.containerEl.createEl("h3", {
-      text: "Folders",
+      text: translate().Settings.Folders.Header,
     });
 
     new Setting(containerEl)
@@ -189,7 +189,7 @@ export class FileCleanerSettingTab extends PluginSettingTab {
     // #endregion
 
     this.containerEl.createEl("h3", {
-      text: "Files",
+      text: translate().Settings.Files.Header,
     });
 
     // #region Extension inclusion / exclusion
@@ -269,7 +269,7 @@ export class FileCleanerSettingTab extends PluginSettingTab {
     // #endregion
 
     this.containerEl.createEl("h4", {
-      text: "Markdown files",
+      text: translate().Settings.MarkdownFiles.Header,
     });
 
     // #region Delete empty Markdown files
@@ -399,7 +399,7 @@ export class FileCleanerSettingTab extends PluginSettingTab {
 
     // #region Close new tabs
     this.containerEl.createEl("h3", {
-      text: "Other",
+      text: translate().Settings.Other.Header,
     });
 
     new Setting(containerEl)

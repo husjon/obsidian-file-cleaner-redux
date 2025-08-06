@@ -22,6 +22,8 @@ const enUS: Locale = {
     },
 
     Folders: {
+      Header: "Folders",
+
       RemoveFolders: {
         Label: "Remove folders",
         Description: "Include folders in cleanup",
@@ -52,6 +54,8 @@ const enUS: Locale = {
     },
 
     Files: {
+      Header: "Files",
+
       Attachments: {
         Excluded: {
           Label: "Excluded Attachment extensions",
@@ -78,6 +82,8 @@ const enUS: Locale = {
     },
 
     MarkdownFiles: {
+      Header: "Markdown files",
+
       DeleteEmptyMarkdownFiles: {
         Label: "Delete empty Markdown files",
         Description: "Removes Markdown files if their size is 0",
@@ -115,6 +121,8 @@ const enUS: Locale = {
     },
 
     Other: {
+      Header: "Other",
+
       CloseNewTabs: {
         Label: "Close new tabs",
         Description: "Close leftover New tabs",

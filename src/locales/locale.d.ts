@@ -18,6 +18,8 @@ export interface Locale {
     };
 
     Folders: {
+      Header: string;
+
       RemoveFolders: {
         Label: string;
         Description: string;
@@ -41,6 +43,8 @@ export interface Locale {
     };
 
     Files: {
+      Header: string;
+
       Attachments: {
         Excluded: {
           Label: string;
@@ -64,6 +68,8 @@ export interface Locale {
     };
 
     MarkdownFiles: {
+      Header: string;
+
       DeleteEmptyMarkdownFiles: {
         Label: string;
         Description: string;
@@ -93,6 +99,8 @@ export interface Locale {
     };
 
     Other: {
+      Header: string;
+
       CloseNewTabs: {
         Label: string;
         Description: string;
