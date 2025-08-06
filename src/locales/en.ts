@@ -4,7 +4,7 @@ import type { Locale } from "./locale";
 const enUS: Locale = {
   Settings: {
     RegularOptions: {
-      CleanedFiles: {
+      DeletedFiles: {
         Label: "Deleted files",
         Description: "What happens to a file after it's deleted.",
 
