@@ -254,6 +254,8 @@ export class FileCleanerSettingTab extends PluginSettingTab {
       .setDesc(translate().Settings.Files.FileAgeThreshold.Description)
       .addText((text) => {
         text.setPlaceholder("0");
+        text.inputEl.type = "number";
+        text.inputEl.min = "0";
 
         if (this.plugin.settings.fileAgeThreshold > 0)
           text.setValue(String(this.plugin.settings.fileAgeThreshold));
@@ -263,7 +265,7 @@ export class FileCleanerSettingTab extends PluginSettingTab {
           if (newAge >= 0) {
             this.plugin.settings.fileAgeThreshold = newAge;
             this.plugin.saveSettings();
-          }
+          } else text.setValue("0");
         });
       });
     // #endregion
