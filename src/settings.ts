@@ -3,6 +3,7 @@ import FileCleanerPlugin from ".";
 import translate from "./i18n";
 import { Deletion } from "./enums";
 import { ResetSettingsModal } from "./modals";
+import { InputSuggester } from "./suggester";
 
 export interface FileCleanerSettings {
   deletionDestination: Deletion;
@@ -57,6 +58,47 @@ export class FileCleanerSettingTab extends PluginSettingTab {
   display(): void {
     const { containerEl } = this;
     this.containerEl.empty();
+
+    const attachmentsSetting = new ExtensionSetting(
+      containerEl,
+      this.plugin.settings,
+    )
+      .setName(
+        this.plugin.settings.attachmentsExcludeInclude
+          ? translate().Settings.Files.Attachments.Included.Label
+          : translate().Settings.Files.Attachments.Excluded.Label,
+      )
+      .setDesc(
+        this.plugin.settings.attachmentsExcludeInclude
+          ? translate().Settings.Files.Attachments.Included.Description
+          : translate().Settings.Files.Attachments.Excluded.Description,
+      )
+      .addText((text) => {
+        const extensionsInVault = this.app.vault
+          .getFiles()
+          .map((file) => file.extension)
+          .sort((a, b) => a.localeCompare(b));
+        extensionsInVault.push("*");
+        const extensions = new Set(extensionsInVault);
+
+        // Remove existing extensions from the list of available extensions
+        this.plugin.settings.attachmentExtensions.forEach((extension) => {
+          extensions.delete(extension);
+        });
+
+        new InputSuggester(
+          text.inputEl,
+          extensions,
+          (value) => {
+            attachmentsSetting.addExtension(value);
+          },
+          this.app,
+        );
+      });
+    this.plugin.settings.attachmentExtensions.forEach((extension) => {
+      attachmentsSetting.addExtension(extension);
+    });
+    attachmentsSetting.render();
 
     // #region Regular Options
     // #region Deleted files
@@ -144,7 +186,7 @@ export class FileCleanerSettingTab extends PluginSettingTab {
         });
       });
 
-    new Setting(containerEl)
+    const x = new Setting(containerEl)
       .setName(
         this.plugin.settings.excludeInclude
           ? translate().Settings.Folders.FolderFiltering.Included.Label
@@ -155,6 +197,25 @@ export class FileCleanerSettingTab extends PluginSettingTab {
           ? translate().Settings.Folders.FolderFiltering.Included.Description
           : translate().Settings.Folders.FolderFiltering.Excluded.Description,
       )
+      .addText((text) => {
+        const folders = new Set(
+          this.app.vault.getAllFolders().map((folder) => folder.path),
+        );
+
+        new InputSuggester(
+          text.inputEl,
+          folders,
+          (value) => {
+            this.plugin.settings.excludedFolders.push(value);
+            folders.delete(value);
+            this.plugin.saveSettings();
+          },
+          this.app,
+        );
+
+        text.inputEl.style.minWidth = "18rem";
+        text.inputEl.style.maxWidth = "18rem";
+      })
       .addTextArea((text) => {
         text
           .setValue(this.plugin.settings.excludedFolders.join("\n"))
@@ -174,6 +235,7 @@ export class FileCleanerSettingTab extends PluginSettingTab {
         text.inputEl.style.minHeight = "8rem";
         text.inputEl.style.maxHeight = "16rem";
       });
+    x.controlEl.style.display = "grid";
 
     new Setting(containerEl)
       .setName(translate().Settings.Folders.RemoveFolders.Label)
@@ -473,5 +535,52 @@ export class FileCleanerSettingTab extends PluginSettingTab {
       });
     // #endregion
     // #endregion Danger Zone
+  }
+}
+
+class ExtensionSetting extends Setting {
+  extensions = new Set<string>();
+  extensionContainer: HTMLElement;
+  settings: FileCleanerSettings;
+
+  constructor(containerEl: HTMLElement, settings: FileCleanerSettings) {
+    super(containerEl);
+    this.settings = settings;
+
+    this.controlEl.style.display = "grid";
+
+    this.extensionContainer = createDiv({ cls: "setting-command-hotkeys" });
+    this.extensionContainer.style.width = "18rem";
+
+    this.controlEl.appendChild(this.extensionContainer);
+    this.render();
+  }
+
+  addExtension(extension: string) {
+    this.extensions.add(extension);
+    this.settings.attachmentExtensions = Array.from(this.extensions);
+    this.render();
+  }
+
+  render() {
+    this.controlEl.style.minWidth = "18rem";
+
+    this.extensionContainer.empty();
+    Array.from(this.extensions.values())
+      .sort((a, b) => a.localeCompare(b))
+      .forEach((extension) => {
+        const extensionEl = createEl("span", {
+          text: `.${extension}`,
+          cls: "setting-hotkey",
+        });
+        extensionEl.style.padding = "0.25rem 0.5rem";
+        this.extensionContainer.appendChild(extensionEl);
+      });
+
+    // Re-order the elements so that the input is above the list of extensions during search
+    if (this.controlEl.childElementCount > 1) {
+      this.controlEl.removeChild(this.extensionContainer);
+      this.controlEl.appendChild(this.extensionContainer);
+    }
   }
 }
