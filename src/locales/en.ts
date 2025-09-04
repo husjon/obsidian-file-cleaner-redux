@@ -46,7 +46,7 @@ const enUS: Locale = {
           One folder per line.
           Supports regular expressions (wildcard matching can be done using \`.*\`)`,
         },
-        Label: "Excluded / Included Folders",
+        Label: "Excluded / Included folders",
         Placeholder: "Example:\nfolder/subfolder\nfolder2/subfolder2",
         Description:
           "The folders below should be excluded from or included in the cleanup process.",
@@ -58,18 +58,18 @@ const enUS: Locale = {
 
       Attachments: {
         Excluded: {
-          Label: "Excluded Attachment extensions",
+          Label: "Excluded attachment extensions",
           Description:
             "List of extensions that should be ignored during cleanup, all other files are included, the `.*` wildcard can be used to select all extensions. Comma-separated.",
           Placeholder: "Example:.jpg, .png, .pdf, .*",
         },
         Included: {
-          Label: "Included Attachment extensions",
+          Label: "Included attachment extensions",
           Description:
             "List of extensions that should be included during cleanup, all other files are ignored, the `.*` wildcard can be used to select all extensions. Comma-separated.",
           Placeholder: "Example:.jpg, .png, .pdf, .*",
         },
-        Label: "Excluded / Included Extensions",
+        Label: "Excluded / Included extensions",
         Description:
           "The attachment extensions below should be excluded from or included in the cleanup process.",
       },
