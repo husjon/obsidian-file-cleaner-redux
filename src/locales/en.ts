@@ -4,7 +4,7 @@ import type { Locale } from "./locale";
 const enUS: Locale = {
   Settings: {
     RegularOptions: {
-      CleanedFiles: {
+      DeletedFiles: {
         Label: "Deleted files",
         Description: "What happens to a file after it's deleted.",
 
@@ -18,6 +18,15 @@ const enUS: Locale = {
         Label: "Trash directory age threshold",
         Description:
           "Amount of days files can be in the `.trash` folder before they are permanently removed (minimum 1 day).",
+      },
+    },
+
+    Folders: {
+      Header: "Folders",
+
+      RemoveFolders: {
+        Label: "Remove folders",
+        Description: "Include empty folders in cleanup",
       },
 
       FolderFiltering: {
@@ -37,28 +46,53 @@ const enUS: Locale = {
           One folder per line.
           Supports regular expressions (wildcard matching can be done using \`.*\`)`,
         },
-        Label: "Excluded / Included Folders",
+        Label: "Excluded / Included folders",
         Placeholder: "Example:\nfolder/subfolder\nfolder2/subfolder2",
         Description:
           "The folders below should be excluded from or included in the cleanup process.",
       },
+    },
+
+    Files: {
+      Header: "Files",
 
       Attachments: {
         Excluded: {
-          Label: "Excluded Attachment extensions",
+          Label: "Excluded attachment extensions",
           Description:
             "List of extensions that should be ignored during cleanup, all other files are included, the `.*` wildcard can be used to select all extensions. Comma-separated.",
           Placeholder: "Example:.jpg, .png, .pdf, .*",
         },
         Included: {
-          Label: "Included Attachment extensions",
+          Label: "Included attachment extensions",
           Description:
             "List of extensions that should be included during cleanup, all other files are ignored, the `.*` wildcard can be used to select all extensions. Comma-separated.",
           Placeholder: "Example:.jpg, .png, .pdf, .*",
         },
-        Label: "Excluded / Included Extensions",
+        Label: "Excluded / Included extensions",
         Description:
           "The attachment extensions below should be excluded from or included in the cleanup process.",
+      },
+
+      FileAgeThreshold: {
+        Label: "File age threshold",
+        Description:
+          "Only files and folders over the specified threshold will be cleaned up (in number of days)",
+      },
+    },
+
+    MarkdownFiles: {
+      Header: "Markdown files",
+
+      DeleteEmptyMarkdownFiles: {
+        Label: "Delete empty Markdown files",
+        Description: "Removes Markdown files if their size is 0",
+      },
+
+      DeleteEmptyMarkdownFilesWithBacklinks: {
+        Label: "Delete empty Markdown files with backlinks",
+        Description:
+          "Removes empty Markdown files even if they are linked to by other files.",
       },
 
       IgnoredFrontmatter: {
@@ -84,37 +118,19 @@ const enUS: Locale = {
         `,
         Placeholder: "Example:\nad-summary, ad-.*, tabs",
       },
+    },
+
+    Other: {
+      Header: "Other",
 
       CloseNewTabs: {
         Label: "Close new tabs",
         Description: "Close leftover New tabs",
       },
 
-      FileAgeThreshold: {
-        Label: "File age threshold",
-        Description:
-          "Only files and folders over the specified threshold will be cleaned up (in number of days)",
-      },
-
       PreviewDeletedFiles: {
         Label: "Preview deleted files",
         Description: "Show a confirmation box with list of files to be removed",
-      },
-
-      DeleteEmptyMarkdownFiles: {
-        Label: "Delete empty Markdown files",
-        Description: "Removes Markdown files if their size is 0",
-      },
-
-      DeleteEmptyMarkdownFilesWithBacklinks: {
-        Label: "Delete empty Markdown files with backlinks",
-        Description:
-          "Removes empty Markdown files even if they are linked to by other files.",
-      },
-
-      RemoveFolders: {
-        Label: "Remove folders",
-        Description: "Include folders in cleanup",
       },
 
       RunOnStartup: {

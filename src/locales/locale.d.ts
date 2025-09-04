@@ -1,7 +1,7 @@
 export interface Locale {
   Settings: {
     RegularOptions: {
-      CleanedFiles: {
+      DeletedFiles: {
         Label: string;
         Description: string;
 
@@ -12,6 +12,15 @@ export interface Locale {
         };
       };
       ObsidianTrashCleanupAge: {
+        Label: string;
+        Description: string;
+      };
+    };
+
+    Folders: {
+      Header: string;
+
+      RemoveFolders: {
         Label: string;
         Description: string;
       };
@@ -31,6 +40,10 @@ export interface Locale {
         Placeholder: string;
         Description: string;
       };
+    };
+
+    Files: {
+      Header: string;
 
       Attachments: {
         Excluded: {
@@ -44,6 +57,25 @@ export interface Locale {
           Placeholder: string;
         };
 
+        Label: string;
+        Description: string;
+      };
+
+      FileAgeThreshold: {
+        Label: string;
+        Description: string;
+      };
+    };
+
+    MarkdownFiles: {
+      Header: string;
+
+      DeleteEmptyMarkdownFiles: {
+        Label: string;
+        Description: string;
+      };
+
+      DeleteEmptyMarkdownFilesWithBacklinks: {
         Label: string;
         Description: string;
       };
@@ -64,33 +96,17 @@ export interface Locale {
         Description: string;
         Placeholder: string;
       };
+    };
+
+    Other: {
+      Header: string;
 
       CloseNewTabs: {
         Label: string;
         Description: string;
       };
 
-      FileAgeThreshold: {
-        Label: string;
-        Description: string;
-      };
-
       PreviewDeletedFiles: {
-        Label: string;
-        Description: string;
-      };
-
-      DeleteEmptyMarkdownFiles: {
-        Label: string;
-        Description: string;
-      };
-
-      DeleteEmptyMarkdownFilesWithBacklinks: {
-        Label: string;
-        Description: string;
-      };
-
-      RemoveFolders: {
         Label: string;
         Description: string;
       };
