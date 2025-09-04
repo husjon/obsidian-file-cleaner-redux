@@ -26,7 +26,7 @@ const enUS: Locale = {
 
       RemoveFolders: {
         Label: "Remove folders",
-        Description: "Include folders in cleanup",
+        Description: "Include empty folders in cleanup",
       },
 
       FolderFiltering: {
