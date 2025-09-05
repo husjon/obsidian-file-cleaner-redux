@@ -143,6 +143,8 @@ export interface Locale {
 
     ButtonConfirm: string;
     ButtonCancel: string;
+    ButtonSelectAll: string;
+    ButtonUnselectAll: string;
   };
 
   Buttons: {

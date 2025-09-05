@@ -99,7 +99,7 @@
         filesAndFoldersSorted.map((f) => addEntry(f));
       }}
     >
-      Select all
+      {translate().Modals.ButtonSelectAll}
     </button>
     <button
       disabled={!unselectAllAvailable}
@@ -107,7 +107,7 @@
         filesAndFoldersSorted.map((f) => removeEntry(f));
       }}
     >
-      Unselect all
+      {translate().Modals.ButtonUnselectAll}
     </button>
   </div>
 
