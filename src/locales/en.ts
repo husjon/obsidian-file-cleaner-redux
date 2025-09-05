@@ -165,6 +165,8 @@ const enUS: Locale = {
 
     ButtonCancel: "Cancel",
     ButtonConfirm: "Confirm",
+    ButtonSelectAll: "Select all",
+    ButtonUnselectAll: "Unselect all",
   },
 
   Buttons: {

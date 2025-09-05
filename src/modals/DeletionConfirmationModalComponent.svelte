@@ -21,6 +21,11 @@
 
   const toBeDeleted: TAbstractFile[] = $state(filesAndFoldersSorted);
 
+  const selectAllAvailable = $derived(
+    toBeDeleted.length < filesAndFolders.length,
+  );
+  const unselectAllAvailable = $derived(toBeDeleted.length > 0);
+
   function isFolder(file: TAbstractFile) {
     return Object.keys(file).includes("children");
   }
@@ -86,17 +91,38 @@
   {/each}
 </ul>
 
-<div style="float: right; display: flex; gap:0.5em">
-  <button
-    class="mod-warning"
-    onclick={() => {
-      removeFiles(toBeDeleted.reverse(), app, settings);
-      closeModal();
-    }}>{translate().Modals.ButtonConfirm}</button
-  >
-  <button
-    onclick={() => {
-      closeModal();
-    }}>{translate().Modals.ButtonCancel}</button
-  >
+<div>
+  <div style="float: left;">
+    <button
+      disabled={!selectAllAvailable}
+      onclick={() => {
+        filesAndFoldersSorted.map((f) => addEntry(f));
+      }}
+    >
+      {translate().Modals.ButtonSelectAll}
+    </button>
+    <button
+      disabled={!unselectAllAvailable}
+      onclick={() => {
+        filesAndFoldersSorted.map((f) => removeEntry(f));
+      }}
+    >
+      {translate().Modals.ButtonUnselectAll}
+    </button>
+  </div>
+
+  <div style="float: right; display: flex; gap:0.5em">
+    <button
+      class="mod-warning"
+      onclick={() => {
+        removeFiles(toBeDeleted.reverse(), app, settings);
+        closeModal();
+      }}>{translate().Modals.ButtonConfirm}</button
+    >
+    <button
+      onclick={() => {
+        closeModal();
+      }}>{translate().Modals.ButtonCancel}</button
+    >
+  </div>
 </div>
