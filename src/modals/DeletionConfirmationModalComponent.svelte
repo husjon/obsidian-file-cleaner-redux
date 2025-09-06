@@ -1,6 +1,18 @@
 <script lang="ts">
-  import { ExternalLink, File, FolderOpen } from "lucide-svelte";
-  import { TFolder, type App, type TAbstractFile, type TFile } from "obsidian";
+  import {
+    ExternalLink,
+    File,
+    FolderOpen,
+    Square,
+    SquareCheckBig,
+  } from "lucide-svelte";
+  import {
+    Platform,
+    TFolder,
+    type App,
+    type TAbstractFile,
+    type TFile,
+  } from "obsidian";
   import { removeFiles } from "src/helpers/helpers";
   import translate from "src/i18n";
   import type { FileCleanerSettings } from "src/settings";
@@ -99,7 +111,11 @@
         filesAndFoldersSorted.map((f) => addEntry(f));
       }}
     >
-      {translate().Modals.ButtonSelectAll}
+      {#if Platform.isMobile}
+        <SquareCheckBig />
+      {:else}
+        {translate().Modals.ButtonSelectAll}
+      {/if}
     </button>
     <button
       disabled={!unselectAllAvailable}
@@ -107,7 +123,11 @@
         filesAndFoldersSorted.map((f) => removeEntry(f));
       }}
     >
-      {translate().Modals.ButtonUnselectAll}
+      {#if Platform.isMobile}
+        <Square />
+      {:else}
+        {translate().Modals.ButtonUnselectAll}
+      {/if}
     </button>
   </div>
 
