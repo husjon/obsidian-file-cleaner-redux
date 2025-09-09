@@ -31,6 +31,88 @@ A short summary of features, more details can be found under [Options](#options)
 
 A [screenshot](#plugins-settings-showing-default-values) showing all the options can be found below.
 
+### Folders
+
+#### Remove folders (optional)
+
+Can be toggled to allow for deletion of empty folders during the cleanup.
+
+#### Excluded / Included Folders (Optional)
+
+Toggles between using a list of excluded or included folders to look for files.
+The same list is used for both exclusion/inclusion however they are mutually exclusive.  
+If toggled off, the list is used for exclusion, meaning that the plugin will scan all folders **except** for the ones listed.  
+If toggled on, the list is used for inclusion, meaning that the plugin will **only** scan the listed folders.
+
+### Files
+
+#### Excluded / Included Extensions (Optional)
+
+Toggles between using a list of excluded or included extensions to look for.
+The same list is used for both exclusion/inclusion however they are mutually exclusive.  
+If toggled off, the list is used for exclusion, meaning that the plugin will **ignore** any attachments with extensions listed here.  
+If toggled on, the list is used for inclusion, meaning that the plugin **will only** look for attachments with extensions listed here.
+
+#### Markdown files
+
+##### Delete empty Markdown files (Optional)
+
+Deletes any markdown files that are empty and have **no** references.
+
+##### Delete empty Markdown files with backlinks (Optional)
+
+If [Delete empty Markdown files](#delete-empty-markdown-files-optional) is enabled, one can also choose to allow for deleting empty markdown files even if they have links to them.
+
+Example usage is when having links to files that will be made in the future but is not ready to be started on.
+
+##### Ignored frontmatter
+
+A list of frontmatter properties which will be ignored during cleanup.
+If a markdown file only contains markdown and only contains these properties, it will be considered empty and added to the list of files to be removed.
+
+##### Ignore all frontmatter (Optional)
+
+Ignores all frontmatter during cleanup, even the ones listed above.
+
+##### Codeblock parsing
+
+A list of codeblock-types that should be checked for attachments.
+This option does only look for attachment links that follow the style of Markdown or Wikilink
+
+Valid attachment links:
+
+- Markdown
+  ```md
+  [Link label](path/to/file.md)
+  ![](path/to/image.png)
+  ```
+- Wikilink
+
+  ```md
+  [[Path to file]] # file link
+  [[Path to file|Label]] # file link with label override
+  ```
+
+- Wikilink (image)
+  ```md
+  ![[Link to image]] # image with or without size
+  ![[Link to image|200]] # image with or without size
+  ```
+
+### Other
+
+#### Close new tabs (Optional)
+
+Close leftover New tabs
+
+#### Preview deleted files (Optional)
+
+Shows a confirmation box with list of files and folders to be removed (see [screenshot](#preview-of-deleted-files)).
+
+#### Run on startup (Optional)
+
+Runs the cleaner on startup
+
 ### How to use the plugin
 
 - Click the "File Cleaner" ribbon icon or add a Keybinding for the `Clean files` command.
