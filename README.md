@@ -2,7 +2,13 @@
 
 File Cleaner Redux is a plugin for Obsidian (https://obsidian.md) which helps in removing unused / empty markdown files and attachments based on a few user controlled options.
 
-## What this plugin does
+Out of the box, this plugin only looks for completely empty markdown files which are not referenced to by other files.
+
+When performing the cleanup, the user will be presented with a summary of which files was found and the user can then choose to delete all, none or some of these files (See [#Preview of deleted files](#preview-of-deleted-files)).
+
+## Features
+
+A short summary of features, more details can be found under [Options](#options)
 
 - Removes Markdown files with a size of 0 bytes (Optional) (See: [#88](https://github.com/husjon/obsidian-file-cleaner-redux/issues/88))
 - Removes user-defined attachment files (e.g: jpg, jpeg, png, gif, svg, pdf)
@@ -20,6 +26,10 @@ File Cleaner Redux is a plugin for Obsidian (https://obsidian.md) which helps in
   - Excalidraw (as of v1.3.0)
     Note: This does require JSON compression in Excalidraw to be turned off.
     This can be done in Excalidraw Setting > Saving > Compress Excalidraw JSON in Markdown
+
+## Options
+
+A [screenshot](#plugins-settings-showing-default-values) showing all the options can be found below.
 
 ### How to use the plugin
 
