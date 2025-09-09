@@ -113,25 +113,25 @@ Shows a confirmation box with list of files and folders to be removed (see [scre
 
 Runs the cleaner on startup
 
-### How to use the plugin
+## How to use the plugin
 
 - Click the "File Cleaner" ribbon icon or add a Keybinding for the `Clean files` command.
 
-### Screenshots
+## Screenshots
 
-#### Plugins Settings (showing default values)
+### Plugins Settings (showing default values)
 
 ![Options](images/Options.png)
 
-#### Preview of deleted files
+### Preview of deleted files
 
 ![Preview deleted files confirmation](images/PreviewDeletedFiles.png)
 
-#### Hotkeys
+### Hotkeys
 
 ![Hotkeys](images/Hotkeys.png)
 
-### Known issue
+## Known issue
 
 - ~~Attachments used in [Admonition](https://github.com/valentine195/obsidian-admonition) code blocks are not recognized~~
 
