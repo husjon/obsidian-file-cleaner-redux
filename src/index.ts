@@ -14,23 +14,21 @@ export default class FileCleanerPlugin extends Plugin {
   async onload() {
     await this.loadSettings();
 
-    this.addRibbonIcon("trash", translate().Buttons.CleanFiles, () => {
-      runCleanup(this.app, this.settings);
-    });
+    this.addRibbonIcon(
+      "trash",
+      translate().Buttons.CleanFiles,
+      this.runVaultCleanup,
+    );
 
     this.addCommand({
       id: "clean-files",
       name: translate().Buttons.CleanFiles,
-      callback: () => {
-        runCleanup(this.app, this.settings);
-      },
+      callback: this.runVaultCleanup,
     });
 
     this.addSettingTab(new FileCleanerSettingTab(this.app, this));
 
-    setTimeout(() => {
-      if (this.settings.runOnStartup) runCleanup(this.app, this.settings);
-    }, 1000);
+    if (this.settings.runOnStartup) setTimeout(this.runVaultCleanup, 1000);
   }
 
   onunload() {}
@@ -42,4 +40,8 @@ export default class FileCleanerPlugin extends Plugin {
   async saveSettings() {
     await this.saveData(this.settings);
   }
+
+  private runVaultCleanup = async () => {
+    runCleanup(this.app, this.settings);
+  };
 }
