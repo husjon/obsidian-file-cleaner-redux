@@ -105,6 +105,10 @@ export interface Locale {
         Label: string;
         Description: string;
       };
+      DeleteEmptyFileOnClose: {
+        Label: string;
+        Description: string;
+      };
 
       PreviewDeletedFiles: {
         Label: string;

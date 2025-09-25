@@ -95,7 +95,7 @@ async function cleanTrashFolder(app: App, settings: FileCleanerSettings) {
   console.groupEnd();
 }
 
-export async function runCleanup(app: App, settings: FileCleanerSettings) {
+export async function scanVault(app: App, settings: FileCleanerSettings) {
   const indexingStart = Date.now();
   console.group("File Cleaner Redux");
   console.log(`Starting cleanup`);
@@ -176,6 +176,18 @@ export async function runCleanup(app: App, settings: FileCleanerSettings) {
     `Found ${filesToRemove.length} files and ${foldersToRemove.length} folders to clean up.`,
   );
 
+  return {
+    filesToRemove,
+    foldersToRemove,
+  };
+}
+
+export async function runCleanup(
+  filesToRemove: TFile[],
+  foldersToRemove: TFolder[],
+  app: App,
+  settings: FileCleanerSettings,
+) {
   const filesAndFolders: TAbstractFile[] = [...filesToRemove];
   filesAndFolders.push(...foldersToRemove.reverse());
 

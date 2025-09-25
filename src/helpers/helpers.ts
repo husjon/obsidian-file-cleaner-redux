@@ -3,11 +3,13 @@ import { type FileCleanerSettings } from "../settings";
 import { Deletion } from "../enums";
 import translate from "../i18n";
 
-async function removeFile(
+export async function removeFile(
   file: TAbstractFile,
   app: App,
   settings: FileCleanerSettings,
 ) {
+  if (!(await app.vault.adapter.exists(file.path))) return;
+
   switch (settings.deletionDestination) {
     case Deletion.Permanent:
       await app.vault.delete(file, true);

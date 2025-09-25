@@ -21,6 +21,7 @@ export interface FileCleanerSettings {
   deleteEmptyMarkdownFilesWithBacklinks: boolean;
   fileAgeThreshold: number;
   closeNewTabs: boolean;
+  deleteEmptyFileOnClose: boolean;
 }
 export enum ExcludeInclude {
   Exclude = Number(false),
@@ -44,6 +45,7 @@ export const DEFAULT_SETTINGS: FileCleanerSettings = {
   deleteEmptyMarkdownFilesWithBacklinks: false,
   fileAgeThreshold: 0,
   closeNewTabs: false,
+  deleteEmptyFileOnClose: false,
 };
 
 export class FileCleanerSettingTab extends PluginSettingTab {
@@ -412,6 +414,20 @@ export class FileCleanerSettingTab extends PluginSettingTab {
 
         toggle.onChange((value) => {
           this.plugin.settings.closeNewTabs = value;
+          this.plugin.saveSettings();
+        });
+      });
+    // #endregion
+
+    // #region Delete empty file on close
+    new Setting(containerEl)
+      .setName(translate().Settings.Other.DeleteEmptyFileOnClose.Label)
+      .setDesc(translate().Settings.Other.DeleteEmptyFileOnClose.Description)
+      .addToggle((toggle) => {
+        toggle.setValue(this.plugin.settings.closeNewTabs);
+
+        toggle.onChange((value) => {
+          this.plugin.settings.deleteEmptyFileOnClose = value;
           this.plugin.saveSettings();
         });
       });
