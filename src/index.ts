@@ -4,7 +4,7 @@ import {
   DEFAULT_SETTINGS,
   FileCleanerSettingTab,
 } from "./settings";
-import { runCleanup } from "./util";
+import { runCleanup, scanVault } from "./util";
 import translate from "./i18n";
 
 export default class FileCleanerPlugin extends Plugin {
@@ -42,6 +42,10 @@ export default class FileCleanerPlugin extends Plugin {
   }
 
   private runVaultCleanup = async () => {
-    runCleanup(this.app, this.settings);
+    const { filesToRemove, foldersToRemove } = await scanVault(
+      this.app,
+      this.settings,
+    );
+    runCleanup(filesToRemove, foldersToRemove, this.app, this.settings);
   };
 }
