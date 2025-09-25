@@ -131,7 +131,7 @@ const enUS: Locale = {
       DeleteEmptyFileOnClose: {
         Label: "Delete empty file on close",
         Description:
-          "Whether to perform cleanup of the recently closed markdown files. Only cleans empty files",
+          "Whether to perform cleanup of the recently closed markdown files. Only cleans empty files matching the rules above",
       },
 
       PreviewDeletedFiles: {
