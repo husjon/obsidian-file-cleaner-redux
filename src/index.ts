@@ -46,10 +46,7 @@ export default class FileCleanerPlugin extends Plugin {
           .filter((f) => !currentlyOpenedFiles.includes(f))
           .forEach(async (f) => {
             if (await checkMarkdown(f, this.app, this.settings))
-              removeFile(f, this.app, {
-                ...this.settings,
-                deletionConfirmation: false,
-              });
+              removeFile(f, this.app, this.settings);
           });
 
         this.lastOpenedFiles = currentlyOpenedFiles;
