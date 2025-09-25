@@ -7,6 +7,7 @@ import {
 import { runCleanup, scanVault } from "./util";
 import translate from "./i18n";
 import { checkMarkdown } from "./helpers/markdown";
+import { removeFile } from "./helpers/helpers";
 
 export default class FileCleanerPlugin extends Plugin {
   plugin: FileCleanerPlugin;
@@ -45,7 +46,7 @@ export default class FileCleanerPlugin extends Plugin {
           .filter((f) => !currentlyOpenedFiles.includes(f))
           .forEach(async (f) => {
             if (await checkMarkdown(f, this.app, this.settings))
-              runCleanup([f], [], this.app, {
+              removeFile(f, this.app, {
                 ...this.settings,
                 deletionConfirmation: false,
               });
