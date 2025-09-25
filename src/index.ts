@@ -1,4 +1,4 @@
-import { Plugin } from "obsidian";
+import { FileView, Plugin, TFile } from "obsidian";
 import {
   type FileCleanerSettings,
   DEFAULT_SETTINGS,
@@ -6,10 +6,13 @@ import {
 } from "./settings";
 import { runCleanup, scanVault } from "./util";
 import translate from "./i18n";
+import { checkMarkdown } from "./helpers/markdown";
 
 export default class FileCleanerPlugin extends Plugin {
   plugin: FileCleanerPlugin;
   settings: FileCleanerSettings;
+
+  lastOpenedFiles: TFile[] = [];
 
   async onload() {
     await this.loadSettings();
@@ -29,6 +32,28 @@ export default class FileCleanerPlugin extends Plugin {
     this.addSettingTab(new FileCleanerSettingTab(this.app, this));
 
     if (this.settings.runOnStartup) setTimeout(this.runVaultCleanup, 1000);
+
+    this.registerEvent(
+      this.app.workspace.on("layout-change", async () => {
+        if (!this.settings.deleteEmptyFileOnClose) return;
+
+        const currentlyOpenedFiles: TFile[] = this.app.workspace
+          .getLeavesOfType("markdown")
+          .map((leaf) => (leaf.view as FileView).file);
+
+        this.lastOpenedFiles
+          .filter((f) => !currentlyOpenedFiles.includes(f))
+          .forEach(async (f) => {
+            if (await checkMarkdown(f, this.app, this.settings))
+              runCleanup([f], [], this.app, {
+                ...this.settings,
+                deletionConfirmation: false,
+              });
+          });
+
+        this.lastOpenedFiles = currentlyOpenedFiles;
+      }),
+    );
   }
 
   onunload() {}
