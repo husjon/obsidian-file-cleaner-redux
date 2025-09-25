@@ -424,7 +424,7 @@ export class FileCleanerSettingTab extends PluginSettingTab {
       .setName(translate().Settings.Other.DeleteEmptyFileOnClose.Label)
       .setDesc(translate().Settings.Other.DeleteEmptyFileOnClose.Description)
       .addToggle((toggle) => {
-        toggle.setValue(this.plugin.settings.closeNewTabs);
+        toggle.setValue(this.plugin.settings.deleteEmptyFileOnClose);
 
         toggle.onChange((value) => {
           this.plugin.settings.deleteEmptyFileOnClose = value;
