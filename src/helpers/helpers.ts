@@ -8,6 +8,8 @@ export async function removeFile(
   app: App,
   settings: FileCleanerSettings,
 ) {
+  if (!(await app.vault.adapter.exists(file.path))) return;
+
   switch (settings.deletionDestination) {
     case Deletion.Permanent:
       await app.vault.delete(file, true);
