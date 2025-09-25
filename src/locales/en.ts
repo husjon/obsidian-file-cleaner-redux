@@ -128,6 +128,12 @@ const enUS: Locale = {
         Description: "Close leftover New tabs",
       },
 
+      DeleteEmptyFileOnClose: {
+        Label: "Delete empty file on close",
+        Description:
+          "Whether to perform cleanup of the recently closed markdown files. Only cleans empty files",
+      },
+
       PreviewDeletedFiles: {
         Label: "Preview deleted files",
         Description: "Show a confirmation box with list of files to be removed",
