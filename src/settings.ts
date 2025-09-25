@@ -21,6 +21,7 @@ export interface FileCleanerSettings {
   deleteEmptyMarkdownFilesWithBacklinks: boolean;
   fileAgeThreshold: number;
   closeNewTabs: boolean;
+  deleteEmptyFileOnClose: boolean;
 }
 export enum ExcludeInclude {
   Exclude = Number(false),
@@ -44,6 +45,7 @@ export const DEFAULT_SETTINGS: FileCleanerSettings = {
   deleteEmptyMarkdownFilesWithBacklinks: false,
   fileAgeThreshold: 0,
   closeNewTabs: false,
+  deleteEmptyFileOnClose: false,
 };
 
 export class FileCleanerSettingTab extends PluginSettingTab {
