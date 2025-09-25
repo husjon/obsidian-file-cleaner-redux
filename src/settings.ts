@@ -419,6 +419,20 @@ export class FileCleanerSettingTab extends PluginSettingTab {
       });
     // #endregion
 
+    // #region Delete empty file on close
+    new Setting(containerEl)
+      .setName(translate().Settings.Other.DeleteEmptyFileOnClose.Label)
+      .setDesc(translate().Settings.Other.DeleteEmptyFileOnClose.Description)
+      .addToggle((toggle) => {
+        toggle.setValue(this.plugin.settings.closeNewTabs);
+
+        toggle.onChange((value) => {
+          this.plugin.settings.deleteEmptyFileOnClose = value;
+          this.plugin.saveSettings();
+        });
+      });
+    // #endregion
+
     // #region Preview deleted files
     new Setting(containerEl)
       .setName(translate().Settings.Other.PreviewDeletedFiles.Label)
