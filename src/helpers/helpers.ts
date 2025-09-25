@@ -3,7 +3,7 @@ import { type FileCleanerSettings } from "../settings";
 import { Deletion } from "../enums";
 import translate from "../i18n";
 
-async function removeFile(
+export async function removeFile(
   file: TAbstractFile,
   app: App,
   settings: FileCleanerSettings,
