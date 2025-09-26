@@ -50,14 +50,20 @@ async function checkFile(
   }
 }
 
-function isFolderExcluded(folder: TFolder, settings: FileCleanerSettings) {
+export function isFolderExcluded(
+  folder: TFolder,
+  settings: FileCleanerSettings,
+) {
   return (
     settings.excludedFolders
       .map((excludedFolder) => folder.path.match(RegExp(`^${excludedFolder}`)))
       .filter((x) => x).length > 0
   );
 }
-function isFolderIncluded(folder: TFolder, settings: FileCleanerSettings) {
+export function isFolderIncluded(
+  folder: TFolder,
+  settings: FileCleanerSettings,
+) {
   return (
     settings.excludedFolders
       .map((excludedFolder) => folder.path.match(RegExp(`^${excludedFolder}`)))
