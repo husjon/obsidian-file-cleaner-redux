@@ -2,9 +2,15 @@ import { FileView, Plugin, TFile } from "obsidian";
 import {
   type FileCleanerSettings,
   DEFAULT_SETTINGS,
+  ExcludeInclude,
   FileCleanerSettingTab,
 } from "./settings";
-import { runCleanup, scanVault } from "./util";
+import {
+  isFolderExcluded,
+  isFolderIncluded,
+  runCleanup,
+  scanVault,
+} from "./util";
 import translate from "./i18n";
 import { checkMarkdown } from "./helpers/markdown";
 import { removeFile } from "./helpers/helpers";
@@ -45,6 +51,14 @@ export default class FileCleanerPlugin extends Plugin {
         this.lastOpenedFiles
           .filter((f) => !currentlyOpenedFiles.includes(f))
           .forEach(async (f) => {
+            if (
+              (this.settings.excludeInclude === ExcludeInclude.Exclude &&
+                isFolderExcluded(f.parent, this.settings)) ||
+              (this.settings.excludeInclude === ExcludeInclude.Include &&
+                isFolderIncluded(f.parent, this.settings))
+            )
+              return;
+
             if (await checkMarkdown(f, this.app, this.settings))
               removeFile(f, this.app, this.settings);
           });
