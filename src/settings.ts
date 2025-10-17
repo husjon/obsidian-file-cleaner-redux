@@ -22,6 +22,8 @@ export interface FileCleanerSettings {
   fileAgeThreshold: number;
   closeNewTabs: boolean;
   deleteEmptyFileOnClose: boolean;
+
+  ExternalPlugins: {};
 }
 export enum ExcludeInclude {
   Exclude = Number(false),
@@ -46,6 +48,8 @@ export const DEFAULT_SETTINGS: FileCleanerSettings = {
   fileAgeThreshold: 0,
   closeNewTabs: false,
   deleteEmptyFileOnClose: false,
+
+  ExternalPlugins: {},
 };
 
 export class FileCleanerSettingTab extends PluginSettingTab {
