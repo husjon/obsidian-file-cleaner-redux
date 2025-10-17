@@ -123,6 +123,15 @@ export interface Locale {
 
     ExternalPluginSupport: {
       Header: string;
+
+      Excalidraw: {
+        Header: string;
+
+        TreatAsAttachments: {
+          Label: string;
+          Description: string;
+        };
+      };
     };
 
     DangerZone: {

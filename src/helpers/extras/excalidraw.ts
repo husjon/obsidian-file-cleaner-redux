@@ -1,11 +1,16 @@
 import { App, TFile } from "obsidian";
+import type { FileCleanerSettings } from "src/settings";
 
 interface ExcalidrawElement {
   id: string;
   isDeleted: boolean;
 }
 
-export async function checkExcalidraw(file: TFile, app: App) {
+export async function checkExcalidraw(
+  file: TFile,
+  app: App,
+  settings: FileCleanerSettings,
+) {
   const metadata = app.metadataCache;
 
   const frontmatter = metadata.getFileCache(file).frontmatter;
@@ -20,6 +25,9 @@ export async function checkExcalidraw(file: TFile, app: App) {
   const links = metadata.getBacklinksForFile(file).keys();
 
   if (links.length > 0) return false;
+
+  // Only delete excalidraw files that have no references if TreatAsAttachments is enabled
+  if (settings.ExternalPlugins.Excalidraw.TreatAsAttachments) return true;
 
   const content = await app.vault.cachedRead(file);
 
