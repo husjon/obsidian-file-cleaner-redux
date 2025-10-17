@@ -34,7 +34,7 @@ async function checkFile(
   if (file.extension === "md") {
     if (
       userHasPlugin("obsidian-excalidraw-plugin", app) &&
-      (await checkExcalidraw(file, app))
+      (await checkExcalidraw(file, app, settings))
     )
       return true;
 
