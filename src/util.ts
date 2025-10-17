@@ -22,7 +22,7 @@ async function checkFile(
   app: App,
   settings: FileCleanerSettings,
   file: TFile,
-  extensions: RegExp,
+  extensions: String[],
 ) {
   const NOW = Date.now();
   const ageThreshold = settings.fileAgeThreshold * 24 * 60 * 60 * 1000;
@@ -43,10 +43,11 @@ async function checkFile(
     return await checkCanvas(file, app);
   }
 
+  const extensionsRegex = RegExp(`^(${["md", ...extensions].join("|")})$`);
   if (settings.attachmentsExcludeInclude === ExcludeInclude.Include) {
-    return file.extension.match(extensions);
+    return file.extension.match(extensionsRegex);
   } else if (settings.attachmentsExcludeInclude === ExcludeInclude.Exclude) {
-    return !file.extension.match(extensions);
+    return !file.extension.match(extensionsRegex);
   }
 }
 

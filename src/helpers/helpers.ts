@@ -72,7 +72,7 @@ export function getExtensions(settings: FileCleanerSettings) {
 
   if (settings.attachmentExtensions.includes("*")) extensions.push(".*");
 
-  return RegExp(`^(${["md", ...extensions].join("|")})$`);
+  return extensions;
 }
 
 export interface AppWithPlugins extends App {
