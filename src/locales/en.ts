@@ -145,6 +145,10 @@ const enUS: Locale = {
       },
     },
 
+    ExternalPluginSupport: {
+      Header: "External plugin support",
+    },
+
     DangerZone: {
       Header: "Danger zone",
 
