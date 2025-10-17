@@ -113,6 +113,16 @@ Shows a confirmation box with list of files and folders to be removed (see [scre
 
 Runs the cleaner on startup
 
+### External Plugin Support
+
+Only visible if any of the supported plugins are enabled, currently only Excalidraw
+
+#### Excalidraw
+
+##### Treat Excalidraw files as attachments
+
+With this option enabled any Excalidraw that are no longer referenced by other files, will be removed.
+
 ## How to use the plugin
 
 - Click the "File Cleaner" ribbon icon or add a Keybinding for the `Clean files` command.
