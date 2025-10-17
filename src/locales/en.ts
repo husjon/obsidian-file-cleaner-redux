@@ -147,6 +147,16 @@ const enUS: Locale = {
 
     ExternalPluginSupport: {
       Header: "External plugin support",
+
+      Excalidraw: {
+        Header: "Excalidraw",
+
+        TreatAsAttachments: {
+          Label: "Treat Excalidraw files as attachments",
+          Description:
+            "With this option enabled any Excalidraw that are no longer referenced by other files, will be removed.",
+        },
+      },
     },
 
     DangerZone: {
