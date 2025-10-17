@@ -24,7 +24,11 @@ export interface FileCleanerSettings {
   closeNewTabs: boolean;
   deleteEmptyFileOnClose: boolean;
 
-  ExternalPlugins: {};
+  ExternalPlugins: {
+    Excalidraw: {
+      TreatAsAttachments: boolean;
+    };
+  };
 }
 export enum ExcludeInclude {
   Exclude = Number(false),
@@ -50,7 +54,11 @@ export const DEFAULT_SETTINGS: FileCleanerSettings = {
   closeNewTabs: false,
   deleteEmptyFileOnClose: false,
 
-  ExternalPlugins: {},
+  ExternalPlugins: {
+    Excalidraw: {
+      TreatAsAttachments: false,
+    },
+  },
 };
 
 const supportedPlugins = new Set([
