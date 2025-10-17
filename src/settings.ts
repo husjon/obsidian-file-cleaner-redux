@@ -488,6 +488,36 @@ export class FileCleanerSettingTab extends PluginSettingTab {
       this.containerEl.createEl("h3", {
         text: translate().Settings.ExternalPluginSupport.Header,
       });
+
+      // #region Excalidraw
+      if (userHasPlugin("obsidian-excalidraw-plugin", this.app)) {
+        this.containerEl.createEl("h4", {
+          text: translate().Settings.ExternalPluginSupport.Excalidraw.Header,
+        });
+
+        new Setting(containerEl)
+          .setName(
+            translate().Settings.ExternalPluginSupport.Excalidraw
+              .TreatAsAttachments.Label,
+          )
+          .setDesc(
+            translate().Settings.ExternalPluginSupport.Excalidraw
+              .TreatAsAttachments.Description,
+          )
+          .addToggle((toggle) => {
+            toggle.setValue(
+              this.plugin.settings.ExternalPlugins.Excalidraw
+                .TreatAsAttachments,
+            );
+
+            toggle.onChange((value) => {
+              this.plugin.settings.ExternalPlugins.Excalidraw.TreatAsAttachments =
+                value;
+              this.plugin.saveSettings();
+            });
+          });
+      }
+      // #endregion Excalidraw
     }
     // #endregion External Plugin Options
 
