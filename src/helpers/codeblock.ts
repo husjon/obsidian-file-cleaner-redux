@@ -46,7 +46,7 @@ export async function getCodeblockAttachments(
   return attachments.flatMap((attachment) => [...attachment]);
 }
 
-async function getCodeblocksFromMarkdownFiles(app: App) {
+export async function getCodeblocksFromMarkdownFiles(app: App) {
   // Get list of all markdown files that contains code blocks.
   // Since FileCache doesn't include which type of block it is,
   //   this is as good as it gets for now.

@@ -17,6 +17,7 @@ import { getAdmonitionAttachments } from "./helpers/extras/admonition";
 import { Deletion } from "./enums";
 import { checkExcalidraw } from "./helpers/extras/excalidraw";
 import { getCodeblockAttachments } from "./helpers/codeblock";
+import { getInkAttachments } from "./helpers/extras/ink";
 
 async function checkFile(
   app: App,
@@ -114,6 +115,9 @@ export async function scanVault(app: App, settings: FileCleanerSettings) {
   if (userHasPlugin("obsidian-admonition", app))
     inUseAttachmentsInitial.push(...(await getAdmonitionAttachments(app)));
 
+  if (userHasPlugin("ink", app))
+    inUseAttachmentsInitial.push(...(await getInkAttachments(app)));
+
   if (settings.codeblockTypes.length > 0) {
     const codeblockLanguages = RegExp(`${settings.codeblockTypes.join("|")}`);
     inUseAttachmentsInitial.push(
@@ -136,6 +140,8 @@ export async function scanVault(app: App, settings: FileCleanerSettings) {
   const filesToRemove: TFile[] = [];
   const foldersToRemove: TFolder[] = [];
   const extensions = getExtensions(settings);
+
+  if (userHasPlugin("ink", app)) extensions.push("drawing", "writing");
 
   for (const folder of folders) {
     if (
