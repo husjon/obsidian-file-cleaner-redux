@@ -3,6 +3,7 @@ import FileCleanerPlugin from ".";
 import translate from "./i18n";
 import { Deletion } from "./enums";
 import { ResetSettingsModal } from "./modals";
+import { userHasPlugin } from "./helpers/helpers";
 
 export interface FileCleanerSettings {
   deletionDestination: Deletion;
@@ -22,6 +23,8 @@ export interface FileCleanerSettings {
   fileAgeThreshold: number;
   closeNewTabs: boolean;
   deleteEmptyFileOnClose: boolean;
+
+  ExternalPlugins: {};
 }
 export enum ExcludeInclude {
   Exclude = Number(false),
@@ -46,7 +49,13 @@ export const DEFAULT_SETTINGS: FileCleanerSettings = {
   fileAgeThreshold: 0,
   closeNewTabs: false,
   deleteEmptyFileOnClose: false,
+
+  ExternalPlugins: {},
 };
+
+const supportedPlugins = new Set([
+  // plugin IDs goes here
+]);
 
 export class FileCleanerSettingTab extends PluginSettingTab {
   plugin: FileCleanerPlugin;
@@ -461,6 +470,17 @@ export class FileCleanerSettingTab extends PluginSettingTab {
       });
     // #endregion
     // #endregion Regular Options
+
+    // #region External Plugin Options
+    if (
+      [...supportedPlugins].filter((plugin) => userHasPlugin(plugin, this.app))
+        .length > 0
+    ) {
+      this.containerEl.createEl("h3", {
+        text: translate().Settings.ExternalPluginSupport.Header,
+      });
+    }
+    // #endregion External Plugin Options
 
     // #region Danger Zone
     this.containerEl.createEl("h3", {

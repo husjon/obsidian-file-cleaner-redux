@@ -121,6 +121,10 @@ export interface Locale {
       };
     };
 
+    ExternalPluginSupport: {
+      Header: string;
+    };
+
     DangerZone: {
       Header: string;
 
