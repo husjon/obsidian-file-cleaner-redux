@@ -63,6 +63,7 @@ export const DEFAULT_SETTINGS: FileCleanerSettings = {
 
 const supportedPlugins = new Set([
   // plugin IDs goes here
+  "obsidian-excalidraw-plugin",
 ]);
 
 export class FileCleanerSettingTab extends PluginSettingTab {
