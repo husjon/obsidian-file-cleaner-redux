@@ -33,15 +33,7 @@ export async function checkExcalidraw(
 
   const data = parseExcalidraw(content, file.path);
 
-  const elements: ExcalidrawElement[] = data.elements;
-  if (elements.length === 0) return true;
-
-  // In the case where the Excalidraw file has been saved just after deleing the last element,
-  //  the element is still part of the file but tagged with `isDeleted`, if there are no such element it can be deleted.
-  const activeElements = elements.filter((el) => !el.isDeleted);
-  if (activeElements.length === 0) return true;
-
-  return false;
+  return isEmpty(data.elements);
 }
 
 export function parseExcalidraw(content: string, filePath: string) {
@@ -62,4 +54,15 @@ export function parseExcalidraw(content: string, filePath: string) {
   if (codeBlockRaw.length === 0) return false;
 
   return JSON.parse(codeBlockRaw);
+}
+
+export function isEmpty(elements: ExcalidrawElement[]) {
+  if (elements.length === 0) return true;
+
+  // In the case where the Excalidraw file has been saved just after deleing the last element,
+  //  the element is still part of the file but tagged with `isDeleted`, if there are no such element it can be deleted.
+  const activeElements = elements.filter((el) => !el.isDeleted);
+  if (activeElements.length === 0) return true;
+
+  return false;
 }
