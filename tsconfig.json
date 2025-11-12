@@ -14,7 +14,11 @@
     "esModuleInterop": true,
 
     "verbatimModuleSyntax": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   },
   "include": ["**/*.ts", "**/*.svelte"]
 }
