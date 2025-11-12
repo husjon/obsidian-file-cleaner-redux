@@ -34,23 +34,7 @@ export async function checkExcalidraw(
 
   const content = await app.vault.cachedRead(file);
 
-  const blockStart = content.search(/{[ \t\n]*"type":[ ]*"excalidraw"/);
-  const blockEnd = content.search(/```\n?%%/);
-
-  if (blockStart < 0) return false;
-  if (blockEnd < 0) {
-    console.warn(
-      `Could not determine codeblock boundary for the following Excalidraw file: ${file.path}`,
-    );
-    return false;
-  }
-
-  const codeBlockRaw = content.slice(blockStart, blockEnd);
-
-  // Abort if the file could not be identified
-  if (codeBlockRaw.length === 0) return false;
-
-  const data = JSON.parse(codeBlockRaw) as ExcalidrawContent;
+  const data = parseExcalidraw(content, file.path);
 
   const elements: ExcalidrawElement[] = data.elements;
   if (elements.length === 0) return true;
@@ -61,4 +45,24 @@ export async function checkExcalidraw(
   if (activeElements.length === 0) return true;
 
   return false;
+}
+
+export function parseExcalidraw(content: string, filePath: string) {
+  const blockStart = content.search(/{[ \t\n]*"type":[ ]*"excalidraw"/);
+  const blockEnd = content.search(/```\n?%%/);
+
+  if (blockStart < 0) return false;
+  if (blockEnd < 0) {
+    console.warn(
+      `Could not determine codeblock boundary for the following Excalidraw file: ${filePath}`,
+    );
+    return false;
+  }
+
+  const codeBlockRaw = content.slice(blockStart, blockEnd);
+
+  // Abort if the file could not be identified
+  if (codeBlockRaw.length === 0) return false;
+
+  return JSON.parse(codeBlockRaw);
 }
