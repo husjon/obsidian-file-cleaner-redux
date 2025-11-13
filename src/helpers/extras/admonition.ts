@@ -50,7 +50,7 @@ export async function getAdmonitionAttachments(app: App) {
       // Push the attachments we find to the resulting attachments array
       Array.from(matches).forEach((match) => {
         const attachmentPath = match[2] || match[3];
-        if (!attachments.contains(attachmentPath))
+        if (!attachments.includes(attachmentPath))
           attachments.push(attachmentPath);
       });
     }

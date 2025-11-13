@@ -37,7 +37,7 @@ export async function checkMarkdown(
     const frontmatterKeys = Object.keys(fileCache.frontmatter);
 
     return frontmatterKeys.every((frontmatterKey) =>
-      settings.ignoredFrontmatter.contains(frontmatterKey),
+      settings.ignoredFrontmatter.includes(frontmatterKey),
     );
   }
 

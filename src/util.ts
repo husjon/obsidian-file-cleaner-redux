@@ -179,7 +179,7 @@ export async function scanVault(app: App, settings: FileCleanerSettings) {
     const subFolders = getSubFoldersInFolder(folder);
 
     subFolders.forEach((subFolder) => {
-      if (!foldersToRemove.contains(subFolder)) foldersToRemove.remove(folder);
+      if (!foldersToRemove.includes(subFolder)) foldersToRemove.remove(folder);
     });
   });
 
