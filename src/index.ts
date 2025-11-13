@@ -79,10 +79,18 @@ export default class FileCleanerPlugin extends Plugin {
   }
 
   private runVaultCleanup = async () => {
+    console.clear();
+
     const { filesToRemove, foldersToRemove } = await scanVault(
       this.app,
       this.settings,
     );
+
+    try {
+      const el: HTMLElement = document.querySelector(".modal-close-button");
+      el.click();
+    } catch {}
+
     runCleanup(filesToRemove, foldersToRemove, this.app, this.settings);
   };
 }
