@@ -4,7 +4,7 @@ export async function getAdmonitionAttachments(app: App) {
   console.group("Admonition");
   const indexingStart = Date.now();
 
-  const attachments: string[] = [];
+  let attachments: string[] = [];
 
   // Get list of all markdown files that contains code blocks.
   // Since FileCache doesn't include which type of block it is,
@@ -40,19 +40,9 @@ export async function getAdmonitionAttachments(app: App) {
       // If the block is not an admonition block, we'll skip it
       if (!codeBlock.match(/^```ad-\w+/)) continue;
 
-      // Matches the following signatures and capture the filename itself
-      // * Admonition: ![](image.png) or ![|100](image.png)
-      // * Obsidian:   ![[image.png]] or ![[image.png|100]]
-      const matches = codeBlock.matchAll(
-        /!(\[.*?\]\((.+?)\)|\[\[(.+?)(\|.*?)?\]\])/g,
+      parseAdmonition(codeBlock).forEach((attachment) =>
+        attachments.push(attachment),
       );
-
-      // Push the attachments we find to the resulting attachments array
-      Array.from(matches).forEach((match) => {
-        const attachmentPath = match[2] || match[3];
-        if (!attachments.includes(attachmentPath))
-          attachments.push(attachmentPath);
-      });
     }
   }
   const duration = (Date.now() - indexingStart) / 1000;
@@ -60,5 +50,24 @@ export async function getAdmonitionAttachments(app: App) {
     `Found ${attachments.length} attachments in Admonition blocks in ${duration}ms.`,
   );
   console.groupEnd();
+  return attachments;
+}
+
+export function parseAdmonition(content: string) {
+  const attachments: string[] = [];
+
+  // Matches the following signatures and capture the filename itself
+  // * Admonition: ![](image.png) or ![|100](image.png)
+  // * Obsidian:   ![[image.png]] or ![[image.png|100]]
+  const matches = content.matchAll(
+    /!(\[.*?\]\((.+?)\)|\[\[(.+?)(\|.*?)?\]\])/g,
+  );
+
+  // Push the attachments we find to the resulting attachments array
+  Array.from(matches).forEach((match) => {
+    const attachmentPath = match[2] || match[3];
+    if (!attachments.includes(attachmentPath)) attachments.push(attachmentPath);
+  });
+
   return attachments;
 }
