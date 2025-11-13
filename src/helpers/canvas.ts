@@ -110,6 +110,14 @@ export async function checkCanvas(file: TFile, app: App) {
   const rawContent = await app.vault.cachedRead(file);
   const canvas = JSON.parse(rawContent) as CanvasContent;
 
+  return isEmpty(rawContent);
+}
+
+export function isEmpty(content: string) {
+  const canvas = JSON.parse(content);
+
+  if (Object.keys(canvas).length === 0) return true;
+
   if (
     canvas.edges &&
     canvas.edges.length === 0 &&
