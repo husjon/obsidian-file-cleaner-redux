@@ -97,9 +97,21 @@ export async function checkCanvas(file: TFile, app: App) {
   if (file.stat.size <= 28) return true;
 
   const rawContent = await app.vault.cachedRead(file);
-  const canvas = JSON.parse(rawContent);
 
-  if (canvas.nodes.length === 0 && canvas.edges.length === 0) return true;
+  return isEmpty(rawContent);
+}
+
+export function isEmpty(content: string) {
+  const canvas = JSON.parse(content);
+
+  if (Object.keys(canvas).length === 0) return true;
+
+  if (
+    ["nodes", "edges"].every((value) => canvas[value]) &&
+    canvas.nodes.length === 0 &&
+    canvas.edges.length === 0
+  )
+    return true;
 
   return false;
 }
