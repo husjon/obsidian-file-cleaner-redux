@@ -228,7 +228,7 @@ export class FileCleanerSettingTab extends PluginSettingTab {
         });
       });
 
-    new Setting(containerEl)
+    const attachmentExcludeIncludeSetting = new Setting(containerEl)
       .setName(
         this.plugin.settings.attachmentsExcludeInclude
           ? translate().Settings.Files.Attachments.Included.Label
@@ -266,6 +266,11 @@ export class FileCleanerSettingTab extends PluginSettingTab {
         text.inputEl.style.minHeight = "4rem";
         text.inputEl.style.maxHeight = "8rem";
       });
+    attachmentExcludeIncludeSetting.descEl.setHTMLUnsafe(
+      this.plugin.settings.attachmentsExcludeInclude
+        ? translate().Settings.Files.Attachments.Included.Description
+        : translate().Settings.Files.Attachments.Excluded.Description,
+    );
     // #endregion
 
     // #region File age threshold
