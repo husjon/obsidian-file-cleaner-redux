@@ -157,6 +157,7 @@ export async function scanVault(app: App, settings: FileCleanerSettings) {
     let childrenCount = files.length;
     for (const file of files) {
       if (inUseAttachments.includes(file.path)) continue;
+      if (file.extension === "base") continue;
 
       if (await checkFile(app, settings, file, extensions)) {
         filesToRemove.push(file);
