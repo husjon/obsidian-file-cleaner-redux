@@ -68,6 +68,7 @@ const supportedPlugins = new Set([
 
 export class FileCleanerSettingTab extends PluginSettingTab {
   plugin: FileCleanerPlugin;
+  icon: string = "trash";
 
   constructor(app: App, plugin: FileCleanerPlugin) {
     super(app, plugin);
