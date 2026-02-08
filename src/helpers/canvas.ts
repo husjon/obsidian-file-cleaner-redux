@@ -99,7 +99,13 @@ export async function checkCanvas(file: TFile, app: App) {
   const rawContent = await app.vault.cachedRead(file);
   const canvas = JSON.parse(rawContent);
 
-  if (canvas.nodes.length === 0 && canvas.edges.length === 0) return true;
+  if (
+    canvas.edges &&
+    canvas.edges.length === 0 &&
+    canvas.nodes &&
+    canvas.nodes.length === 0
+  )
+    return true;
 
   return false;
 }
