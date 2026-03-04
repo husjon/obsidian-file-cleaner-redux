@@ -19,6 +19,17 @@ const enUS: Locale = {
         Description:
           "Amount of days files can be in the `.trash` folder before they are permanently removed (minimum 1 day).",
       },
+
+      Notifications: {
+        Label: "Notifications",
+        Description: "How should notifications for this plugin be handled",
+
+        Options: {
+          ShowAllNotifications: "Show all",
+          ShowOnlyErrors: "Show only errors",
+          HideAll: "Hide all",
+        },
+      },
     },
 
     Folders: {
