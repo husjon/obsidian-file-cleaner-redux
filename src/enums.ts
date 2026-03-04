@@ -3,3 +3,9 @@ export enum Deletion {
   ObsidianTrash = "obsidian",
   Permanent = "permanent",
 }
+
+export enum Notification {
+  ShowAll = "showAll",
+  ShowOnlyErrors = "showOnlyErrors",
+  HideAll = "hideAll",
+}
