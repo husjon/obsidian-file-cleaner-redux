@@ -161,6 +161,11 @@ export class FileCleanerSettingTab extends PluginSettingTab {
               .ShowAllNotifications,
           )
           .addOption(
+            Notification.ShowOnlyErrors,
+            translate().Settings.RegularOptions.Notifications.Options
+              .ShowOnlyErrors,
+          )
+          .addOption(
             Notification.HideAll,
             translate().Settings.RegularOptions.Notifications.Options.HideAll,
           )
