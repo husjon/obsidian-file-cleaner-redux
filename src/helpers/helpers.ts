@@ -1,6 +1,6 @@
 import { App, Notice, TAbstractFile, TFile, TFolder } from "obsidian";
 import { type FileCleanerSettings } from "../settings";
-import { Deletion, Notification } from "../enums";
+import { Deletion, Notification, NotificationType } from "../enums";
 import translate from "../i18n";
 
 export async function removeFile(
@@ -89,10 +89,18 @@ export function getSettings() {
     .settings as FileCleanerSettings;
 }
 
-export function notify(message: string) {
+export function notify(
+  message: string,
+  type: NotificationType = NotificationType.Info,
+) {
   const settings = getSettings();
 
   if (settings.notifications === Notification.HideAll) return;
+  if (
+    settings.notifications === Notification.ShowOnlyErrors &&
+    type !== NotificationType.Error
+  )
+    return;
 
   new Notice(message);
 }
