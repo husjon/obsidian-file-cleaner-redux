@@ -9,3 +9,8 @@ export enum Notification {
   ShowOnlyErrors = "showOnlyErrors",
   HideAll = "hideAll",
 }
+
+export enum NotificationType {
+  Info,
+  Error,
+}
