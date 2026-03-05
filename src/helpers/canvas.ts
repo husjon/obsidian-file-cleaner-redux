@@ -1,5 +1,6 @@
 import { App, TFile } from "obsidian";
 import { notify } from "./helpers";
+import { NotificationType } from "src/enums";
 
 interface CanvasNode {
   id: string;
@@ -72,7 +73,10 @@ export async function getCanvasAttachments(app: App) {
 
               return [...fileNodes, ...cardNodes];
             } catch (error) {
-              notify(`Failed to parse canvas file: ${file.path}`);
+              notify(
+                `Failed to parse canvas file: ${file.path}`,
+                NotificationType.Error,
+              );
             }
           },
         );
