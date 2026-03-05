@@ -13,7 +13,8 @@ import {
 } from "./util";
 import translate from "./i18n";
 import { checkMarkdown } from "./helpers/markdown";
-import { removeFile } from "./helpers/helpers";
+import { notify, removeFile } from "./helpers/helpers";
+import { NotificationType } from "./enums";
 
 export default class FileCleanerPlugin extends Plugin {
   plugin: FileCleanerPlugin;
@@ -79,10 +80,19 @@ export default class FileCleanerPlugin extends Plugin {
   }
 
   private runVaultCleanup = async () => {
-    const { filesToRemove, foldersToRemove } = await scanVault(
-      this.app,
-      this.settings,
-    );
-    runCleanup(filesToRemove, foldersToRemove, this.app, this.settings);
+    try {
+      const { filesToRemove, foldersToRemove } = await scanVault(
+        this.app,
+        this.settings,
+      );
+
+      await runCleanup(filesToRemove, foldersToRemove, this.app, this.settings);
+    } catch (error) {
+      notify(
+        "An unexected error occurred, please check the console.",
+        NotificationType.Error,
+      );
+      throw error;
+    }
   };
 }
