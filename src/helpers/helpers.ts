@@ -84,6 +84,11 @@ export function userHasPlugin(id: string, app: App) {
   return plugins.hasOwnProperty(id);
 }
 
+export function getSettings() {
+  return this.app.plugins.plugins["file-cleaner-redux"]
+    .settings as FileCleanerSettings;
+}
+
 export function notify(message: string) {
   new Notice(message);
 }
