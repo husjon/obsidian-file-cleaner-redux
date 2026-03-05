@@ -3,7 +3,7 @@ import FileCleanerPlugin from ".";
 import translate from "./i18n";
 import { Deletion, Notification } from "./enums";
 import { ResetSettingsModal } from "./modals";
-import { userHasPlugin } from "./helpers/helpers";
+import { notify, userHasPlugin } from "./helpers/helpers";
 
 export interface FileCleanerSettings {
   deletionDestination: Deletion;
@@ -575,7 +575,7 @@ export class FileCleanerSettingTab extends PluginSettingTab {
                 this.display();
                 this.plugin.loadSettings();
 
-                new Notice(translate().Notifications.SettingsReset);
+                notify(translate().Notifications.SettingsReset);
               },
             });
           });

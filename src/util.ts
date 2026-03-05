@@ -1,10 +1,11 @@
-import { App, Notice, TAbstractFile, TFile, TFolder } from "obsidian";
+import { App, TAbstractFile, TFile, TFolder } from "obsidian";
 import { ExcludeInclude, type FileCleanerSettings } from "./settings";
 import {
   getExtensions,
   getFilesInFolder,
   getInUseAttachments,
   getSubFoldersInFolder,
+  notify,
   removeFiles,
   userHasPlugin,
 } from "./helpers/helpers";
@@ -206,7 +207,7 @@ export async function runCleanup(
   filesAndFolders.push(...foldersToRemove.reverse());
 
   if (filesAndFolders.length === 0)
-    new Notice(translate().Notifications.NoFileToClean);
+    notify(translate().Notifications.NoFileToClean);
   else {
     if (!settings.deletionConfirmation)
       await removeFiles(filesAndFolders, app, settings);
