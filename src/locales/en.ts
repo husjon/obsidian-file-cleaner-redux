@@ -208,6 +208,11 @@ const enUS: Locale = {
     CleanSuccessful: "Clean successful",
     NoFileToClean: "No file to clean",
     SettingsReset: "File Cleaner Redux: Setting reset",
+
+    FailedToParseCanvas: "Failed to parse canvas file",
+
+    UnexpectedErrorOccurred:
+      "An unexpected error occurred, please check the console",
   },
 };
 

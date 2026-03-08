@@ -183,5 +183,8 @@ export interface Locale {
     CleanSuccessful: string;
     NoFileToClean: string;
     SettingsReset: string;
+
+    UnexpectedErrorOccurred: string;
+    FailedToParseCanvas: string;
   };
 }
