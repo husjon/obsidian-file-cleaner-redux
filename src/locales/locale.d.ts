@@ -15,6 +15,17 @@ export interface Locale {
         Label: string;
         Description: string;
       };
+
+      Notifications: {
+        Label: string;
+        Description: string;
+
+        Options: {
+          ShowAllNotifications: string;
+          ShowOnlyErrors: string;
+          HideAll: string;
+        };
+      };
     };
 
     Folders: {
@@ -172,5 +183,8 @@ export interface Locale {
     CleanSuccessful: string;
     NoFileToClean: string;
     SettingsReset: string;
+
+    UnexpectedErrorOccurred: string;
+    FailedToParseCanvas: string;
   };
 }

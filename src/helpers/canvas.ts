@@ -1,4 +1,7 @@
-import { App, Notice, TFile } from "obsidian";
+import { App, TFile } from "obsidian";
+import { notify } from "./helpers";
+import { NotificationType } from "src/enums";
+import translate from "src/i18n";
 
 interface CanvasNode {
   id: string;
@@ -71,7 +74,10 @@ export async function getCanvasAttachments(app: App) {
 
               return [...fileNodes, ...cardNodes];
             } catch (error) {
-              new Notice(`Failed to parse canvas file: ${file.path}`);
+              notify(
+                `${translate().Notifications.FailedToParseCanvas}: ${file.path}`,
+                NotificationType.Error,
+              );
             }
           },
         );

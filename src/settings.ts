@@ -1,13 +1,14 @@
 import { App, Notice, PluginSettingTab, Setting } from "obsidian";
 import FileCleanerPlugin from ".";
 import translate from "./i18n";
-import { Deletion } from "./enums";
+import { Deletion, Notification } from "./enums";
 import { ResetSettingsModal } from "./modals";
-import { userHasPlugin } from "./helpers/helpers";
+import { notify, userHasPlugin } from "./helpers/helpers";
 
 export interface FileCleanerSettings {
   deletionDestination: Deletion;
   obsidianTrashCleanupAge: number;
+  notifications: Notification;
   excludeInclude: ExcludeInclude;
   excludedFolders: string[];
   attachmentsExcludeInclude: ExcludeInclude;
@@ -38,6 +39,7 @@ export enum ExcludeInclude {
 export const DEFAULT_SETTINGS: FileCleanerSettings = {
   deletionDestination: Deletion.SystemTrash,
   obsidianTrashCleanupAge: -1,
+  notifications: Notification.ShowAll,
   excludeInclude: ExcludeInclude.Exclude,
   excludedFolders: [],
   attachmentsExcludeInclude: ExcludeInclude.Include,
@@ -145,6 +147,35 @@ export class FileCleanerSettingTab extends PluginSettingTab {
             this.plugin.saveSettings();
           });
         });
+    // #endregion
+
+    // #region Notifications
+    new Setting(containerEl)
+      .setName(translate().Settings.RegularOptions.Notifications.Label)
+      .setDesc(translate().Settings.RegularOptions.Notifications.Description)
+      .addDropdown((dropdown) =>
+        dropdown
+          .addOption(
+            Notification.ShowAll,
+            translate().Settings.RegularOptions.Notifications.Options
+              .ShowAllNotifications,
+          )
+          .addOption(
+            Notification.ShowOnlyErrors,
+            translate().Settings.RegularOptions.Notifications.Options
+              .ShowOnlyErrors,
+          )
+          .addOption(
+            Notification.HideAll,
+            translate().Settings.RegularOptions.Notifications.Options.HideAll,
+          )
+          .setValue(this.plugin.settings.notifications)
+          .onChange((value) => {
+            this.plugin.settings.notifications = value as Notification;
+            this.plugin.saveSettings();
+            this.display();
+          }),
+      );
     // #endregion
 
     // #region Folder inclusion / exclusion
@@ -549,7 +580,7 @@ export class FileCleanerSettingTab extends PluginSettingTab {
                 this.display();
                 this.plugin.loadSettings();
 
-                new Notice(translate().Notifications.SettingsReset);
+                notify(translate().Notifications.SettingsReset);
               },
             });
           });

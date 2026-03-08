@@ -1,6 +1,6 @@
 import { App, Notice, TAbstractFile, TFile, TFolder } from "obsidian";
 import { type FileCleanerSettings } from "../settings";
-import { Deletion } from "../enums";
+import { Deletion, Notification, NotificationType } from "../enums";
 import translate from "../i18n";
 
 export async function removeFile(
@@ -32,9 +32,9 @@ export async function removeFiles(
     for (const file of files) {
       removeFile(file, app, settings);
     }
-    new Notice(translate().Notifications.CleanSuccessful);
+    notify(translate().Notifications.CleanSuccessful);
   } else {
-    new Notice(translate().Notifications.NoFileToClean);
+    notify(translate().Notifications.NoFileToClean);
   }
 }
 
@@ -82,4 +82,25 @@ export interface AppWithPlugins extends App {
 export function userHasPlugin(id: string, app: App) {
   const plugins = (app as AppWithPlugins).plugins.plugins;
   return plugins.hasOwnProperty(id);
+}
+
+export function getSettings() {
+  return this.app.plugins.plugins["file-cleaner-redux"]
+    .settings as FileCleanerSettings;
+}
+
+export function notify(
+  message: string,
+  type: NotificationType = NotificationType.Info,
+) {
+  const settings = getSettings();
+
+  if (settings.notifications === Notification.HideAll) return;
+  if (
+    settings.notifications === Notification.ShowOnlyErrors &&
+    type !== NotificationType.Error
+  )
+    return;
+
+  new Notice(message);
 }
