@@ -89,7 +89,7 @@ export default class FileCleanerPlugin extends Plugin {
       await runCleanup(filesToRemove, foldersToRemove, this.app, this.settings);
     } catch (error) {
       notify(
-        "An unexected error occurred, please check the console.",
+        translate().Notifications.UnexpectedErrorOccurred,
         NotificationType.Error,
       );
       throw error;
