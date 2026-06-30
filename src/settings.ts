@@ -152,6 +152,15 @@ export class FileCleanerSettingTab extends PluginSettingTab {
             desc: translate().Settings.Folders.RemoveFolders.Description,
             control: { type: "toggle", key: "removeFolders" },
           },
+          {
+            name: translate().Settings.Folders.FolderFiltering.Label,
+            desc: translate().Settings.Folders.FolderFiltering.Description,
+            control: {
+              type: "toggle",
+              key: "excludeInclude",
+              defaultValue: false,
+            },
+          },
         ],
       },
     ];
@@ -165,19 +174,6 @@ export class FileCleanerSettingTab extends PluginSettingTab {
     new Setting(containerEl)
       .setName(translate().Settings.Folders.Header)
       .setHeading();
-
-    new Setting(containerEl)
-      .setName(translate().Settings.Folders.FolderFiltering.Label)
-      .setDesc(translate().Settings.Folders.FolderFiltering.Description)
-      .addToggle((toggle) => {
-        toggle.setValue(Boolean(this.plugin.settings.excludeInclude));
-
-        toggle.onChange(async (value) => {
-          this.plugin.settings.excludeInclude = Number(value);
-          await this.plugin.saveSettings();
-          this.display();
-        });
-      });
 
     new Setting(containerEl)
       .setName(
