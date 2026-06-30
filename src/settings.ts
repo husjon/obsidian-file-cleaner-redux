@@ -141,6 +141,19 @@ export class FileCleanerSettingTab extends PluginSettingTab {
           },
         },
       },
+
+      // Folders
+      {
+        type: "group",
+        heading: translate().Settings.Folders.Header,
+        items: [
+          {
+            name: translate().Settings.Folders.RemoveFolders.Label,
+            desc: translate().Settings.Folders.RemoveFolders.Description,
+            control: { type: "toggle", key: "removeFolders" },
+          },
+        ],
+      },
     ];
   }
 
@@ -152,18 +165,6 @@ export class FileCleanerSettingTab extends PluginSettingTab {
     new Setting(containerEl)
       .setName(translate().Settings.Folders.Header)
       .setHeading();
-
-    new Setting(containerEl)
-      .setName(translate().Settings.Folders.RemoveFolders.Label)
-      .setDesc(translate().Settings.Folders.RemoveFolders.Description)
-      .addToggle((toggle) => {
-        toggle.setValue(this.plugin.settings.removeFolders);
-
-        toggle.onChange(async (value) => {
-          this.plugin.settings.removeFolders = value;
-          await this.plugin.saveSettings();
-        });
-      });
 
     new Setting(containerEl)
       .setName(translate().Settings.Folders.FolderFiltering.Label)
