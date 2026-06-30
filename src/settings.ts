@@ -122,41 +122,31 @@ export class FileCleanerSettingTab extends PluginSettingTab {
         visible: () =>
           this.plugin.settings.deletionDestination === Deletion.ObsidianTrash,
       },
+      {
+        name: translate().Settings.RegularOptions.Notifications.Label,
+        desc: translate().Settings.RegularOptions.Notifications.Description,
+        control: {
+          type: "dropdown",
+          key: "notifications",
+          defaultValue: "system",
+          options: {
+            showAll:
+              translate().Settings.RegularOptions.Notifications.Options
+                .ShowAllNotifications,
+            showOnlyErrors:
+              translate().Settings.RegularOptions.Notifications.Options
+                .ShowOnlyErrors,
+            hideAll:
+              translate().Settings.RegularOptions.Notifications.Options.HideAll,
+          },
+        },
+      },
     ];
   }
 
   display(): void {
     const { containerEl } = this;
     this.containerEl.empty();
-
-    // #region Notifications
-    new Setting(containerEl)
-      .setName(translate().Settings.RegularOptions.Notifications.Label)
-      .setDesc(translate().Settings.RegularOptions.Notifications.Description)
-      .addDropdown((dropdown) =>
-        dropdown
-          .addOption(
-            Notification.ShowAll,
-            translate().Settings.RegularOptions.Notifications.Options
-              .ShowAllNotifications,
-          )
-          .addOption(
-            Notification.ShowOnlyErrors,
-            translate().Settings.RegularOptions.Notifications.Options
-              .ShowOnlyErrors,
-          )
-          .addOption(
-            Notification.HideAll,
-            translate().Settings.RegularOptions.Notifications.Options.HideAll,
-          )
-          .setValue(this.plugin.settings.notifications)
-          .onChange(async (value) => {
-            this.plugin.settings.notifications = value as Notification;
-            await this.plugin.saveSettings();
-            this.display();
-          }),
-      );
-    // #endregion
 
     // #region Folder inclusion / exclusion
     new Setting(containerEl)
