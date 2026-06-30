@@ -238,6 +238,82 @@ export class FileCleanerSettingTab extends PluginSettingTab {
             desc: translate().Settings.Files.Attachments.Description,
             control: { type: "toggle", key: "attachmentsExcludeInclude" },
           },
+          {
+            // FIXME - attribute switching based on state does not work
+            // TODO - maybe use visible and 2 blocks (one for include and one for exclude?)
+            // TODO - might just be better to change to using the File or Folder control type (or custom variant in the case of extentions), see: https://docs.obsidian.md/Plugins/User+interface/Settings#What's+not+yet+a+first-class+control
+            name: translate().Settings.Files.Attachments.Excluded.Label,
+            desc: translate().Settings.Files.Attachments.Excluded.Description,
+            visible: () => !this.plugin.settings.attachmentsExcludeInclude,
+            render: (setting: Setting) => {
+              setting.addTextArea((text) => {
+                text
+                  .setValue(
+                    this.plugin.settings.attachmentExtensions
+                      .map((ext) => `.${ext}`)
+                      .join(", "),
+                  )
+                  .onChange(async (value) => {
+                    this.plugin.settings.attachmentExtensions = value
+                      .split(",")
+                      .map((ext) => ext.trim())
+                      .filter((ext) => ext.startsWith(".") && ext.length > 1)
+                      .filter((ext) => ext !== "")
+                      .map((ext) => ext.replace(/^\./, ""));
+
+                    console.log(this.plugin.settings.attachmentExtensions);
+                    this.plugin.saveSettings();
+                  });
+                text.setPlaceholder(
+                  translate().Settings.Files.Attachments.Excluded.Placeholder,
+                );
+                text.inputEl.setCssStyles({
+                  minWidth: "18rem",
+                  maxWidth: "18rem",
+                  minHeight: "4rem",
+                  maxHeight: "8rem",
+                });
+              });
+            },
+          },
+          {
+            // FIXME - attribute switching based on state does not work
+            // TODO - maybe use visible and 2 blocks (one for include and one for exclude?)
+            // TODO - might just be better to change to using the File or Folder control type (or custom variant in the case of extentions), see: https://docs.obsidian.md/Plugins/User+interface/Settings#What's+not+yet+a+first-class+control
+            name: translate().Settings.Files.Attachments.Included.Label,
+            desc: translate().Settings.Files.Attachments.Included.Description,
+            visible: () => !!this.plugin.settings.attachmentsExcludeInclude,
+            render: (setting: Setting) => {
+              setting.addTextArea((text) => {
+                text
+                  .setValue(
+                    this.plugin.settings.attachmentExtensions
+                      .map((ext) => `.${ext}`)
+                      .join(", "),
+                  )
+                  .onChange(async (value) => {
+                    this.plugin.settings.attachmentExtensions = value
+                      .split(",")
+                      .map((ext) => ext.trim())
+                      .filter((ext) => ext.startsWith(".") && ext.length > 1)
+                      .filter((ext) => ext !== "")
+                      .map((ext) => ext.replace(/^\./, ""));
+
+                    console.log(this.plugin.settings.attachmentExtensions);
+                    this.plugin.saveSettings();
+                  });
+                text.setPlaceholder(
+                  translate().Settings.Files.Attachments.Included.Placeholder,
+                );
+                text.inputEl.setCssStyles({
+                  minWidth: "18rem",
+                  maxWidth: "18rem",
+                  minHeight: "4rem",
+                  maxHeight: "8rem",
+                });
+              });
+            },
+          },
         ],
       },
     ];
@@ -250,49 +326,6 @@ export class FileCleanerSettingTab extends PluginSettingTab {
     new Setting(containerEl)
       .setName(translate().Settings.Files.Header)
       .setHeading();
-
-    // #region Extension inclusion / exclusion
-    new Setting(containerEl)
-      .setName(
-        this.plugin.settings.attachmentsExcludeInclude
-          ? translate().Settings.Files.Attachments.Included.Label
-          : translate().Settings.Files.Attachments.Excluded.Label,
-      )
-      .setDesc(
-        this.plugin.settings.attachmentsExcludeInclude
-          ? translate().Settings.Files.Attachments.Included.Description
-          : translate().Settings.Files.Attachments.Excluded.Description,
-      )
-      .addTextArea((text) => {
-        text
-          .setValue(
-            this.plugin.settings.attachmentExtensions
-              .map((ext) => `.${ext}`)
-              .join(", "),
-          )
-          .onChange(async (value) => {
-            this.plugin.settings.attachmentExtensions = value
-              .split(",")
-              .map((ext) => ext.trim())
-              .filter((ext) => ext.startsWith(".") && ext.length > 1)
-              .filter((ext) => ext !== "")
-              .map((ext) => ext.replace(/^\./, ""));
-
-            await this.plugin.saveSettings();
-          });
-        text.setPlaceholder(
-          this.plugin.settings.attachmentsExcludeInclude
-            ? translate().Settings.Files.Attachments.Included.Placeholder
-            : translate().Settings.Files.Attachments.Excluded.Placeholder,
-        );
-        text.inputEl.setCssStyles({
-          minWidth: "18rem",
-          maxWidth: "18rem",
-          minHeight: "4rem",
-          maxHeight: "8rem",
-        });
-      });
-    // #endregion
 
     // #region File age threshold
     new Setting(containerEl)
