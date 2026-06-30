@@ -85,7 +85,31 @@ export class FileCleanerSettingTab extends PluginSettingTab {
   }
 
   getSettingDefinitions(): SettingDefinitionItem<string>[] {
-    return [];
+    return [
+      // Regular options
+      {
+        name: translate().Settings.RegularOptions.DeletedFiles.Label,
+        desc: translate().Settings.RegularOptions.DeletedFiles.Description,
+        control: {
+          type: "dropdown",
+          key: "deletionDestination",
+          defaultValue: "system",
+          options: {
+            system:
+              translate().Settings.RegularOptions.DeletedFiles.Options
+                .MoveToSystemTrash,
+            obsidian:
+              translate().Settings.RegularOptions.DeletedFiles.Options
+                .MoveToObsidianTrash,
+            permanent:
+              translate().Settings.RegularOptions.DeletedFiles.Options
+                .PermanentDelete,
+          },
+        },
+        visible: () =>
+          this.plugin.settings.deletionDestination === Deletion.ObsidianTrash,
+      },
+    ];
   }
 
   display(): void {
@@ -93,49 +117,6 @@ export class FileCleanerSettingTab extends PluginSettingTab {
     this.containerEl.empty();
 
     // #region Regular Options
-    // #region Deleted files
-    new Setting(containerEl)
-      .setName(translate().Settings.RegularOptions.DeletedFiles.Label)
-      .setDesc(translate().Settings.RegularOptions.DeletedFiles.Description)
-      .addDropdown((dropdown) =>
-        dropdown
-          .addOption(
-            "system",
-            translate().Settings.RegularOptions.DeletedFiles.Options
-              .MoveToSystemTrash,
-          )
-          .addOption(
-            "obsidian",
-            translate().Settings.RegularOptions.DeletedFiles.Options
-              .MoveToObsidianTrash,
-          )
-          .addOption(
-            "permanent",
-            translate().Settings.RegularOptions.DeletedFiles.Options
-              .PermanentDelete,
-          )
-          .setValue(this.plugin.settings.deletionDestination)
-          .onChange(async (value) => {
-            switch (value as Deletion) {
-              case Deletion.Permanent:
-                this.plugin.settings.deletionDestination = Deletion.Permanent;
-                break;
-
-              case Deletion.ObsidianTrash:
-                this.plugin.settings.deletionDestination =
-                  Deletion.ObsidianTrash;
-                break;
-
-              default:
-              case Deletion.SystemTrash:
-                this.plugin.settings.deletionDestination = Deletion.SystemTrash;
-                break;
-            }
-            await this.plugin.saveSettings();
-            this.display();
-          }),
-      );
-
     if (this.plugin.settings.deletionDestination === Deletion.ObsidianTrash) {
       new Setting(containerEl)
         .setName(
