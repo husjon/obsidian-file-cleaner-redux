@@ -109,41 +109,25 @@ export class FileCleanerSettingTab extends PluginSettingTab {
         visible: () =>
           this.plugin.settings.deletionDestination === Deletion.ObsidianTrash,
       },
+      {
+        name: translate().Settings.RegularOptions.ObsidianTrashCleanupAge.Label,
+        desc: translate().Settings.RegularOptions.ObsidianTrashCleanupAge
+          .Description,
+        control: {
+          type: "number",
+          key: "obsidianTrashCleanupAge",
+          min: 1,
+          defaultValue: 30,
+        },
+        visible: () =>
+          this.plugin.settings.deletionDestination === Deletion.ObsidianTrash,
+      },
     ];
   }
 
   display(): void {
     const { containerEl } = this;
     this.containerEl.empty();
-
-    // #region Regular Options
-    if (this.plugin.settings.deletionDestination === Deletion.ObsidianTrash) {
-      new Setting(containerEl)
-        .setName(
-          translate().Settings.RegularOptions.ObsidianTrashCleanupAge.Label,
-        )
-        .setDesc(
-          translate().Settings.RegularOptions.ObsidianTrashCleanupAge
-            .Description,
-        )
-        .addText((text) => {
-          const days = this.plugin.settings.obsidianTrashCleanupAge;
-
-          text.setPlaceholder("7");
-          text.setValue(days >= 0 ? String(days) : "");
-          text.inputEl.setCssStyles({
-            minWidth: "18rem",
-          });
-
-          text.onChange(async (value) => {
-            const days = Number(value.match(/^\d+/)) || -1;
-
-            this.plugin.settings.obsidianTrashCleanupAge = days;
-            await this.plugin.saveSettings();
-          });
-        });
-    }
-    // #endregion
 
     // #region Notifications
     new Setting(containerEl)
