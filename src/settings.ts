@@ -234,13 +234,6 @@ export class FileCleanerSettingTab extends PluginSettingTab {
     const { containerEl } = this;
     this.containerEl.empty();
 
-    // #region Folder inclusion / exclusion
-    new Setting(containerEl)
-      .setName(translate().Settings.Folders.Header)
-      .setHeading();
-
-    // #endregion
-
     new Setting(containerEl)
       .setName(translate().Settings.Files.Header)
       .setHeading();
