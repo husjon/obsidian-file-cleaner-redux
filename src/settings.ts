@@ -161,6 +161,70 @@ export class FileCleanerSettingTab extends PluginSettingTab {
               defaultValue: false,
             },
           },
+          {
+            // FIXME - attribute switching based on state does not work
+            // TODO - maybe use visible and 2 blocks (one for include and one for exclude?)
+            // TODO - might just be better to change to using the File or Folder control type (or custom variant in the case of extentions), see: https://docs.obsidian.md/Plugins/User+interface/Settings#What's+not+yet+a+first-class+control
+            name: translate().Settings.Folders.FolderFiltering.Excluded.Label,
+            desc: translate().Settings.Folders.FolderFiltering.Excluded
+              .Description,
+            visible: () => !this.plugin.settings.excludeInclude,
+            render: (setting: Setting) => {
+              setting.addTextArea((text) => {
+                text
+                  .setValue(this.plugin.settings.excludedFolders.join("\n"))
+                  .onChange(async (value) => {
+                    this.plugin.settings.excludedFolders = value
+                      .split(/\n/)
+                      .map((ext) => ext.trim())
+                      .filter((ext) => ext !== "");
+
+                    this.plugin.saveSettings();
+                  });
+                text.setPlaceholder(
+                  translate().Settings.Folders.FolderFiltering.Placeholder,
+                );
+                text.inputEl.setCssStyles({
+                  minWidth: "18rem",
+                  maxWidth: "18rem",
+                  minHeight: "8rem",
+                  maxHeight: "16rem",
+                });
+              });
+            },
+          },
+          {
+            // FIXME - attribute switching based on state does not work
+            // TODO - maybe use visible and 2 blocks (one for include and one for exclude?)
+            // TODO - might just be better to change to using the File or Folder control type (or custom variant in the case of extentions), see: https://docs.obsidian.md/Plugins/User+interface/Settings#What's+not+yet+a+first-class+control
+            name: translate().Settings.Folders.FolderFiltering.Included.Label,
+            desc: translate().Settings.Folders.FolderFiltering.Included
+              .Description,
+            visible: () => !!this.plugin.settings.excludeInclude,
+            render: (setting: Setting) => {
+              setting.addTextArea((text) => {
+                text
+                  .setValue(this.plugin.settings.excludedFolders.join("\n"))
+                  .onChange(async (value) => {
+                    this.plugin.settings.excludedFolders = value
+                      .split(/\n/)
+                      .map((ext) => ext.trim())
+                      .filter((ext) => ext !== "");
+
+                    this.plugin.saveSettings();
+                  });
+                text.setPlaceholder(
+                  translate().Settings.Folders.FolderFiltering.Placeholder,
+                );
+                text.inputEl.setCssStyles({
+                  minWidth: "18rem",
+                  maxWidth: "18rem",
+                  minHeight: "8rem",
+                  maxHeight: "16rem",
+                });
+              });
+            },
+          },
         ],
       },
     ];
@@ -175,38 +239,6 @@ export class FileCleanerSettingTab extends PluginSettingTab {
       .setName(translate().Settings.Folders.Header)
       .setHeading();
 
-    new Setting(containerEl)
-      .setName(
-        this.plugin.settings.excludeInclude
-          ? translate().Settings.Folders.FolderFiltering.Included.Label
-          : translate().Settings.Folders.FolderFiltering.Excluded.Label,
-      )
-      .setDesc(
-        this.plugin.settings.excludeInclude
-          ? translate().Settings.Folders.FolderFiltering.Included.Description
-          : translate().Settings.Folders.FolderFiltering.Excluded.Description,
-      )
-      .addTextArea((text) => {
-        text
-          .setValue(this.plugin.settings.excludedFolders.join("\n"))
-          .onChange(async (value) => {
-            this.plugin.settings.excludedFolders = value
-              .split(/\n/)
-              .map((ext) => ext.trim())
-              .filter((ext) => ext !== "");
-
-            await this.plugin.saveSettings();
-          });
-        text.setPlaceholder(
-          translate().Settings.Folders.FolderFiltering.Placeholder,
-        );
-        text.inputEl.setCssStyles({
-          minWidth: "18rem",
-          maxWidth: "18rem",
-          minHeight: "8rem",
-          maxHeight: "16rem",
-        });
-      });
     // #endregion
 
     new Setting(containerEl)
