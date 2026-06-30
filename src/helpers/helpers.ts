@@ -76,12 +76,12 @@ export function getExtensions(settings: FileCleanerSettings) {
 }
 
 export interface AppWithPlugins extends App {
-  plugins: { plugins: Record<string, any> };
+  plugins: { plugins: Record<string, unknown> };
 }
 
 export function userHasPlugin(id: string, app: App) {
   const plugins = (app as AppWithPlugins).plugins.plugins;
-  return plugins.hasOwnProperty(id);
+  return Object.prototype.hasOwnProperty.call(plugins, id);
 }
 
 export function getSettings() {

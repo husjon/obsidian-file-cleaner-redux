@@ -1,4 +1,4 @@
-import { App, Notice, PluginSettingTab, Setting } from "obsidian";
+import { App, PluginSettingTab, Setting } from "obsidian";
 import FileCleanerPlugin from ".";
 import translate from "./i18n";
 import { Deletion, Notification } from "./enums";
@@ -124,7 +124,8 @@ export class FileCleanerSettingTab extends PluginSettingTab {
             this.display();
           }),
       );
-    this.plugin.settings.deletionDestination === Deletion.ObsidianTrash &&
+
+    if (this.plugin.settings.deletionDestination === Deletion.ObsidianTrash) {
       new Setting(containerEl)
         .setName(
           translate().Settings.RegularOptions.ObsidianTrashCleanupAge.Label,
@@ -147,6 +148,7 @@ export class FileCleanerSettingTab extends PluginSettingTab {
             this.plugin.saveSettings();
           });
         });
+    }
     // #endregion
 
     // #region Notifications
@@ -351,7 +353,7 @@ export class FileCleanerSettingTab extends PluginSettingTab {
     // #endregion
 
     // #region Delete empty Markdown files
-    this.plugin.settings.deleteEmptyMarkdownFiles &&
+    if (this.plugin.settings.deleteEmptyMarkdownFiles) {
       new Setting(containerEl)
         .setName(
           translate().Settings.MarkdownFiles
@@ -372,6 +374,7 @@ export class FileCleanerSettingTab extends PluginSettingTab {
             this.display();
           });
         });
+    }
     // #endregion
 
     // #region Ignored frontmatter

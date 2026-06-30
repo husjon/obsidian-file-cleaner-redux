@@ -73,7 +73,7 @@ export async function getCanvasAttachments(app: App) {
                 .reduce((prev: [], cur: []) => [...prev, ...cur], []);
 
               return [...fileNodes, ...cardNodes];
-            } catch (error) {
+            } catch {
               notify(
                 `${translate().Notifications.FailedToParseCanvas}: ${file.path}`,
                 NotificationType.Error,

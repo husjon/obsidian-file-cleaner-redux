@@ -24,7 +24,7 @@ async function checkFile(
   app: App,
   settings: FileCleanerSettings,
   file: TFile,
-  extensions: String[],
+  extensions: string[],
 ) {
   const NOW = Date.now();
   const ageThreshold = settings.fileAgeThreshold * 24 * 60 * 60 * 1000;

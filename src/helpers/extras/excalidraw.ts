@@ -21,7 +21,7 @@ export async function checkExcalidraw(
   )
     return false;
 
-  // @ts-ignore (getBacklinksForFile is not part of the type definition)
+  // @ts-expect-error (getBacklinksForFile is not part of the type definition)
   const links = metadata.getBacklinksForFile(file).keys();
 
   if (links.length > 0) return false;

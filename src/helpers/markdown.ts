@@ -13,8 +13,8 @@ export async function checkMarkdown(
   const metadata = app.metadataCache;
   // @ts-expect-error (getBacklinksForFile is not part of the type definition)
   const links = metadata.getBacklinksForFile(file).data as Map<
-    String,
-    Array<any>
+    string,
+    Array<unknown>
   >;
   if (
     links.size > 0 &&
