@@ -227,6 +227,19 @@ export class FileCleanerSettingTab extends PluginSettingTab {
           },
         ],
       },
+
+      // Files
+      {
+        type: "group",
+        heading: translate().Settings.Files.Header,
+        items: [
+          {
+            name: translate().Settings.Files.Attachments.Label,
+            desc: translate().Settings.Files.Attachments.Description,
+            control: { type: "toggle", key: "attachmentsExcludeInclude" },
+          },
+        ],
+      },
     ];
   }
 
@@ -239,21 +252,6 @@ export class FileCleanerSettingTab extends PluginSettingTab {
       .setHeading();
 
     // #region Extension inclusion / exclusion
-    new Setting(containerEl)
-      .setName(translate().Settings.Files.Attachments.Label)
-      .setDesc(translate().Settings.Files.Attachments.Description)
-      .addToggle((toggle) => {
-        toggle.setValue(
-          Boolean(this.plugin.settings.attachmentsExcludeInclude),
-        );
-
-        toggle.onChange(async (value) => {
-          this.plugin.settings.attachmentsExcludeInclude = Number(value);
-          await this.plugin.saveSettings();
-          this.display();
-        });
-      });
-
     new Setting(containerEl)
       .setName(
         this.plugin.settings.attachmentsExcludeInclude
