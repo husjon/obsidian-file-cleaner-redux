@@ -1,4 +1,9 @@
-import { App, PluginSettingTab, Setting } from "obsidian";
+import {
+  App,
+  PluginSettingTab,
+  Setting,
+  type SettingDefinitionItem,
+} from "obsidian";
 import FileCleanerPlugin from ".";
 import translate from "./i18n";
 import { Deletion, Notification } from "./enums";
@@ -77,6 +82,10 @@ export class FileCleanerSettingTab extends PluginSettingTab {
   constructor(app: App, plugin: FileCleanerPlugin) {
     super(app, plugin);
     this.plugin = plugin;
+  }
+
+  getSettingDefinitions(): SettingDefinitionItem<string>[] {
+    return [];
   }
 
   display(): void {
