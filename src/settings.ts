@@ -334,10 +334,6 @@ export class FileCleanerSettingTab extends PluginSettingTab {
     this.containerEl.empty();
 
     new Setting(containerEl)
-      .setName(translate().Settings.Files.Header)
-      .setHeading();
-
-    new Setting(containerEl)
       .setName(translate().Settings.MarkdownFiles.Header)
       .setHeading();
 
