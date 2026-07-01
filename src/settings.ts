@@ -444,6 +444,11 @@ export class FileCleanerSettingTab extends PluginSettingTab {
             desc: translate().Settings.Other.PreviewDeletedFiles.Description,
             control: { type: "toggle", key: "deletionConfirmation" },
           },
+          {
+            name: translate().Settings.Other.RunOnStartup.Label,
+            desc: translate().Settings.Other.RunOnStartup.Description,
+            control: { type: "toggle", key: "runOnStartup" },
+          },
         ],
       },
     ];
@@ -457,34 +462,6 @@ export class FileCleanerSettingTab extends PluginSettingTab {
     new Setting(containerEl)
       .setName(translate().Settings.Other.Header)
       .setHeading();
-
-    // #region Run on startup
-    new Setting(containerEl)
-      .setName(translate().Settings.Other.RunOnStartup.Label)
-      .setDesc(translate().Settings.Other.RunOnStartup.Description)
-      .addToggle((toggle) => {
-        toggle.setValue(this.plugin.settings.runOnStartup);
-
-        toggle.onChange(async (value) => {
-          this.plugin.settings.runOnStartup = value;
-          await this.plugin.saveSettings();
-        });
-      });
-    // #endregion
-    // #region Run on startup
-    new Setting(containerEl)
-      .setName(translate().Settings.Other.DebugLogging.Label)
-      .setDesc(translate().Settings.Other.DebugLogging.Description)
-      .addToggle((toggle) => {
-        toggle.setValue(this.plugin.settings.debugLogging);
-
-        toggle.onChange(async (value) => {
-          this.plugin.settings.debugLogging = value;
-          await this.plugin.saveSettings();
-        });
-      });
-    // #endregion
-    // #endregion Regular Options
 
     // #region External Plugin Options
     if (
@@ -531,6 +508,20 @@ export class FileCleanerSettingTab extends PluginSettingTab {
     new Setting(containerEl)
       .setName(translate().Settings.DangerZone.Header)
       .setHeading();
+
+    // #region Debug logging
+    new Setting(containerEl)
+      .setName(translate().Settings.Other.DebugLogging.Label)
+      .setDesc(translate().Settings.Other.DebugLogging.Description)
+      .addToggle((toggle) => {
+        toggle.setValue(this.plugin.settings.debugLogging);
+
+        toggle.onChange(async (value) => {
+          this.plugin.settings.debugLogging = value;
+          await this.plugin.saveSettings();
+        });
+      });
+    // #endregion
 
     // #region Reset settings
     new Setting(containerEl)
