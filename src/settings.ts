@@ -439,6 +439,11 @@ export class FileCleanerSettingTab extends PluginSettingTab {
             desc: translate().Settings.Other.DeleteEmptyFileOnClose.Description,
             control: { type: "toggle", key: "deleteEmptyFileOnClose" },
           },
+          {
+            name: translate().Settings.Other.PreviewDeletedFiles.Label,
+            desc: translate().Settings.Other.PreviewDeletedFiles.Description,
+            control: { type: "toggle", key: "deletionConfirmation" },
+          },
         ],
       },
     ];
@@ -452,20 +457,6 @@ export class FileCleanerSettingTab extends PluginSettingTab {
     new Setting(containerEl)
       .setName(translate().Settings.Other.Header)
       .setHeading();
-
-    // #region Preview deleted files
-    new Setting(containerEl)
-      .setName(translate().Settings.Other.PreviewDeletedFiles.Label)
-      .setDesc(translate().Settings.Other.PreviewDeletedFiles.Description)
-      .addToggle((toggle) => {
-        toggle.setValue(this.plugin.settings.deletionConfirmation);
-
-        toggle.onChange(async (value) => {
-          this.plugin.settings.deletionConfirmation = value;
-          await this.plugin.saveSettings();
-        });
-      });
-    // #endregion
 
     // #region Run on startup
     new Setting(containerEl)
