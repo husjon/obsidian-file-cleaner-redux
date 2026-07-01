@@ -481,6 +481,39 @@ export class FileCleanerSettingTab extends PluginSettingTab {
           },
         ],
       },
+
+      // Danger Zone
+      {
+        type: "group",
+        heading: translate().Settings.DangerZone.Header,
+        items: [
+          {
+            name: translate().Settings.DangerZone.ResetSettings.Label,
+            desc: translate().Settings.DangerZone.ResetSettings.Description,
+            render: (setting: Setting) => {
+              setting.addButton((button) => {
+                button
+                  .setWarning()
+                  .setButtonText(
+                    translate().Settings.DangerZone.ResetSettings.Button,
+                  )
+                  .onClick(() => {
+                    ResetSettingsModal({
+                      app: this.app,
+                      onConfirm: () => {
+                        this.plugin.settings = DEFAULT_SETTINGS;
+                        this.plugin.saveSettings();
+                        this.update();
+
+                        notify(translate().Notifications.SettingsReset);
+                      },
+                    });
+                  });
+              });
+            },
+          },
+        ],
+      },
     ];
   }
 
@@ -498,29 +531,6 @@ export class FileCleanerSettingTab extends PluginSettingTab {
       .setName(translate().Settings.DangerZone.Header)
       .setHeading();
 
-    // #region Reset settings
-    new Setting(containerEl)
-      .setName(translate().Settings.DangerZone.ResetSettings.Label)
-      .setDesc(translate().Settings.DangerZone.ResetSettings.Description)
-      .addButton((button) => {
-        button
-          .setWarning()
-          .setButtonText(translate().Settings.DangerZone.ResetSettings.Button)
-          .onClick(() => {
-            ResetSettingsModal({
-              app: this.app,
-              onConfirm: async () => {
-                this.plugin.settings = DEFAULT_SETTINGS;
-                await this.plugin.saveSettings();
-                this.display();
-                await this.plugin.loadSettings();
-
-                notify(translate().Notifications.SettingsReset);
-              },
-            });
-          });
-      });
-    // #endregion
     // #endregion Danger Zone
   }
 }
