@@ -456,6 +456,31 @@ export class FileCleanerSettingTab extends PluginSettingTab {
           },
         ],
       },
+
+      // External Plugin Support
+      {
+        type: "group",
+        heading: translate().Settings.ExternalPluginSupport.Header,
+        visible: () =>
+          [...supportedPlugins].filter((plugin) =>
+            userHasPlugin(plugin, this.app),
+          ).length > 0,
+        items: [
+          {
+            name: translate().Settings.ExternalPluginSupport.Excalidraw
+              .TreatAsAttachments.Label,
+            desc: translate().Settings.ExternalPluginSupport.Excalidraw
+              .TreatAsAttachments.Description,
+            control: {
+              // FIXME - Out of the box the Settings API does not do nested keys
+              // This either needs to be handled with a migration or adding helper functions to look up the keys
+              // see: https://docs.obsidian.md/Plugins/User+interface/Settings#Advanced+nested+settings+with+dot-notation+keys
+              type: "toggle",
+              key: "ExternalPlugins.Excalidraw.TreatAsAttachments",
+            },
+          },
+        ],
+      },
     ];
   }
 
@@ -467,47 +492,6 @@ export class FileCleanerSettingTab extends PluginSettingTab {
     new Setting(containerEl)
       .setName(translate().Settings.Other.Header)
       .setHeading();
-
-    // #region External Plugin Options
-    if (
-      [...supportedPlugins].filter((plugin) => userHasPlugin(plugin, this.app))
-        .length > 0
-    ) {
-      new Setting(containerEl)
-        .setName(translate().Settings.ExternalPluginSupport.Header)
-        .setHeading();
-
-      // #region Excalidraw
-      if (userHasPlugin("obsidian-excalidraw-plugin", this.app)) {
-        new Setting(containerEl)
-          .setName(translate().Settings.ExternalPluginSupport.Excalidraw.Header)
-          .setHeading();
-
-        new Setting(containerEl)
-          .setName(
-            translate().Settings.ExternalPluginSupport.Excalidraw
-              .TreatAsAttachments.Label,
-          )
-          .setDesc(
-            translate().Settings.ExternalPluginSupport.Excalidraw
-              .TreatAsAttachments.Description,
-          )
-          .addToggle((toggle) => {
-            toggle.setValue(
-              this.plugin.settings.ExternalPlugins.Excalidraw
-                .TreatAsAttachments,
-            );
-
-            toggle.onChange(async (value) => {
-              this.plugin.settings.ExternalPlugins.Excalidraw.TreatAsAttachments =
-                value;
-              await this.plugin.saveSettings();
-            });
-          });
-      }
-      // #endregion Excalidraw
-    }
-    // #endregion External Plugin Options
 
     // #region Danger Zone
     new Setting(containerEl)
