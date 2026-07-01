@@ -379,6 +379,12 @@ export class FileCleanerSettingTab extends PluginSettingTab {
               });
             },
           },
+          {
+            name: translate().Settings.MarkdownFiles.IgnoreAllFrontmatter.Label,
+            desc: translate().Settings.MarkdownFiles.IgnoreAllFrontmatter
+              .Description,
+            control: { type: "toggle", key: "ignoreAllFrontmatter" },
+          },
         ],
       },
     ];
@@ -391,23 +397,6 @@ export class FileCleanerSettingTab extends PluginSettingTab {
     new Setting(containerEl)
       .setName(translate().Settings.MarkdownFiles.Header)
       .setHeading();
-
-    new Setting(containerEl)
-      .setName(translate().Settings.MarkdownFiles.IgnoreAllFrontmatter.Label)
-      .setDesc(
-        translate().Settings.MarkdownFiles.IgnoreAllFrontmatter.Description,
-      )
-      .addToggle((toggle) => {
-        toggle.setValue(this.plugin.settings.ignoreAllFrontmatter);
-
-        toggle.onChange(async (value) => {
-          this.plugin.settings.ignoreAllFrontmatter = value;
-          await this.plugin.saveSettings();
-          this.display();
-        });
-      })
-      .setDisabled(!this.plugin.settings.deleteEmptyMarkdownFiles);
-    // #endregion
 
     // #region Codeblock parsing
     new Setting(containerEl)
