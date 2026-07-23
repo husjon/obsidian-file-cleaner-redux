@@ -6,8 +6,7 @@ import DeletionConfirmationModalComponent from "./DeletionConfirmationModalCompo
 
 export class DeletionConfirmationModal extends Modal {
   private component:
-    | ReturnType<typeof DeletionConfirmationModalComponent>
-    | undefined;
+    ReturnType<typeof DeletionConfirmationModalComponent> | undefined;
 
   filesAndFolders: TAbstractFile[] = [];
   settings: FileCleanerSettings;
