@@ -41,7 +41,7 @@ function getCanvasCardAttachments(
   return files;
 }
 
-export async function getCanvasAttachments(app: App) {
+export async function getCanvasAttachments(app: App): Promise<string[]> {
   const canvasAttachmentsInitial = await Promise.all(
     app.vault
       .getFiles()
