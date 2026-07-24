@@ -139,7 +139,9 @@ export class FileCleanerSettingTab extends PluginSettingTab {
 
           text.setPlaceholder("7");
           text.setValue(days >= 0 ? String(days) : "");
-          text.inputEl.style.minWidth = "18rem";
+          text.inputEl.setCssStyles({
+            minWidth: "18rem",
+          });
 
           text.onChange((value) => {
             const days = Number(value.match(/^\d+/)) || -1;
@@ -235,10 +237,12 @@ export class FileCleanerSettingTab extends PluginSettingTab {
         text.setPlaceholder(
           translate().Settings.Folders.FolderFiltering.Placeholder,
         );
-        text.inputEl.style.minWidth = "18rem";
-        text.inputEl.style.maxWidth = "18rem";
-        text.inputEl.style.minHeight = "8rem";
-        text.inputEl.style.maxHeight = "16rem";
+        text.inputEl.setCssStyles({
+          minWidth: "18rem",
+          maxWidth: "18rem",
+          minHeight: "8rem",
+          maxHeight: "16rem",
+        });
       });
     // #endregion
 
@@ -295,10 +299,12 @@ export class FileCleanerSettingTab extends PluginSettingTab {
             ? translate().Settings.Files.Attachments.Included.Placeholder
             : translate().Settings.Files.Attachments.Excluded.Placeholder,
         );
-        text.inputEl.style.minWidth = "18rem";
-        text.inputEl.style.maxWidth = "18rem";
-        text.inputEl.style.minHeight = "4rem";
-        text.inputEl.style.maxHeight = "8rem";
+        text.inputEl.setCssStyles({
+          minWidth: "18rem",
+          maxWidth: "18rem",
+          minHeight: "4rem",
+          maxHeight: "8rem",
+        });
       });
     attachmentExcludeIncludeSetting.descEl.setHTMLUnsafe(
       this.plugin.settings.attachmentsExcludeInclude
@@ -397,10 +403,12 @@ export class FileCleanerSettingTab extends PluginSettingTab {
         text.setPlaceholder(
           translate().Settings.MarkdownFiles.IgnoredFrontmatter.Placeholder,
         );
-        text.inputEl.style.minWidth = "18rem";
-        text.inputEl.style.maxWidth = "18rem";
-        text.inputEl.style.minHeight = "4rem";
-        text.inputEl.style.maxHeight = "12rem";
+        text.inputEl.setCssStyles({
+          minWidth: "18rem",
+          maxWidth: "18rem",
+          minHeight: "4rem",
+          maxHeight: "12rem",
+        });
       })
       .setDisabled(
         this.plugin.settings.ignoreAllFrontmatter ||
@@ -447,10 +455,12 @@ export class FileCleanerSettingTab extends PluginSettingTab {
         text.setPlaceholder(
           translate().Settings.MarkdownFiles.CodeblockParsing.Placeholder,
         );
-        text.inputEl.style.minWidth = "18rem";
-        text.inputEl.style.maxWidth = "18rem";
-        text.inputEl.style.minHeight = "4rem";
-        text.inputEl.style.maxHeight = "12rem";
+        text.inputEl.setCssStyles({
+          minWidth: "18rem",
+          maxWidth: "18rem",
+          minHeight: "4rem",
+          maxHeight: "12rem",
+        });
       })
       .controlEl.setCssStyles(
         this.plugin.settings.ignoreAllFrontmatter && {
