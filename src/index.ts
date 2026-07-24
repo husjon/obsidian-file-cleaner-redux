@@ -39,7 +39,8 @@ export default class FileCleanerPlugin extends Plugin {
 
     this.addSettingTab(new FileCleanerSettingTab(this.app, this));
 
-    if (this.settings.runOnStartup) setTimeout(this.runVaultCleanup, 1000);
+    if (this.settings.runOnStartup)
+      window.setTimeout(this.runVaultCleanup, 1000);
 
     this.registerEvent(
       this.app.workspace.on("layout-change", async () => {
