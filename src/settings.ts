@@ -105,7 +105,7 @@ export class FileCleanerSettingTab extends PluginSettingTab {
           )
           .setValue(this.plugin.settings.deletionDestination)
           .onChange((value) => {
-            switch (value) {
+            switch (value as Deletion) {
               case Deletion.Permanent:
                 this.plugin.settings.deletionDestination = Deletion.Permanent;
                 break;
