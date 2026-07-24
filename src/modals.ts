@@ -48,7 +48,7 @@ export class ConfirmationModal extends Modal {
 
 interface ResetSettingsModalProps {
   app: App;
-  onConfirm?: () => void;
+  onConfirm?: () => void | Promise<void>;
 }
 export function ResetSettingsModal({
   app,
