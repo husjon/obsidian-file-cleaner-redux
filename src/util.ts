@@ -76,7 +76,7 @@ export function isFolderIncluded(
 
 async function cleanTrashFolder(app: App, settings: FileCleanerSettings) {
   if (settings.obsidianTrashCleanupAge < 0) return;
-  if (!app.vault.adapter.exists(".trash")) return;
+  if (!(await app.vault.adapter.exists(".trash"))) return;
 
   const date = new Date();
   const ageThreshold = date.setDate(
