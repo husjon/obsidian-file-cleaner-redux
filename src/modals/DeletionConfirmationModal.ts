@@ -54,7 +54,7 @@ export class DeletionConfirmationModal extends Modal {
     });
   }
 
-  async onClose() {
-    unmount(this.component);
+  onClose() {
+    void unmount(this.component);
   }
 }
