@@ -89,7 +89,7 @@ async function cleanTrashFolder(app: App, settings: FileCleanerSettings) {
     const f = await app.vault.adapter.stat(file);
 
     if (f.ctime < ageThreshold) {
-      app.vault.adapter.remove(file);
+      await app.vault.adapter.remove(file);
       console.debug("Removed file:", file);
     }
   }
@@ -97,7 +97,7 @@ async function cleanTrashFolder(app: App, settings: FileCleanerSettings) {
     const f = await app.vault.adapter.stat(folder);
 
     if (f.ctime < ageThreshold) {
-      app.vault.adapter.rmdir(folder, true);
+      await app.vault.adapter.rmdir(folder, true);
       console.debug("Removed folder:", folder);
     }
   }
@@ -229,7 +229,7 @@ export async function runCleanup(
   }
 
   if (settings.deletionDestination === Deletion.ObsidianTrash)
-    cleanTrashFolder(app, settings);
+    await cleanTrashFolder(app, settings);
 
   if (settings.closeNewTabs) app.workspace.detachLeavesOfType("empty");
 

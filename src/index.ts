@@ -62,7 +62,7 @@ export default class FileCleanerPlugin extends Plugin {
               return;
 
             if (await checkMarkdown(f, this.app, this.settings))
-              removeFile(f, this.app, this.settings);
+              await removeFile(f, this.app, this.settings);
           });
 
         this.lastOpenedFiles = currentlyOpenedFiles;

@@ -30,7 +30,7 @@ export async function removeFiles(
 ) {
   if (files.length > 0) {
     for (const file of files) {
-      removeFile(file, app, settings);
+      await removeFile(file, app, settings);
     }
     notify(translate().Notifications.CleanSuccessful);
   } else {
