@@ -181,9 +181,9 @@ export class FileCleanerSettingTab extends PluginSettingTab {
     // #endregion
 
     // #region Folder inclusion / exclusion
-    this.containerEl.createEl("h3", {
-      text: translate().Settings.Folders.Header,
-    });
+    new Setting(containerEl)
+      .setName(translate().Settings.Folders.Header)
+      .setHeading();
 
     new Setting(containerEl)
       .setName(translate().Settings.Folders.RemoveFolders.Label)
@@ -242,9 +242,9 @@ export class FileCleanerSettingTab extends PluginSettingTab {
       });
     // #endregion
 
-    this.containerEl.createEl("h3", {
-      text: translate().Settings.Files.Header,
-    });
+    new Setting(containerEl)
+      .setName(translate().Settings.Files.Header)
+      .setHeading();
 
     // #region Extension inclusion / exclusion
     new Setting(containerEl)
@@ -329,9 +329,9 @@ export class FileCleanerSettingTab extends PluginSettingTab {
       });
     // #endregion
 
-    this.containerEl.createEl("h4", {
-      text: translate().Settings.MarkdownFiles.Header,
-    });
+    new Setting(containerEl)
+      .setName(translate().Settings.MarkdownFiles.Header)
+      .setHeading();
 
     // #region Delete empty Markdown files
     new Setting(containerEl)
@@ -460,9 +460,9 @@ export class FileCleanerSettingTab extends PluginSettingTab {
     // #endregion
 
     // #region Close new tabs
-    this.containerEl.createEl("h3", {
-      text: translate().Settings.Other.Header,
-    });
+    new Setting(containerEl)
+      .setName(translate().Settings.Other.Header)
+      .setHeading();
 
     new Setting(containerEl)
       .setName(translate().Settings.Other.CloseNewTabs.Label)
@@ -525,15 +525,15 @@ export class FileCleanerSettingTab extends PluginSettingTab {
       [...supportedPlugins].filter((plugin) => userHasPlugin(plugin, this.app))
         .length > 0
     ) {
-      this.containerEl.createEl("h3", {
-        text: translate().Settings.ExternalPluginSupport.Header,
-      });
+      new Setting(containerEl)
+        .setName(translate().Settings.ExternalPluginSupport.Header)
+        .setHeading();
 
       // #region Excalidraw
       if (userHasPlugin("obsidian-excalidraw-plugin", this.app)) {
-        this.containerEl.createEl("h4", {
-          text: translate().Settings.ExternalPluginSupport.Excalidraw.Header,
-        });
+        new Setting(containerEl)
+          .setName(translate().Settings.ExternalPluginSupport.Excalidraw.Header)
+          .setHeading();
 
         new Setting(containerEl)
           .setName(
@@ -562,9 +562,9 @@ export class FileCleanerSettingTab extends PluginSettingTab {
     // #endregion External Plugin Options
 
     // #region Danger Zone
-    this.containerEl.createEl("h3", {
-      text: translate().Settings.DangerZone.Header,
-    });
+    new Setting(containerEl)
+      .setName(translate().Settings.DangerZone.Header)
+      .setHeading();
 
     // #region Reset settings
     new Setting(containerEl)
