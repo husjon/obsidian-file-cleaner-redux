@@ -127,6 +127,24 @@ export class FileCleanerSettingTab extends PluginSettingTab {
           }),
       );
 
+    const deletedFilesCallout = containerEl.createDiv();
+    deletedFilesCallout.addClass("callout");
+    deletedFilesCallout.setAttr("data-callout", "attention");
+    const title = deletedFilesCallout.createEl("b");
+    title.addClass("callout-title");
+    title.setText("Attention");
+
+    const content = deletedFilesCallout.createDiv();
+    content.addClass("callout-content");
+    translate().Callouts.RemovalOfDeletedFilesOption.Lines.forEach((line) =>
+      content.createEl("p").setText(line),
+    );
+    content
+      .createEl("a", {
+        href: "https://github.com/husjon/obsidian-file-cleaner-redux/issues/159",
+      })
+      .setText("More info");
+
     if (this.plugin.settings.deletionDestination === Deletion.ObsidianTrash) {
       new Setting(containerEl)
         .setName(
