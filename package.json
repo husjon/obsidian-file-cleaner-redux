@@ -8,7 +8,10 @@
     "build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production",
     "version": "node version-bump.mjs && git add manifest.json versions.json",
     "bump-minor": "npm version minor",
-    "bump-patch": "npm version patch"
+    "bump-patch": "npm version patch",
+
+    "format": "prettier -w src/",
+    "lint": "eslint src/"
   },
   "keywords": [],
   "author": "",
