@@ -214,8 +214,7 @@ export async function runCleanup(
   if (filesAndFolders.length === 0)
     notify(translate().Notifications.NoFileToClean);
   else {
-    if (!settings.deletionConfirmation)
-      await removeFiles(filesAndFolders, app, settings);
+    if (!settings.deletionConfirmation) await removeFiles(filesAndFolders, app);
     else {
       new DeletionConfirmationModal({
         app,
