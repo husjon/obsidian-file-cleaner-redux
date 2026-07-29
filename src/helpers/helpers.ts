@@ -1,6 +1,11 @@
 import { App, Notice, TAbstractFile, TFile, TFolder } from "obsidian";
 import { type FileCleanerSettings } from "../settings";
-import { Deletion, Notification, NotificationType } from "../enums";
+import {
+  Deletion,
+  Notification,
+  NotificationType,
+  ObsidianPreferenceTrashOption,
+} from "../enums";
 import translate from "../i18n";
 
 // Augment the obsidian module with some helper interfaces
@@ -20,6 +25,13 @@ export interface Backlinks {
   // for use with `app.metadataCache.getBacklinksForFile(file)`
   data: Map<string, Array<unknown>>;
   keys: () => { length: number };
+}
+
+export function getUserPreferenceTrashOption() {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- `this` is untyped
+  return (this.app as App).vault.getConfig(
+    "trashOption",
+  ) as ObsidianPreferenceTrashOption;
 }
 
 export async function removeFile(
