@@ -3,6 +3,12 @@ import { type FileCleanerSettings } from "../settings";
 import { Deletion, Notification, NotificationType } from "../enums";
 import translate from "../i18n";
 
+export interface Backlinks {
+  // for use with `app.metadataCache.getBacklinksForFile(file)`
+  data: Map<string, Array<unknown>>;
+  keys: () => { length: number };
+}
+
 export async function removeFile(
   file: TAbstractFile,
   app: App,
