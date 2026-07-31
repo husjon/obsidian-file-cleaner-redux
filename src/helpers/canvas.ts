@@ -68,7 +68,7 @@ export async function getCanvasAttachments(app: App): Promise<string[]> {
                     node.type === "file" && !node.file.endsWith(".md"),
                 )
                 .map((node: CanvasNode) => node.file)
-                .reduce((prev: [], cur: []) => [...prev, cur], []);
+                .reduce((prev: [], cur) => [...prev, cur], []);
 
               const cardNodes = data["nodes"]
                 .filter((node: CanvasNode) => node.type === "text")
