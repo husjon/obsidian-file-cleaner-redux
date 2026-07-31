@@ -5,6 +5,9 @@ interface ExcalidrawElement {
   id: string;
   isDeleted: boolean;
 }
+interface ExcalidrawContent {
+  elements: Array<ExcalidrawElement>;
+}
 
 export async function checkExcalidraw(
   file: TFile,
@@ -47,7 +50,7 @@ export async function checkExcalidraw(
   // Abort if the file could not be identified
   if (codeBlockRaw.length === 0) return false;
 
-  const data = JSON.parse(codeBlockRaw);
+  const data = JSON.parse(codeBlockRaw) as ExcalidrawContent;
 
   const elements: ExcalidrawElement[] = data.elements;
   if (elements.length === 0) return true;
