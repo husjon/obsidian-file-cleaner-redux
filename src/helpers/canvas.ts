@@ -58,7 +58,7 @@ export async function getCanvasAttachments(app: App): Promise<string[]> {
             if (file.stat.size === 0) return [];
 
             try {
-              const data = JSON.parse(raw);
+              const data = JSON.parse(raw) as CanvasContent;
               if (!data["nodes"]) return [];
 
               const fileNodes = data["nodes"]
@@ -108,7 +108,7 @@ export async function checkCanvas(file: TFile, app: App) {
   if (file.stat.size <= 28) return true;
 
   const rawContent = await app.vault.cachedRead(file);
-  const canvas = JSON.parse(rawContent);
+  const canvas = JSON.parse(rawContent) as CanvasContent;
 
   if (
     canvas.edges &&
