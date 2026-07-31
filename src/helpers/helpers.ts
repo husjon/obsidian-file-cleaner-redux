@@ -89,7 +89,7 @@ export function getExtensions(settings: FileCleanerSettings) {
 }
 
 export interface AppWithPlugins extends App {
-  plugins: { plugins: Record<string, unknown> };
+  plugins: { plugins: Record<string, { settings: unknown }> };
 }
 
 export function userHasPlugin(id: string, app: App) {
