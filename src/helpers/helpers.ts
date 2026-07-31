@@ -98,7 +98,7 @@ export function userHasPlugin(id: string, app: App) {
 }
 
 export function getSettings() {
-  return this.app.plugins.plugins["file-cleaner-redux"]
+  return (this.app as AppWithPlugins).plugins.plugins["file-cleaner-redux"]
     .settings as FileCleanerSettings;
 }
 
