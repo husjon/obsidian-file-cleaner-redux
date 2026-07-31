@@ -3,6 +3,11 @@ import { notify } from "./helpers";
 import { NotificationType } from "src/enums";
 import translate from "src/i18n";
 
+interface CanvasContent {
+  nodes?: Array<CanvasNode>;
+  edges?: unknown[];
+}
+
 interface CanvasNode {
   id: string;
   type: string;
