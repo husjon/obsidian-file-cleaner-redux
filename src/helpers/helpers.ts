@@ -3,6 +3,13 @@ import { type FileCleanerSettings } from "../settings";
 import { Deletion, Notification, NotificationType } from "../enums";
 import translate from "../i18n";
 
+// Augment the obsidian module with some helper interfaces
+declare module "obsidian" {
+  interface MetadataCache {
+    getBacklinksForFile: () => Backlinks;
+  }
+}
+
 export interface Backlinks {
   // for use with `app.metadataCache.getBacklinksForFile(file)`
   data: Map<string, Array<unknown>>;
