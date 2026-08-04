@@ -3,6 +3,11 @@ import { notify } from "./helpers";
 import { NotificationType } from "src/enums";
 import translate from "src/i18n";
 
+interface CanvasContent {
+  nodes?: Array<CanvasNode>;
+  edges?: unknown[];
+}
+
 interface CanvasNode {
   id: string;
   type: string;
@@ -41,7 +46,7 @@ function getCanvasCardAttachments(
   return files;
 }
 
-export async function getCanvasAttachments(app: App) {
+export async function getCanvasAttachments(app: App): Promise<string[]> {
   const canvasAttachmentsInitial = await Promise.all(
     app.vault
       .getFiles()
@@ -53,7 +58,7 @@ export async function getCanvasAttachments(app: App) {
             if (file.stat.size === 0) return [];
 
             try {
-              const data = JSON.parse(raw);
+              const data = JSON.parse(raw) as CanvasContent;
               if (!data["nodes"]) return [];
 
               const fileNodes = data["nodes"]
@@ -63,7 +68,7 @@ export async function getCanvasAttachments(app: App) {
                     node.type === "file" && !node.file.endsWith(".md"),
                 )
                 .map((node: CanvasNode) => node.file)
-                .reduce((prev: [], cur: []) => [...prev, cur], []);
+                .reduce((prev: [], cur) => [...prev, cur], []);
 
               const cardNodes = data["nodes"]
                 .filter((node: CanvasNode) => node.type === "text")
@@ -103,7 +108,7 @@ export async function checkCanvas(file: TFile, app: App) {
   if (file.stat.size <= 28) return true;
 
   const rawContent = await app.vault.cachedRead(file);
-  const canvas = JSON.parse(rawContent);
+  const canvas = JSON.parse(rawContent) as CanvasContent;
 
   if (
     canvas.edges &&

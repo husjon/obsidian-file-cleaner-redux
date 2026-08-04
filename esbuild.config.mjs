@@ -1,6 +1,6 @@
 import esbuild from "esbuild";
 import process from "process";
-import builtins from "builtin-modules";
+import { builtinModules } from "node:module"; // [!code ++]
 import esbuildSvelte from "esbuild-svelte";
 import { sveltePreprocess } from "svelte-preprocess";
 
@@ -42,7 +42,7 @@ const config = {
     "@codemirror/text",
     "@codemirror/tooltip",
     "@codemirror/view",
-    ...builtins,
+    ...builtinModules,
   ],
   format: "cjs",
   target: "es2016",

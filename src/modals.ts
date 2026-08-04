@@ -4,7 +4,7 @@ import translate from "./i18n";
 export class ConfirmationModal extends Modal {
   title: string;
   content: HTMLElement;
-  onConfirm: () => void;
+  onConfirm?: () => void | Promise<void>;
 
   constructor(
     app: App,
@@ -34,7 +34,7 @@ export class ConfirmationModal extends Modal {
       .setButtonText(translate().Modals.ButtonConfirm)
       .setWarning()
       .onClick(() => {
-        this.onConfirm?.();
+        void this.onConfirm?.();
         this.close();
       });
 
@@ -48,7 +48,7 @@ export class ConfirmationModal extends Modal {
 
 interface ResetSettingsModalProps {
   app: App;
-  onConfirm?: () => void;
+  onConfirm?: () => void | Promise<void>;
 }
 export function ResetSettingsModal({
   app,
@@ -58,7 +58,7 @@ export function ResetSettingsModal({
     app,
     translate().Modals.ResetSettings.Title,
     createEl("p", { text: translate().Modals.ResetSettings.Text }),
-    onConfirm,
+    void onConfirm,
   );
 
   modal.open();

@@ -25,7 +25,9 @@ export class DeletionConfirmationModal extends Modal {
     this.filesAndFolders = filesAndFolders;
     this.settings = settings;
 
-    this.modalEl.style.maxWidth = "90%";
+    this.modalEl.setCssStyles({
+      maxWidth: "90%",
+    });
 
     this.open();
   }
@@ -52,7 +54,7 @@ export class DeletionConfirmationModal extends Modal {
     });
   }
 
-  async onClose() {
-    unmount(this.component);
+  onClose() {
+    void unmount(this.component);
   }
 }

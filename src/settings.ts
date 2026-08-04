@@ -104,8 +104,8 @@ export class FileCleanerSettingTab extends PluginSettingTab {
               .PermanentDelete,
           )
           .setValue(this.plugin.settings.deletionDestination)
-          .onChange((value) => {
-            switch (value) {
+          .onChange(async (value) => {
+            switch (value as Deletion) {
               case Deletion.Permanent:
                 this.plugin.settings.deletionDestination = Deletion.Permanent;
                 break;
@@ -120,7 +120,7 @@ export class FileCleanerSettingTab extends PluginSettingTab {
                 this.plugin.settings.deletionDestination = Deletion.SystemTrash;
                 break;
             }
-            this.plugin.saveSettings();
+            await this.plugin.saveSettings();
             this.display();
           }),
       );
@@ -139,13 +139,15 @@ export class FileCleanerSettingTab extends PluginSettingTab {
 
           text.setPlaceholder("7");
           text.setValue(days >= 0 ? String(days) : "");
-          text.inputEl.style.minWidth = "18rem";
+          text.inputEl.setCssStyles({
+            minWidth: "18rem",
+          });
 
-          text.onChange((value) => {
+          text.onChange(async (value) => {
             const days = Number(value.match(/^\d+/)) || -1;
 
             this.plugin.settings.obsidianTrashCleanupAge = days;
-            this.plugin.saveSettings();
+            await this.plugin.saveSettings();
           });
         });
     }
@@ -172,18 +174,18 @@ export class FileCleanerSettingTab extends PluginSettingTab {
             translate().Settings.RegularOptions.Notifications.Options.HideAll,
           )
           .setValue(this.plugin.settings.notifications)
-          .onChange((value) => {
+          .onChange(async (value) => {
             this.plugin.settings.notifications = value as Notification;
-            this.plugin.saveSettings();
+            await this.plugin.saveSettings();
             this.display();
           }),
       );
     // #endregion
 
     // #region Folder inclusion / exclusion
-    this.containerEl.createEl("h3", {
-      text: translate().Settings.Folders.Header,
-    });
+    new Setting(containerEl)
+      .setName(translate().Settings.Folders.Header)
+      .setHeading();
 
     new Setting(containerEl)
       .setName(translate().Settings.Folders.RemoveFolders.Label)
@@ -191,9 +193,9 @@ export class FileCleanerSettingTab extends PluginSettingTab {
       .addToggle((toggle) => {
         toggle.setValue(this.plugin.settings.removeFolders);
 
-        toggle.onChange((value) => {
+        toggle.onChange(async (value) => {
           this.plugin.settings.removeFolders = value;
-          this.plugin.saveSettings();
+          await this.plugin.saveSettings();
         });
       });
 
@@ -203,9 +205,9 @@ export class FileCleanerSettingTab extends PluginSettingTab {
       .addToggle((toggle) => {
         toggle.setValue(Boolean(this.plugin.settings.excludeInclude));
 
-        toggle.onChange((value) => {
+        toggle.onChange(async (value) => {
           this.plugin.settings.excludeInclude = Number(value);
-          this.plugin.saveSettings();
+          await this.plugin.saveSettings();
           this.display();
         });
       });
@@ -230,21 +232,23 @@ export class FileCleanerSettingTab extends PluginSettingTab {
               .map((ext) => ext.trim())
               .filter((ext) => ext !== "");
 
-            this.plugin.saveSettings();
+            await this.plugin.saveSettings();
           });
         text.setPlaceholder(
           translate().Settings.Folders.FolderFiltering.Placeholder,
         );
-        text.inputEl.style.minWidth = "18rem";
-        text.inputEl.style.maxWidth = "18rem";
-        text.inputEl.style.minHeight = "8rem";
-        text.inputEl.style.maxHeight = "16rem";
+        text.inputEl.setCssStyles({
+          minWidth: "18rem",
+          maxWidth: "18rem",
+          minHeight: "8rem",
+          maxHeight: "16rem",
+        });
       });
     // #endregion
 
-    this.containerEl.createEl("h3", {
-      text: translate().Settings.Files.Header,
-    });
+    new Setting(containerEl)
+      .setName(translate().Settings.Files.Header)
+      .setHeading();
 
     // #region Extension inclusion / exclusion
     new Setting(containerEl)
@@ -255,9 +259,9 @@ export class FileCleanerSettingTab extends PluginSettingTab {
           Boolean(this.plugin.settings.attachmentsExcludeInclude),
         );
 
-        toggle.onChange((value) => {
+        toggle.onChange(async (value) => {
           this.plugin.settings.attachmentsExcludeInclude = Number(value);
-          this.plugin.saveSettings();
+          await this.plugin.saveSettings();
           this.display();
         });
       });
@@ -288,17 +292,19 @@ export class FileCleanerSettingTab extends PluginSettingTab {
               .filter((ext) => ext !== "")
               .map((ext) => ext.replace(/^\./, ""));
 
-            this.plugin.saveSettings();
+            await this.plugin.saveSettings();
           });
         text.setPlaceholder(
           this.plugin.settings.attachmentsExcludeInclude
             ? translate().Settings.Files.Attachments.Included.Placeholder
             : translate().Settings.Files.Attachments.Excluded.Placeholder,
         );
-        text.inputEl.style.minWidth = "18rem";
-        text.inputEl.style.maxWidth = "18rem";
-        text.inputEl.style.minHeight = "4rem";
-        text.inputEl.style.maxHeight = "8rem";
+        text.inputEl.setCssStyles({
+          minWidth: "18rem",
+          maxWidth: "18rem",
+          minHeight: "4rem",
+          maxHeight: "8rem",
+        });
       });
     attachmentExcludeIncludeSetting.descEl.setHTMLUnsafe(
       this.plugin.settings.attachmentsExcludeInclude
@@ -319,19 +325,19 @@ export class FileCleanerSettingTab extends PluginSettingTab {
         if (this.plugin.settings.fileAgeThreshold > 0)
           text.setValue(String(this.plugin.settings.fileAgeThreshold));
 
-        text.onChange((value) => {
+        text.onChange(async (value) => {
           const newAge = Number(value.trim());
           if (newAge >= 0) {
             this.plugin.settings.fileAgeThreshold = newAge;
-            this.plugin.saveSettings();
+            await this.plugin.saveSettings();
           } else text.setValue("0");
         });
       });
     // #endregion
 
-    this.containerEl.createEl("h4", {
-      text: translate().Settings.MarkdownFiles.Header,
-    });
+    new Setting(containerEl)
+      .setName(translate().Settings.MarkdownFiles.Header)
+      .setHeading();
 
     // #region Delete empty Markdown files
     new Setting(containerEl)
@@ -344,9 +350,9 @@ export class FileCleanerSettingTab extends PluginSettingTab {
       .addToggle((toggle) => {
         toggle.setValue(this.plugin.settings.deleteEmptyMarkdownFiles);
 
-        toggle.onChange((value) => {
+        toggle.onChange(async (value) => {
           this.plugin.settings.deleteEmptyMarkdownFiles = value;
-          this.plugin.saveSettings();
+          await this.plugin.saveSettings();
           this.display();
         });
       });
@@ -368,9 +374,9 @@ export class FileCleanerSettingTab extends PluginSettingTab {
             this.plugin.settings.deleteEmptyMarkdownFilesWithBacklinks,
           );
 
-          toggle.onChange((value) => {
+          toggle.onChange(async (value) => {
             this.plugin.settings.deleteEmptyMarkdownFilesWithBacklinks = value;
-            this.plugin.saveSettings();
+            await this.plugin.saveSettings();
             this.display();
           });
         });
@@ -392,15 +398,17 @@ export class FileCleanerSettingTab extends PluginSettingTab {
               .map((ext) => ext.trim())
               .filter((ext) => ext.length > 1 && ext !== "");
 
-            this.plugin.saveSettings();
+            await this.plugin.saveSettings();
           });
         text.setPlaceholder(
           translate().Settings.MarkdownFiles.IgnoredFrontmatter.Placeholder,
         );
-        text.inputEl.style.minWidth = "18rem";
-        text.inputEl.style.maxWidth = "18rem";
-        text.inputEl.style.minHeight = "4rem";
-        text.inputEl.style.maxHeight = "12rem";
+        text.inputEl.setCssStyles({
+          minWidth: "18rem",
+          maxWidth: "18rem",
+          minHeight: "4rem",
+          maxHeight: "12rem",
+        });
       })
       .setDisabled(
         this.plugin.settings.ignoreAllFrontmatter ||
@@ -420,9 +428,9 @@ export class FileCleanerSettingTab extends PluginSettingTab {
       .addToggle((toggle) => {
         toggle.setValue(this.plugin.settings.ignoreAllFrontmatter);
 
-        toggle.onChange((value) => {
+        toggle.onChange(async (value) => {
           this.plugin.settings.ignoreAllFrontmatter = value;
-          this.plugin.saveSettings();
+          await this.plugin.saveSettings();
           this.display();
         });
       })
@@ -442,15 +450,17 @@ export class FileCleanerSettingTab extends PluginSettingTab {
               .map((ext) => ext.trim())
               .filter((ext) => ext.length > 1 && ext !== "");
 
-            this.plugin.saveSettings();
+            await this.plugin.saveSettings();
           });
         text.setPlaceholder(
           translate().Settings.MarkdownFiles.CodeblockParsing.Placeholder,
         );
-        text.inputEl.style.minWidth = "18rem";
-        text.inputEl.style.maxWidth = "18rem";
-        text.inputEl.style.minHeight = "4rem";
-        text.inputEl.style.maxHeight = "12rem";
+        text.inputEl.setCssStyles({
+          minWidth: "18rem",
+          maxWidth: "18rem",
+          minHeight: "4rem",
+          maxHeight: "12rem",
+        });
       })
       .controlEl.setCssStyles(
         this.plugin.settings.ignoreAllFrontmatter && {
@@ -460,9 +470,9 @@ export class FileCleanerSettingTab extends PluginSettingTab {
     // #endregion
 
     // #region Close new tabs
-    this.containerEl.createEl("h3", {
-      text: translate().Settings.Other.Header,
-    });
+    new Setting(containerEl)
+      .setName(translate().Settings.Other.Header)
+      .setHeading();
 
     new Setting(containerEl)
       .setName(translate().Settings.Other.CloseNewTabs.Label)
@@ -470,9 +480,9 @@ export class FileCleanerSettingTab extends PluginSettingTab {
       .addToggle((toggle) => {
         toggle.setValue(this.plugin.settings.closeNewTabs);
 
-        toggle.onChange((value) => {
+        toggle.onChange(async (value) => {
           this.plugin.settings.closeNewTabs = value;
-          this.plugin.saveSettings();
+          await this.plugin.saveSettings();
         });
       });
     // #endregion
@@ -484,9 +494,9 @@ export class FileCleanerSettingTab extends PluginSettingTab {
       .addToggle((toggle) => {
         toggle.setValue(this.plugin.settings.deleteEmptyFileOnClose);
 
-        toggle.onChange((value) => {
+        toggle.onChange(async (value) => {
           this.plugin.settings.deleteEmptyFileOnClose = value;
-          this.plugin.saveSettings();
+          await this.plugin.saveSettings();
         });
       });
     // #endregion
@@ -498,9 +508,9 @@ export class FileCleanerSettingTab extends PluginSettingTab {
       .addToggle((toggle) => {
         toggle.setValue(this.plugin.settings.deletionConfirmation);
 
-        toggle.onChange((value) => {
+        toggle.onChange(async (value) => {
           this.plugin.settings.deletionConfirmation = value;
-          this.plugin.saveSettings();
+          await this.plugin.saveSettings();
         });
       });
     // #endregion
@@ -512,9 +522,9 @@ export class FileCleanerSettingTab extends PluginSettingTab {
       .addToggle((toggle) => {
         toggle.setValue(this.plugin.settings.runOnStartup);
 
-        toggle.onChange((value) => {
+        toggle.onChange(async (value) => {
           this.plugin.settings.runOnStartup = value;
-          this.plugin.saveSettings();
+          await this.plugin.saveSettings();
         });
       });
     // #endregion
@@ -525,15 +535,15 @@ export class FileCleanerSettingTab extends PluginSettingTab {
       [...supportedPlugins].filter((plugin) => userHasPlugin(plugin, this.app))
         .length > 0
     ) {
-      this.containerEl.createEl("h3", {
-        text: translate().Settings.ExternalPluginSupport.Header,
-      });
+      new Setting(containerEl)
+        .setName(translate().Settings.ExternalPluginSupport.Header)
+        .setHeading();
 
       // #region Excalidraw
       if (userHasPlugin("obsidian-excalidraw-plugin", this.app)) {
-        this.containerEl.createEl("h4", {
-          text: translate().Settings.ExternalPluginSupport.Excalidraw.Header,
-        });
+        new Setting(containerEl)
+          .setName(translate().Settings.ExternalPluginSupport.Excalidraw.Header)
+          .setHeading();
 
         new Setting(containerEl)
           .setName(
@@ -550,10 +560,10 @@ export class FileCleanerSettingTab extends PluginSettingTab {
                 .TreatAsAttachments,
             );
 
-            toggle.onChange((value) => {
+            toggle.onChange(async (value) => {
               this.plugin.settings.ExternalPlugins.Excalidraw.TreatAsAttachments =
                 value;
-              this.plugin.saveSettings();
+              await this.plugin.saveSettings();
             });
           });
       }
@@ -562,9 +572,9 @@ export class FileCleanerSettingTab extends PluginSettingTab {
     // #endregion External Plugin Options
 
     // #region Danger Zone
-    this.containerEl.createEl("h3", {
-      text: translate().Settings.DangerZone.Header,
-    });
+    new Setting(containerEl)
+      .setName(translate().Settings.DangerZone.Header)
+      .setHeading();
 
     // #region Reset settings
     new Setting(containerEl)
@@ -577,11 +587,11 @@ export class FileCleanerSettingTab extends PluginSettingTab {
           .onClick(() => {
             ResetSettingsModal({
               app: this.app,
-              onConfirm: () => {
+              onConfirm: async () => {
                 this.plugin.settings = DEFAULT_SETTINGS;
-                this.plugin.saveSettings();
+                await this.plugin.saveSettings();
                 this.display();
-                this.plugin.loadSettings();
+                await this.plugin.loadSettings();
 
                 notify(translate().Notifications.SettingsReset);
               },

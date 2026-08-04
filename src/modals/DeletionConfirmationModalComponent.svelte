@@ -27,6 +27,7 @@
 
   let { app, settings, filesAndFolders, closeModal }: Props = $props();
 
+  // svelte-ignore state_referenced_locally we only care about the initial value
   let filesAndFoldersSorted = (filesAndFolders || []).sort((a, b) =>
     a.path.localeCompare(b.path),
   );

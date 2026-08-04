@@ -3,6 +3,22 @@ import { type FileCleanerSettings } from "../settings";
 import { Deletion, Notification, NotificationType } from "../enums";
 import translate from "../i18n";
 
+// Augment the obsidian module with some helper interfaces
+declare module "obsidian" {
+  interface MetadataCache {
+    getBacklinksForFile: () => Backlinks;
+  }
+  interface App {
+    plugins: { plugins: Record<string, { settings: unknown }> };
+  }
+}
+
+export interface Backlinks {
+  // for use with `app.metadataCache.getBacklinksForFile(file)`
+  data: Map<string, Array<unknown>>;
+  keys: () => { length: number };
+}
+
 export async function removeFile(
   file: TAbstractFile,
   app: App,
@@ -30,7 +46,7 @@ export async function removeFiles(
 ) {
   if (files.length > 0) {
     for (const file of files) {
-      removeFile(file, app, settings);
+      await removeFile(file, app, settings);
     }
     notify(translate().Notifications.CleanSuccessful);
   } else {
@@ -75,16 +91,13 @@ export function getExtensions(settings: FileCleanerSettings) {
   return extensions;
 }
 
-export interface AppWithPlugins extends App {
-  plugins: { plugins: Record<string, unknown> };
-}
-
 export function userHasPlugin(id: string, app: App) {
-  const plugins = (app as AppWithPlugins).plugins.plugins;
-  return Object.prototype.hasOwnProperty.call(plugins, id);
+  const plugins = app.plugins.plugins;
+  return Object.getOwnPropertyDescriptor(plugins, id);
 }
 
 export function getSettings() {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- `this` is untyped
   return this.app.plugins.plugins["file-cleaner-redux"]
     .settings as FileCleanerSettings;
 }

@@ -9,20 +9,18 @@ export async function getAdmonitionAttachments(app: App) {
   // Get list of all markdown files that contains code blocks.
   // Since FileCache doesn't include which type of block it is,
   //   this is as good as it gets for now.
-  const admonitionCandidates = await Promise.all(
-    app.vault
-      .getFiles()
-      .filter((file) => file.extension == "md")
-      .map((file) => {
-        return { file: file, cache: app.metadataCache.getFileCache(file) };
-      })
-      .filter((file) => file.cache.sections)
-      .filter(
-        (file) =>
-          file.cache.sections.filter((section) => section.type === "code")
-            .length > 0,
-      ),
-  );
+  const admonitionCandidates = app.vault
+    .getFiles()
+    .filter((file) => file.extension == "md")
+    .map((file) => {
+      return { file: file, cache: app.metadataCache.getFileCache(file) };
+    })
+    .filter((file) => file.cache.sections)
+    .filter(
+      (file) =>
+        file.cache.sections.filter((section) => section.type === "code")
+          .length > 0,
+    );
 
   console.log(
     `Iterating over ${admonitionCandidates.length} files with codeblocks`,

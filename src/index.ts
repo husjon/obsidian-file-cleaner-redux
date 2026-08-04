@@ -39,7 +39,8 @@ export default class FileCleanerPlugin extends Plugin {
 
     this.addSettingTab(new FileCleanerSettingTab(this.app, this));
 
-    if (this.settings.runOnStartup) setTimeout(this.runVaultCleanup, 1000);
+    if (this.settings.runOnStartup)
+      window.setTimeout(this.runVaultCleanup, 1000);
 
     this.registerEvent(
       this.app.workspace.on("layout-change", async () => {
@@ -51,7 +52,7 @@ export default class FileCleanerPlugin extends Plugin {
 
         this.lastOpenedFiles
           .filter((f) => !currentlyOpenedFiles.includes(f))
-          .forEach(async (f) => {
+          .forEach((f) => {
             if (
               (this.settings.excludeInclude === ExcludeInclude.Exclude &&
                 isFolderExcluded(f.parent, this.settings)) ||
@@ -60,8 +61,9 @@ export default class FileCleanerPlugin extends Plugin {
             )
               return;
 
-            if (await checkMarkdown(f, this.app, this.settings))
-              removeFile(f, this.app, this.settings);
+            void checkMarkdown(f, this.app, this.settings).then((isEmpty) => {
+              if (isEmpty) void removeFile(f, this.app, this.settings);
+            });
           });
 
         this.lastOpenedFiles = currentlyOpenedFiles;
@@ -72,21 +74,23 @@ export default class FileCleanerPlugin extends Plugin {
   onunload() {}
 
   async loadSettings() {
-    this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
+    this.settings = Object.assign(
+      {},
+      DEFAULT_SETTINGS,
+      (await this.loadData()) as FileCleanerSettings,
+    );
   }
 
   async saveSettings() {
     await this.saveData(this.settings);
   }
 
-  private runVaultCleanup = async () => {
+  private runVaultCleanup = () => {
     try {
-      const { filesToRemove, foldersToRemove } = await scanVault(
-        this.app,
-        this.settings,
+      void scanVault(this.app, this.settings).then(
+        ({ filesToRemove, foldersToRemove }) =>
+          runCleanup(filesToRemove, foldersToRemove, this.app, this.settings),
       );
-
-      await runCleanup(filesToRemove, foldersToRemove, this.app, this.settings);
     } catch (error) {
       notify(
         translate().Notifications.UnexpectedErrorOccurred,
