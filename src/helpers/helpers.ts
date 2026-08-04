@@ -97,6 +97,7 @@ export function userHasPlugin(id: string, app: App) {
 }
 
 export function getSettings() {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- `this` is untyped
   return this.app.plugins.plugins["file-cleaner-redux"]
     .settings as FileCleanerSettings;
 }
