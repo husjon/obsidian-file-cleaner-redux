@@ -8,6 +8,9 @@ declare module "obsidian" {
   interface MetadataCache {
     getBacklinksForFile: () => Backlinks;
   }
+  interface App {
+    plugins: { plugins: Record<string, { settings: unknown }> };
+  }
 }
 
 export interface Backlinks {
@@ -88,17 +91,13 @@ export function getExtensions(settings: FileCleanerSettings) {
   return extensions;
 }
 
-export interface AppWithPlugins extends App {
-  plugins: { plugins: Record<string, { settings: unknown }> };
-}
-
 export function userHasPlugin(id: string, app: App) {
-  const plugins = (app as AppWithPlugins).plugins.plugins;
+  const plugins = app.plugins.plugins;
   return Object.getOwnPropertyDescriptor(plugins, id);
 }
 
 export function getSettings() {
-  return (this.app as AppWithPlugins).plugins.plugins["file-cleaner-redux"]
+  return this.app.plugins.plugins["file-cleaner-redux"]
     .settings as FileCleanerSettings;
 }
 
