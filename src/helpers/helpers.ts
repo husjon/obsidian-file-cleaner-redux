@@ -11,6 +11,9 @@ declare module "obsidian" {
   interface App {
     plugins: { plugins: Record<string, { settings: unknown }> };
   }
+  interface Vault {
+    getConfig: (option: string) => unknown;
+  }
 }
 
 export interface Backlinks {
