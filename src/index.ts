@@ -52,7 +52,7 @@ export default class FileCleanerPlugin extends Plugin {
 
         this.lastOpenedFiles
           .filter((f) => !currentlyOpenedFiles.includes(f))
-          .forEach(async (f) => {
+          .forEach((f) => {
             if (
               (this.settings.excludeInclude === ExcludeInclude.Exclude &&
                 isFolderExcluded(f.parent, this.settings)) ||
@@ -61,8 +61,9 @@ export default class FileCleanerPlugin extends Plugin {
             )
               return;
 
-            if (await checkMarkdown(f, this.app, this.settings))
-              await removeFile(f, this.app, this.settings);
+            void checkMarkdown(f, this.app, this.settings).then((isEmpty) => {
+              if (isEmpty) void removeFile(f, this.app, this.settings);
+            });
           });
 
         this.lastOpenedFiles = currentlyOpenedFiles;
@@ -84,14 +85,12 @@ export default class FileCleanerPlugin extends Plugin {
     await this.saveData(this.settings);
   }
 
-  private runVaultCleanup = async () => {
+  private runVaultCleanup = () => {
     try {
-      const { filesToRemove, foldersToRemove } = await scanVault(
-        this.app,
-        this.settings,
+      void scanVault(this.app, this.settings).then(
+        ({ filesToRemove, foldersToRemove }) =>
+          runCleanup(filesToRemove, foldersToRemove, this.app, this.settings),
       );
-
-      await runCleanup(filesToRemove, foldersToRemove, this.app, this.settings);
     } catch (error) {
       notify(
         translate().Notifications.UnexpectedErrorOccurred,
