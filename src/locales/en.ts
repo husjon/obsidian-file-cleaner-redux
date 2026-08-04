@@ -71,7 +71,7 @@ const enUS: Locale = {
         Excluded: {
           Label: "Excluded attachment extensions",
           Description:
-            "List of extensions that should be ignored during cleanup, all other files are included, the `.*` wildcard can be used to select all extensions. Comma-separated.<br /><p>Notice: If the list is empty, <b>all files</b> will be targeted!</p>",
+            "List of extensions that should be ignored during cleanup, all other files are included, the `.*` wildcard can be used to select all extensions. Comma-separated.",
           Placeholder: "Example:.jpg, .png, .pdf, .*",
         },
         Included: {
