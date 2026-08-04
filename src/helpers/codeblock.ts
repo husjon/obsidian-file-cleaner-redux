@@ -114,9 +114,10 @@ function parseCodeblock(codeblock: string): CodeBlock | null {
 
   if (!fence) return null;
 
+  const fenceMarker = fence.pop();
   const content = codeblock
-    .replace(RegExp(`^${fence}+`), "") //  strip of the code block fence at the beginning
-    .replace(RegExp(`${fence}+$`), ""); // strip of the code block fence at the end
+    .replace(RegExp(`^${fenceMarker}+`), "") //  strip of the code block fence at the beginning
+    .replace(RegExp(`${fenceMarker}+$`), ""); // strip of the code block fence at the end
 
   const language = content.split(/[\r\n]+/)[0];
 
