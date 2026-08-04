@@ -46,6 +46,10 @@ async function checkFile(
     return await checkCanvas(file, app);
   }
 
+  // Exclude all files if exclusion list is not populated.
+  if (settings.attachmentsExcludeInclude === ExcludeInclude.Exclude)
+    extensions.push(".*");
+
   const extensionsRegex = RegExp(`^(${["md", ...extensions].join("|")})$`);
   if (settings.attachmentsExcludeInclude === ExcludeInclude.Include) {
     return file.extension.match(extensionsRegex);

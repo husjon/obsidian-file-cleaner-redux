@@ -308,11 +308,6 @@ export class FileCleanerSettingTab extends PluginSettingTab {
           maxHeight: "8rem",
         });
       });
-    attachmentExcludeIncludeSetting.descEl.setHTMLUnsafe(
-      this.plugin.settings.attachmentsExcludeInclude
-        ? translate().Settings.Files.Attachments.Included.Description
-        : translate().Settings.Files.Attachments.Excluded.Description,
-    );
     // #endregion
 
     // #region File age threshold
