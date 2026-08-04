@@ -268,7 +268,7 @@ export class FileCleanerSettingTab extends PluginSettingTab {
         });
       });
 
-    const attachmentExcludeIncludeSetting = new Setting(containerEl)
+    new Setting(containerEl)
       .setName(
         this.plugin.settings.attachmentsExcludeInclude
           ? translate().Settings.Files.Attachments.Included.Label
