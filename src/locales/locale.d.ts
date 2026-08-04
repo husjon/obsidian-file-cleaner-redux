@@ -130,6 +130,11 @@ export interface Locale {
         Label: string;
         Description: string;
       };
+
+      DebugLogging: {
+        Label: string;
+        Description: string;
+      };
     };
 
     ExternalPluginSupport: {

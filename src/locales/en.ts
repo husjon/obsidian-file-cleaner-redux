@@ -154,6 +154,11 @@ const enUS: Locale = {
         Label: "Run on startup",
         Description: "Runs the cleaner on startup",
       },
+
+      DebugLogging: {
+        Label: "Enable debug logging",
+        Description: "Whether debug logging should be enabled",
+      },
     },
 
     ExternalPluginSupport: {
