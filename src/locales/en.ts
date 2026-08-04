@@ -220,6 +220,16 @@ const enUS: Locale = {
     UnexpectedErrorOccurred:
       "An unexpected error occurred, please check the console",
   },
+
+  Callouts: {
+    RemovalOfDeletedFilesOption: {
+      Lines: [
+        "Starting from the next major update of this plugin, the Deleted files option will be removed and instead use the global Obsidian option.",
+        "The setting can be found at: Files and links > Trash > Deleted files",
+        "To start using what is already defined in the Obsidian options, please choose Use Obsidian global option in the dropdown above. Once selected, this callout will be hidden.",
+      ],
+    },
+  },
 };
 
 export default enUS;
