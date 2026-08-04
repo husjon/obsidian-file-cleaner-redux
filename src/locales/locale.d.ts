@@ -192,4 +192,10 @@ export interface Locale {
     UnexpectedErrorOccurred: string;
     FailedToParseCanvas: string;
   };
+
+  Callouts: {
+    RemovalOfDeletedFilesOption: {
+      Lines: string[];
+    };
+  };
 }
