@@ -1,4 +1,5 @@
 import { App, TFile } from "obsidian";
+import { logGroupEnd, logGroupStart, logMsg } from "./logging";
 
 export async function getCodeblockAttachments(
   app: App,
@@ -6,7 +7,7 @@ export async function getCodeblockAttachments(
 ) {
   if (!languageFilter) return [];
 
-  console.group("Codeblock attachments");
+  logGroupStart("Codeblock attachments");
   const indexingStart = Date.now();
 
   const files = await getCodeblocksFromMarkdownFiles(app);
@@ -38,10 +39,10 @@ export async function getCodeblockAttachments(
   });
 
   const duration = (Date.now() - indexingStart) / 1000;
-  console.log(
+  logMsg(
     `Found ${attachments.length} attachments in codeblocks in ${duration}ms.`,
   );
-  console.groupEnd();
+  logGroupEnd();
 
   return attachments.flatMap((attachment) => [...attachment]);
 }

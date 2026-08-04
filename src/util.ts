@@ -19,6 +19,7 @@ import { Deletion } from "./enums";
 import { checkExcalidraw } from "./helpers/extras/excalidraw";
 import { getCodeblockAttachments } from "./helpers/codeblock";
 import { getInkAttachments } from "./helpers/extras/ink";
+import { logGroupEnd, logGroupStart, logMsg } from "./helpers/logging";
 
 async function checkFile(
   app: App,
@@ -83,7 +84,7 @@ async function cleanTrashFolder(app: App, settings: FileCleanerSettings) {
     date.getDate() - settings.obsidianTrashCleanupAge,
   );
 
-  console.group("Checking '.trash' folder");
+  logGroupStart("Checking '.trash' folder");
   const trashDirectory = await app.vault.adapter.list(".trash");
   for (const file of trashDirectory.files) {
     const f = await app.vault.adapter.stat(file);
@@ -101,13 +102,13 @@ async function cleanTrashFolder(app: App, settings: FileCleanerSettings) {
       console.debug("Removed folder:", folder);
     }
   }
-  console.groupEnd();
+  logGroupEnd();
 }
 
 export async function scanVault(app: App, settings: FileCleanerSettings) {
   const indexingStart = Date.now();
-  console.group("File Cleaner Redux");
-  console.log(`Starting cleanup`);
+  logGroupStart("File Cleaner Redux");
+  logMsg(`Starting cleanup`);
 
   // Attachments which are linked to according to Obsidian
   const inUseAttachmentsInitial = getInUseAttachments(app);
@@ -186,8 +187,8 @@ export async function scanVault(app: App, settings: FileCleanerSettings) {
   });
 
   const indexingDuration = (Date.now() - indexingStart) / 1000;
-  console.log(`Finished indexing after ${indexingDuration}ms`);
-  console.log(
+  logMsg(`Finished indexing after ${indexingDuration}ms`);
+  logMsg(
     `Found ${filesToRemove.length} files and ${foldersToRemove.length} folders to clean up.`,
   );
 
@@ -219,13 +220,13 @@ export async function runCleanup(
       });
     }
 
-    console.group("Files:");
+    logGroupStart("Files:");
     filesToRemove.forEach((item) => console.debug(item.path));
-    console.groupEnd();
+    logGroupEnd();
 
-    console.group("Folders:");
+    logGroupStart("Folders:");
     foldersToRemove.forEach((item) => console.debug(item.path));
-    console.groupEnd();
+    logGroupEnd();
   }
 
   if (settings.deletionDestination === Deletion.ObsidianTrash)
@@ -233,5 +234,5 @@ export async function runCleanup(
 
   if (settings.closeNewTabs) app.workspace.detachLeavesOfType("empty");
 
-  console.groupEnd();
+  logGroupEnd();
 }
