@@ -34,7 +34,7 @@ export class ConfirmationModal extends Modal {
       .setButtonText(translate().Modals.ButtonConfirm)
       .setWarning()
       .onClick(() => {
-        this.onConfirm?.();
+        void this.onConfirm?.();
         this.close();
       });
 
@@ -58,7 +58,7 @@ export function ResetSettingsModal({
     app,
     translate().Modals.ResetSettings.Title,
     createEl("p", { text: translate().Modals.ResetSettings.Text }),
-    onConfirm,
+    void onConfirm,
   );
 
   modal.open();
