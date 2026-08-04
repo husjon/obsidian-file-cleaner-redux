@@ -1,5 +1,6 @@
 import { App } from "obsidian";
 import { getCodeblocksFromMarkdownFiles } from "../codeblock";
+import { logGroupEnd, logGroupStart, logMsg } from "../logging";
 
 type HandDrawnFile = {
   versionAtEmbed: string;
@@ -14,7 +15,7 @@ type HandWrittenFile = {
 type InkFile = HandDrawnFile | HandWrittenFile;
 
 export async function getInkAttachments(app: App) {
-  console.group("Ink");
+  logGroupStart("Ink");
   const indexingStart = Date.now();
 
   const files = await getCodeblocksFromMarkdownFiles(app);
@@ -32,9 +33,9 @@ export async function getInkAttachments(app: App) {
   });
 
   const duration = (Date.now() - indexingStart) / 1000;
-  console.log(
+  logMsg(
     `Found ${attachments.length} attachments in Ink blocks in ${duration}ms.`,
   );
-  console.groupEnd();
+  logGroupEnd();
   return attachments;
 }

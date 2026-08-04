@@ -24,6 +24,7 @@ export interface FileCleanerSettings {
   fileAgeThreshold: number;
   closeNewTabs: boolean;
   deleteEmptyFileOnClose: boolean;
+  debugLogging: boolean;
 
   ExternalPlugins: {
     Excalidraw: {
@@ -55,6 +56,7 @@ export const DEFAULT_SETTINGS: FileCleanerSettings = {
   fileAgeThreshold: 0,
   closeNewTabs: false,
   deleteEmptyFileOnClose: false,
+  debugLogging: false,
 
   ExternalPlugins: {
     Excalidraw: {
@@ -524,6 +526,19 @@ export class FileCleanerSettingTab extends PluginSettingTab {
 
         toggle.onChange(async (value) => {
           this.plugin.settings.runOnStartup = value;
+          await this.plugin.saveSettings();
+        });
+      });
+    // #endregion
+    // #region Run on startup
+    new Setting(containerEl)
+      .setName(translate().Settings.Other.DebugLogging.Label)
+      .setDesc(translate().Settings.Other.DebugLogging.Description)
+      .addToggle((toggle) => {
+        toggle.setValue(this.plugin.settings.debugLogging);
+
+        toggle.onChange(async (value) => {
+          this.plugin.settings.debugLogging = value;
           await this.plugin.saveSettings();
         });
       });

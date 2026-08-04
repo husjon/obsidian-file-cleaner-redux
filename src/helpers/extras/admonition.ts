@@ -1,7 +1,8 @@
 import { App } from "obsidian";
+import { logGroupEnd, logGroupStart, logMsg } from "../logging";
 
 export async function getAdmonitionAttachments(app: App) {
-  console.group("Admonition");
+  logGroupStart("Admonition");
   const indexingStart = Date.now();
 
   const attachments: string[] = [];
@@ -22,9 +23,7 @@ export async function getAdmonitionAttachments(app: App) {
           .length > 0,
     );
 
-  console.log(
-    `Iterating over ${admonitionCandidates.length} files with codeblocks`,
-  );
+  logMsg(`Iterating over ${admonitionCandidates.length} files with codeblocks`);
   for (const { file, cache } of admonitionCandidates) {
     const content = await app.vault.cachedRead(file);
 
@@ -54,9 +53,9 @@ export async function getAdmonitionAttachments(app: App) {
     }
   }
   const duration = (Date.now() - indexingStart) / 1000;
-  console.log(
+  logMsg(
     `Found ${attachments.length} attachments in Admonition blocks in ${duration}ms.`,
   );
-  console.groupEnd();
+  logGroupEnd();
   return attachments;
 }
