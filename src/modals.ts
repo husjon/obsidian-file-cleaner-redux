@@ -4,7 +4,7 @@ import translate from "./i18n";
 export class ConfirmationModal extends Modal {
   title: string;
   content: HTMLElement;
-  onConfirm: () => void;
+  onConfirm?: () => void | Promise<void>;
 
   constructor(
     app: App,
