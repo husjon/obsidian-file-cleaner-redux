@@ -94,7 +94,7 @@ export interface AppWithPlugins extends App {
 
 export function userHasPlugin(id: string, app: App) {
   const plugins = (app as AppWithPlugins).plugins.plugins;
-  return Object.prototype.hasOwnProperty.call(plugins, id) as boolean;
+  return Object.getOwnPropertyDescriptor(plugins, id);
 }
 
 export function getSettings() {
