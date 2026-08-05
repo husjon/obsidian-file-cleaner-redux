@@ -14,5 +14,8 @@ const LOCALES: LOCALE = {
 export default function translate() {
   const systemLocale = moment.locale();
 
-  return LOCALES[systemLocale];
+  const locale = LOCALES[systemLocale];
+
+  if (locale !== undefined) return locale;
+  else return LOCALES["en"];
 }
