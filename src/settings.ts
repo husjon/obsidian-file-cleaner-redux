@@ -449,6 +449,11 @@ export class FileCleanerSettingTab extends PluginSettingTab {
             desc: translate().Settings.Other.RunOnStartup.Description,
             control: { type: "toggle", key: "runOnStartup" },
           },
+          {
+            name: translate().Settings.Other.DebugLogging.Label,
+            desc: translate().Settings.Other.DebugLogging.Description,
+            control: { type: "toggle", key: "debugLogging" },
+          },
         ],
       },
     ];
@@ -508,20 +513,6 @@ export class FileCleanerSettingTab extends PluginSettingTab {
     new Setting(containerEl)
       .setName(translate().Settings.DangerZone.Header)
       .setHeading();
-
-    // #region Debug logging
-    new Setting(containerEl)
-      .setName(translate().Settings.Other.DebugLogging.Label)
-      .setDesc(translate().Settings.Other.DebugLogging.Description)
-      .addToggle((toggle) => {
-        toggle.setValue(this.plugin.settings.debugLogging);
-
-        toggle.onChange(async (value) => {
-          this.plugin.settings.debugLogging = value;
-          await this.plugin.saveSettings();
-        });
-      });
-    // #endregion
 
     // #region Reset settings
     new Setting(containerEl)
