@@ -418,41 +418,50 @@ export class FileCleanerSettingTab extends PluginSettingTab {
               },
             ],
           },
-          {
-            name: translate().Settings.MarkdownFiles.CodeblockParsing.Label,
-            desc: translate().Settings.MarkdownFiles.CodeblockParsing
-              .Description,
-            disabled: () => this.plugin.settings.ignoreAllFrontmatter,
-            render: (setting: Setting) => {
-              setting
-                .addTextArea((text) => {
-                  text
-                    .setValue(this.plugin.settings.codeblockTypes.join(", "))
-                    .onChange(async (value) => {
-                      this.plugin.settings.codeblockTypes = value
-                        .split(",")
-                        .map((ext) => ext.trim())
-                        .filter((ext) => ext.length > 1 && ext !== "");
 
-                      this.plugin.saveSettings();
-                    });
-                  text.setPlaceholder(
-                    translate().Settings.MarkdownFiles.CodeblockParsing
-                      .Placeholder,
-                  );
-                  text.inputEl.setCssStyles({
-                    minWidth: "18rem",
-                    maxWidth: "18rem",
-                    minHeight: "4rem",
-                    maxHeight: "12rem",
-                  });
-                })
-                .controlEl.setCssStyles(
-                  this.plugin.settings.ignoreAllFrontmatter && {
-                    color: "",
-                  },
-                );
-            },
+          {
+            type: "page",
+            name: "Codeblock filtering",
+            items: [
+              {
+                name: translate().Settings.MarkdownFiles.CodeblockParsing.Label,
+                desc: translate().Settings.MarkdownFiles.CodeblockParsing
+                  .Description,
+                disabled: () => this.plugin.settings.ignoreAllFrontmatter,
+                render: (setting: Setting) => {
+                  setting
+                    .addTextArea((text) => {
+                      text
+                        .setValue(
+                          this.plugin.settings.codeblockTypes.join(", "),
+                        )
+                        .onChange(async (value) => {
+                          this.plugin.settings.codeblockTypes = value
+                            .split(",")
+                            .map((ext) => ext.trim())
+                            .filter((ext) => ext.length > 1 && ext !== "");
+
+                          this.plugin.saveSettings();
+                        });
+                      text.setPlaceholder(
+                        translate().Settings.MarkdownFiles.CodeblockParsing
+                          .Placeholder,
+                      );
+                      text.inputEl.setCssStyles({
+                        minWidth: "18rem",
+                        maxWidth: "18rem",
+                        minHeight: "4rem",
+                        maxHeight: "12rem",
+                      });
+                    })
+                    .controlEl.setCssStyles(
+                      this.plugin.settings.ignoreAllFrontmatter && {
+                        color: "",
+                      },
+                    );
+                },
+              },
+            ],
           },
         ],
       },
