@@ -141,32 +141,37 @@ export class FileCleanerSettingTab extends PluginSettingTab {
           }),
       );
 
-    const deletedFilesCallout = containerEl.createDiv();
-    deletedFilesCallout.addClass("callout");
-    deletedFilesCallout.setAttr("data-callout", "attention");
-    const title = deletedFilesCallout.createEl("b");
-    title.addClass("callout-title");
-    title.setText("Attention");
+    if (
+      this.plugin.settings.deletionDestination !==
+      Deletion.UseObsidianGlobalOption
+    ) {
+      const deletedFilesCallout = containerEl.createDiv();
+      deletedFilesCallout.addClass("callout");
+      deletedFilesCallout.setAttr("data-callout", "attention");
+      const title = deletedFilesCallout.createEl("b");
+      title.addClass("callout-title");
+      title.setText("Attention");
 
-    const content = deletedFilesCallout.createDiv();
-    content.addClass("callout-content");
-    translate().Callouts.RemovalOfDeletedFilesOption.Lines.forEach((line) =>
-      content.createEl("p").setText(line),
-    );
-    const obsidianTrashPreference = getUserPreferenceTrashOption();
-    const current = TrashOptionToLabel[obsidianTrashPreference];
-    const currentElement = content.createEl("p");
-    currentElement.setText(
-      `${translate().Callouts.RemovalOfDeletedFilesOption.CurrentlySetTo}: `,
-    );
+      const content = deletedFilesCallout.createDiv();
+      content.addClass("callout-content");
+      translate().Callouts.RemovalOfDeletedFilesOption.Lines.forEach((line) =>
+        content.createEl("p").setText(line),
+      );
+      const obsidianTrashPreference = getUserPreferenceTrashOption();
+      const current = TrashOptionToLabel[obsidianTrashPreference];
+      const currentElement = content.createEl("p");
+      currentElement.setText(
+        `${translate().Callouts.RemovalOfDeletedFilesOption.CurrentlySetTo}: `,
+      );
 
-    currentElement.createEl("b").setText(current);
+      currentElement.createEl("b").setText(current);
 
-    content
-      .createEl("a", {
-        href: "https://github.com/husjon/obsidian-file-cleaner-redux/issues/159",
-      })
-      .setText("More info");
+      content
+        .createEl("a", {
+          href: "https://github.com/husjon/obsidian-file-cleaner-redux/issues/159",
+        })
+        .setText("More info");
+    }
 
     if (this.plugin.settings.deletionDestination === Deletion.ObsidianTrash) {
       new Setting(containerEl)
