@@ -152,78 +152,87 @@ export class FileCleanerSettingTab extends PluginSettingTab {
             desc: translate().Settings.Folders.RemoveFolders.Description,
             control: { type: "toggle", key: "removeFolders" },
           },
-          {
-            name: translate().Settings.Folders.FolderFiltering.Label,
-            desc: translate().Settings.Folders.FolderFiltering.Description,
-            control: {
-              type: "toggle",
-              key: "excludeInclude",
-              defaultValue: false,
-            },
-          },
-          {
-            // FIXME - attribute switching based on state does not work
-            // TODO - maybe use visible and 2 blocks (one for include and one for exclude?)
-            // TODO - might just be better to change to using the File or Folder control type (or custom variant in the case of extentions), see: https://docs.obsidian.md/Plugins/User+interface/Settings#What's+not+yet+a+first-class+control
-            name: translate().Settings.Folders.FolderFiltering.Excluded.Label,
-            desc: translate().Settings.Folders.FolderFiltering.Excluded
-              .Description,
-            visible: () => !this.plugin.settings.excludeInclude,
-            render: (setting: Setting) => {
-              setting.addTextArea((text) => {
-                text
-                  .setValue(this.plugin.settings.excludedFolders.join("\n"))
-                  .onChange(async (value) => {
-                    this.plugin.settings.excludedFolders = value
-                      .split(/\n/)
-                      .map((ext) => ext.trim())
-                      .filter((ext) => ext !== "");
 
-                    this.plugin.saveSettings();
-                  });
-                text.setPlaceholder(
-                  translate().Settings.Folders.FolderFiltering.Placeholder,
-                );
-                text.inputEl.setCssStyles({
-                  minWidth: "18rem",
-                  maxWidth: "18rem",
-                  minHeight: "8rem",
-                  maxHeight: "16rem",
-                });
-              });
-            },
-          },
           {
-            // FIXME - attribute switching based on state does not work
-            // TODO - maybe use visible and 2 blocks (one for include and one for exclude?)
-            // TODO - might just be better to change to using the File or Folder control type (or custom variant in the case of extentions), see: https://docs.obsidian.md/Plugins/User+interface/Settings#What's+not+yet+a+first-class+control
-            name: translate().Settings.Folders.FolderFiltering.Included.Label,
-            desc: translate().Settings.Folders.FolderFiltering.Included
-              .Description,
-            visible: () => !!this.plugin.settings.excludeInclude,
-            render: (setting: Setting) => {
-              setting.addTextArea((text) => {
-                text
-                  .setValue(this.plugin.settings.excludedFolders.join("\n"))
-                  .onChange(async (value) => {
-                    this.plugin.settings.excludedFolders = value
-                      .split(/\n/)
-                      .map((ext) => ext.trim())
-                      .filter((ext) => ext !== "");
+            type: "page",
+            name: "Folder filtering",
+            items: [
+              {
+                name: translate().Settings.Folders.FolderFiltering.Label,
+                desc: translate().Settings.Folders.FolderFiltering.Description,
+                control: {
+                  type: "toggle",
+                  key: "excludeInclude",
+                  defaultValue: false,
+                },
+              },
+              {
+                // FIXME - attribute switching based on state does not work
+                // TODO - maybe use visible and 2 blocks (one for include and one for exclude?)
+                // TODO - might just be better to change to using the File or Folder control type (or custom variant in the case of extentions), see: https://docs.obsidian.md/Plugins/User+interface/Settings#What's+not+yet+a+first-class+control
+                name: translate().Settings.Folders.FolderFiltering.Excluded
+                  .Label,
+                desc: translate().Settings.Folders.FolderFiltering.Excluded
+                  .Description,
+                visible: () => !this.plugin.settings.excludeInclude,
+                render: (setting: Setting) => {
+                  setting.addTextArea((text) => {
+                    text
+                      .setValue(this.plugin.settings.excludedFolders.join("\n"))
+                      .onChange(async (value) => {
+                        this.plugin.settings.excludedFolders = value
+                          .split(/\n/)
+                          .map((ext) => ext.trim())
+                          .filter((ext) => ext !== "");
 
-                    this.plugin.saveSettings();
+                        this.plugin.saveSettings();
+                      });
+                    text.setPlaceholder(
+                      translate().Settings.Folders.FolderFiltering.Placeholder,
+                    );
+                    text.inputEl.setCssStyles({
+                      minWidth: "18rem",
+                      maxWidth: "18rem",
+                      minHeight: "8rem",
+                      maxHeight: "16rem",
+                    });
                   });
-                text.setPlaceholder(
-                  translate().Settings.Folders.FolderFiltering.Placeholder,
-                );
-                text.inputEl.setCssStyles({
-                  minWidth: "18rem",
-                  maxWidth: "18rem",
-                  minHeight: "8rem",
-                  maxHeight: "16rem",
-                });
-              });
-            },
+                },
+              },
+              {
+                // FIXME - attribute switching based on state does not work
+                // TODO - maybe use visible and 2 blocks (one for include and one for exclude?)
+                // TODO - might just be better to change to using the File or Folder control type (or custom variant in the case of extentions), see: https://docs.obsidian.md/Plugins/User+interface/Settings#What's+not+yet+a+first-class+control
+                name: translate().Settings.Folders.FolderFiltering.Included
+                  .Label,
+                desc: translate().Settings.Folders.FolderFiltering.Included
+                  .Description,
+                visible: () => !!this.plugin.settings.excludeInclude,
+                render: (setting: Setting) => {
+                  setting.addTextArea((text) => {
+                    text
+                      .setValue(this.plugin.settings.excludedFolders.join("\n"))
+                      .onChange(async (value) => {
+                        this.plugin.settings.excludedFolders = value
+                          .split(/\n/)
+                          .map((ext) => ext.trim())
+                          .filter((ext) => ext !== "");
+
+                        this.plugin.saveSettings();
+                      });
+                    text.setPlaceholder(
+                      translate().Settings.Folders.FolderFiltering.Placeholder,
+                    );
+                    text.inputEl.setCssStyles({
+                      minWidth: "18rem",
+                      maxWidth: "18rem",
+                      minHeight: "8rem",
+                      maxHeight: "16rem",
+                    });
+                  });
+                },
+              },
+            ],
           },
         ],
       },
