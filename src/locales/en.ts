@@ -228,6 +228,7 @@ const enUS: Locale = {
         "The setting can be found at: Files and links > Trash > Deleted files",
         "To start using what is already defined in the Obsidian options, please choose Use Obsidian global option in the dropdown above. Once selected, this callout will be hidden.",
       ],
+      CurrentlySetTo: "Obsidian is currently set to",
     },
   },
 };

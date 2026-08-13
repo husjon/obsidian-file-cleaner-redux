@@ -196,6 +196,7 @@ export interface Locale {
   Callouts: {
     RemovalOfDeletedFilesOption: {
       Lines: string[];
+      CurrentlySetTo: string;
     };
   };
 }
