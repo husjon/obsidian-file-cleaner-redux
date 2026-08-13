@@ -95,6 +95,11 @@ export class FileCleanerSettingTab extends PluginSettingTab {
       .addDropdown((dropdown) =>
         dropdown
           .addOption(
+            Deletion.UseObsidianGlobalOption,
+            translate().Settings.RegularOptions.DeletedFiles.Options
+              .UseObsidianGlobalOption,
+          )
+          .addOption(
             "system",
             translate().Settings.RegularOptions.DeletedFiles.Options
               .MoveToSystemTrash,
@@ -112,6 +117,11 @@ export class FileCleanerSettingTab extends PluginSettingTab {
           .setValue(this.plugin.settings.deletionDestination)
           .onChange(async (value) => {
             switch (value as Deletion) {
+              case Deletion.UseObsidianGlobalOption:
+                this.plugin.settings.deletionDestination =
+                  Deletion.UseObsidianGlobalOption;
+                break;
+
               case Deletion.Permanent:
                 this.plugin.settings.deletionDestination = Deletion.Permanent;
                 break;
