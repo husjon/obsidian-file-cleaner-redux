@@ -42,7 +42,7 @@ export enum ExcludeInclude {
 }
 
 export const DEFAULT_SETTINGS: FileCleanerSettings = {
-  deletionDestination: Deletion.SystemTrash,
+  deletionDestination: Deletion.UseObsidianGlobalOption,
   obsidianTrashCleanupAge: -1,
   notifications: Notification.ShowAll,
   excludeInclude: ExcludeInclude.Exclude,
