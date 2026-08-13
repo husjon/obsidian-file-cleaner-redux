@@ -377,6 +377,13 @@ export class FileCleanerSettingTab extends PluginSettingTab {
             name: "Frontmatter filtering",
             items: [
               {
+                name: translate().Settings.MarkdownFiles.IgnoreAllFrontmatter
+                  .Label,
+                desc: translate().Settings.MarkdownFiles.IgnoreAllFrontmatter
+                  .Description,
+                control: { type: "toggle", key: "ignoreAllFrontmatter" },
+              },
+              {
                 name: translate().Settings.MarkdownFiles.IgnoredFrontmatter
                   .Label,
                 desc: translate().Settings.MarkdownFiles.IgnoredFrontmatter
@@ -408,13 +415,6 @@ export class FileCleanerSettingTab extends PluginSettingTab {
                     });
                   });
                 },
-              },
-              {
-                name: translate().Settings.MarkdownFiles.IgnoreAllFrontmatter
-                  .Label,
-                desc: translate().Settings.MarkdownFiles.IgnoreAllFrontmatter
-                  .Description,
-                control: { type: "toggle", key: "ignoreAllFrontmatter" },
               },
             ],
           },
