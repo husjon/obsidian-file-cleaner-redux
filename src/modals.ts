@@ -4,13 +4,13 @@ import translate from "./i18n";
 export class ConfirmationModal extends Modal {
   title: string;
   content: HTMLElement;
-  onConfirm?: () => void | Promise<void>;
+  onConfirm?: () => unknown;
 
   constructor(
     app: App,
     title: string,
     content: HTMLElement,
-    onConfirm: () => void,
+    onConfirm: () => unknown,
   ) {
     super(app);
     this.title = title;
@@ -48,7 +48,7 @@ export class ConfirmationModal extends Modal {
 
 interface ResetSettingsModalProps {
   app: App;
-  onConfirm?: () => void | Promise<void>;
+  onConfirm?: () => unknown;
 }
 export function ResetSettingsModal({
   app,
@@ -58,7 +58,7 @@ export function ResetSettingsModal({
     app,
     translate().Modals.ResetSettings.Title,
     createEl("p", { text: translate().Modals.ResetSettings.Text }),
-    void onConfirm,
+    onConfirm,
   );
 
   modal.open();
