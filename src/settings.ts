@@ -1,9 +1,13 @@
 import { App, PluginSettingTab, Setting } from "obsidian";
 import FileCleanerPlugin from ".";
 import translate from "./i18n";
-import { Deletion, Notification } from "./enums";
+import { Deletion, Notification, TrashOptionToLabel } from "./enums";
 import { ResetSettingsModal } from "./modals";
-import { notify, userHasPlugin } from "./helpers/helpers";
+import {
+  getUserPreferenceTrashOption,
+  notify,
+  userHasPlugin,
+} from "./helpers/helpers";
 
 export interface FileCleanerSettings {
   deletionDestination: Deletion;
@@ -139,6 +143,15 @@ export class FileCleanerSettingTab extends PluginSettingTab {
     translate().Callouts.RemovalOfDeletedFilesOption.Lines.forEach((line) =>
       content.createEl("p").setText(line),
     );
+    const obsidianTrashPreference = getUserPreferenceTrashOption();
+    const current = TrashOptionToLabel[obsidianTrashPreference];
+    const currentElement = content.createEl("p");
+    currentElement.setText(
+      `${translate().Callouts.RemovalOfDeletedFilesOption.CurrentlySetTo}: `,
+    );
+
+    currentElement.createEl("b").setText(current);
+
     content
       .createEl("a", {
         href: "https://github.com/husjon/obsidian-file-cleaner-redux/issues/159",
