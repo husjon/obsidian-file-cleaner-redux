@@ -23,7 +23,7 @@ const enUS: Locale = {
 
       Notifications: {
         Label: "Notifications",
-        Description: "How should notifications for this plugin be handled",
+        Description: "Which notifications should be displayed",
 
         Options: {
           ShowAllNotifications: "Show all",
