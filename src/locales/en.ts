@@ -9,6 +9,7 @@ const enUS: Locale = {
         Description: "What happens to a file after it's deleted.",
 
         Options: {
+          UseObsidianGlobalOption: "Use Obsidian global option",
           MoveToSystemTrash: "Move to system trash",
           MoveToObsidianTrash: "Move to Obsidian trash (.trash folder)",
           PermanentDelete: "Permanently delete",

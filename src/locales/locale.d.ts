@@ -6,6 +6,7 @@ export interface Locale {
         Description: string;
 
         Options: {
+          UseObsidianGlobalOption: string;
           MoveToSystemTrash: string;
           MoveToObsidianTrash: string;
           PermanentDelete: string;
