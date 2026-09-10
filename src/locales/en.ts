@@ -47,7 +47,8 @@ const enUS: Locale = {
           Folders that should be excluded during cleanup, all other folders will be scanned.
           Paths are case-sensitive.
           One folder per line.
-          Supports regular expressions (wildcard matching can be done using \`.*\`)`,
+          Supports regular expressions (wildcard matching can be done using \`.*\`)
+          Ignored if empty.`,
         },
         Included: {
           Label: "Included folders",
