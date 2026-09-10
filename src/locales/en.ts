@@ -47,7 +47,8 @@ const enUS: Locale = {
           Folders that should be excluded during cleanup, all other folders will be scanned.
           Paths are case-sensitive.
           One folder per line.
-          Supports regular expressions (wildcard matching can be done using \`.*\`)`,
+          Supports regular expressions (wildcard matching can be done using \`.*\`)
+          Ignored if empty.`,
         },
         Included: {
           Label: "Included folders",
@@ -57,10 +58,10 @@ const enUS: Locale = {
           One folder per line.
           Supports regular expressions (wildcard matching can be done using \`.*\`)`,
         },
-        Label: "Excluded / Included folders",
+        Label: "Folder filtering",
         Placeholder: "Example:\nfolder/subfolder\nfolder2/subfolder2",
         Description:
-          "The folders below should be excluded from or included in the cleanup process.",
+          "Wether the folders listed below should be excluded or included during cleanup",
       },
     },
 
@@ -71,7 +72,7 @@ const enUS: Locale = {
         Excluded: {
           Label: "Excluded attachment extensions",
           Description:
-            "List of extensions that should be ignored during cleanup, all other files are included, the `.*` wildcard can be used to select all extensions. Comma-separated.",
+            "List of extensions that should be ignored during cleanup, all other files are included, the `.*` wildcard can be used to select all extensions. Comma-separated. Ignored if empty.",
           Placeholder: "Example:.jpg, .png, .pdf, .*",
         },
         Included: {
@@ -80,9 +81,9 @@ const enUS: Locale = {
             "List of extensions that should be included during cleanup, all other files are ignored, the `.*` wildcard can be used to select all extensions. Comma-separated.",
           Placeholder: "Example:.jpg, .png, .pdf, .*",
         },
-        Label: "Excluded / Included extensions",
+        Label: "Attachment extension filtering",
         Description:
-          "The attachment extensions below should be excluded from or included in the cleanup process.",
+          "Wether the extensions listed below should be excluded or included during cleanup",
       },
 
       FileAgeThreshold: {

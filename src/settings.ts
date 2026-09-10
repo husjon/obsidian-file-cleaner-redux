@@ -204,10 +204,13 @@ export class FileCleanerSettingTab extends PluginSettingTab {
     new Setting(containerEl)
       .setName(translate().Settings.Folders.FolderFiltering.Label)
       .setDesc(translate().Settings.Folders.FolderFiltering.Description)
-      .addToggle((toggle) => {
-        toggle.setValue(Boolean(this.plugin.settings.excludeInclude));
+      .addDropdown((component) => {
+        component.addOption("0", "Excluded");
+        component.addOption("1", "Included");
 
-        toggle.onChange(async (value) => {
+        component.setValue(String(this.plugin.settings.excludeInclude));
+
+        component.onChange(async (value: string) => {
           this.plugin.settings.excludeInclude = Number(value);
           await this.plugin.saveSettings();
           this.display();
@@ -256,12 +259,15 @@ export class FileCleanerSettingTab extends PluginSettingTab {
     new Setting(containerEl)
       .setName(translate().Settings.Files.Attachments.Label)
       .setDesc(translate().Settings.Files.Attachments.Description)
-      .addToggle((toggle) => {
-        toggle.setValue(
-          Boolean(this.plugin.settings.attachmentsExcludeInclude),
+      .addDropdown((component) => {
+        component.addOption("0", "Excluded");
+        component.addOption("1", "Included");
+
+        component.setValue(
+          String(this.plugin.settings.attachmentsExcludeInclude),
         );
 
-        toggle.onChange(async (value) => {
+        component.onChange(async (value: string) => {
           this.plugin.settings.attachmentsExcludeInclude = Number(value);
           await this.plugin.saveSettings();
           this.display();
