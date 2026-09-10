@@ -80,9 +80,9 @@ const enUS: Locale = {
             "List of extensions that should be included during cleanup, all other files are ignored, the `.*` wildcard can be used to select all extensions. Comma-separated.",
           Placeholder: "Example:.jpg, .png, .pdf, .*",
         },
-        Label: "Excluded / Included extensions",
+        Label: "Attachment extension filtering",
         Description:
-          "The attachment extensions below should be excluded from or included in the cleanup process.",
+          "Wether the extensions listed below should be excluded or included during cleanup",
       },
 
       FileAgeThreshold: {
