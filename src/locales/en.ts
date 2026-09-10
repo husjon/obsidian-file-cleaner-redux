@@ -57,10 +57,10 @@ const enUS: Locale = {
           One folder per line.
           Supports regular expressions (wildcard matching can be done using \`.*\`)`,
         },
-        Label: "Excluded / Included folders",
+        Label: "Folder filtering",
         Placeholder: "Example:\nfolder/subfolder\nfolder2/subfolder2",
         Description:
-          "The folders below should be excluded from or included in the cleanup process.",
+          "Wether the folders listed below should be excluded or included during cleanup",
       },
     },
 
