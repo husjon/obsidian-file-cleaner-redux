@@ -9,6 +9,12 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    permissions:
+      id-token: write
+      contents: read
+      attestations: write
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -37,6 +43,12 @@ jobs:
 
       - name: Build plugin
         run: pnpm run build
+
+      - name: Generate artifact attestation
+        uses: actions/attest@v4
+        with:
+          subject-path: |
+            main.js
 
       - uses: actions/upload-artifact@v4
         with:
