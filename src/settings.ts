@@ -1,9 +1,13 @@
 import { App, PluginSettingTab, Setting } from "obsidian";
 import FileCleanerPlugin from ".";
 import translate from "./i18n";
-import { Deletion, Notification } from "./enums";
+import { Deletion, Notification, TrashOptionToLabel } from "./enums";
 import { ResetSettingsModal } from "./modals";
-import { notify, userHasPlugin } from "./helpers/helpers";
+import {
+  getUserPreferenceTrashOption,
+  notify,
+  userHasPlugin,
+} from "./helpers/helpers";
 
 export interface FileCleanerSettings {
   deletionDestination: Deletion;
@@ -38,7 +42,7 @@ export enum ExcludeInclude {
 }
 
 export const DEFAULT_SETTINGS: FileCleanerSettings = {
-  deletionDestination: Deletion.SystemTrash,
+  deletionDestination: Deletion.UseObsidianGlobalOption,
   obsidianTrashCleanupAge: -1,
   notifications: Notification.ShowAll,
   excludeInclude: ExcludeInclude.Exclude,
@@ -91,6 +95,11 @@ export class FileCleanerSettingTab extends PluginSettingTab {
       .addDropdown((dropdown) =>
         dropdown
           .addOption(
+            Deletion.UseObsidianGlobalOption,
+            translate().Settings.RegularOptions.DeletedFiles.Options
+              .UseObsidianGlobalOption,
+          )
+          .addOption(
             "system",
             translate().Settings.RegularOptions.DeletedFiles.Options
               .MoveToSystemTrash,
@@ -108,6 +117,11 @@ export class FileCleanerSettingTab extends PluginSettingTab {
           .setValue(this.plugin.settings.deletionDestination)
           .onChange(async (value) => {
             switch (value as Deletion) {
+              case Deletion.UseObsidianGlobalOption:
+                this.plugin.settings.deletionDestination =
+                  Deletion.UseObsidianGlobalOption;
+                break;
+
               case Deletion.Permanent:
                 this.plugin.settings.deletionDestination = Deletion.Permanent;
                 break;
@@ -126,6 +140,38 @@ export class FileCleanerSettingTab extends PluginSettingTab {
             this.display();
           }),
       );
+
+    if (
+      this.plugin.settings.deletionDestination !==
+      Deletion.UseObsidianGlobalOption
+    ) {
+      const deletedFilesCallout = containerEl.createDiv();
+      deletedFilesCallout.addClass("callout");
+      deletedFilesCallout.setAttr("data-callout", "attention");
+      const title = deletedFilesCallout.createEl("b");
+      title.addClass("callout-title");
+      title.setText("Attention");
+
+      const content = deletedFilesCallout.createDiv();
+      content.addClass("callout-content");
+      translate().Callouts.RemovalOfDeletedFilesOption.Lines.forEach((line) =>
+        content.createEl("p").setText(line),
+      );
+      const obsidianTrashPreference = getUserPreferenceTrashOption();
+      const current = TrashOptionToLabel[obsidianTrashPreference];
+      const currentElement = content.createEl("p");
+      currentElement.setText(
+        `${translate().Callouts.RemovalOfDeletedFilesOption.CurrentlySetTo}: `,
+      );
+
+      currentElement.createEl("b").setText(current);
+
+      content
+        .createEl("a", {
+          href: "https://github.com/husjon/obsidian-file-cleaner-redux/issues/159",
+        })
+        .setText("More info");
+    }
 
     if (this.plugin.settings.deletionDestination === Deletion.ObsidianTrash) {
       new Setting(containerEl)

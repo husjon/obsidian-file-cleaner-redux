@@ -2,7 +2,7 @@
 	"id": "file-cleaner-redux",
 	"name": "File Cleaner Redux",
 	"version": "1.15.3",
-	"minAppVersion": "1.5.7",
+	"minAppVersion": "1.6.6",
 	"description": "Help you to clean empty files and unused attachments in the vault.",
 	"author": "husjon",
 	"authorUrl": "https://github.com/husjon",

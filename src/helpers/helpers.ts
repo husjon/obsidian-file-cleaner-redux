@@ -1,6 +1,11 @@
 import { App, Notice, TAbstractFile, TFile, TFolder } from "obsidian";
 import { type FileCleanerSettings } from "../settings";
-import { Deletion, Notification, NotificationType } from "../enums";
+import {
+  Deletion,
+  Notification,
+  NotificationType,
+  ObsidianPreferenceTrashOption,
+} from "../enums";
 import translate from "../i18n";
 
 // Augment the obsidian module with some helper interfaces
@@ -11,12 +16,22 @@ declare module "obsidian" {
   interface App {
     plugins: { plugins: Record<string, { settings: unknown }> };
   }
+  interface Vault {
+    getConfig: (option: string) => unknown;
+  }
 }
 
 export interface Backlinks {
   // for use with `app.metadataCache.getBacklinksForFile(file)`
   data: Map<string, Array<unknown>>;
   keys: () => { length: number };
+}
+
+export function getUserPreferenceTrashOption() {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- `this` is untyped
+  return (this.app as App).vault.getConfig(
+    "trashOption",
+  ) as ObsidianPreferenceTrashOption;
 }
 
 export async function removeFile(
@@ -27,6 +42,9 @@ export async function removeFile(
   if (!(await app.vault.adapter.exists(file.path))) return;
 
   switch (settings.deletionDestination) {
+    case Deletion.UseObsidianGlobalOption:
+      await app.fileManager.trashFile(file);
+      break;
     case Deletion.Permanent:
       await app.vault.delete(file, true);
       break;

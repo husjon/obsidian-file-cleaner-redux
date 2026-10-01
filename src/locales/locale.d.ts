@@ -6,6 +6,7 @@ export interface Locale {
         Description: string;
 
         Options: {
+          UseObsidianGlobalOption: string;
           MoveToSystemTrash: string;
           MoveToObsidianTrash: string;
           PermanentDelete: string;
@@ -191,5 +192,12 @@ export interface Locale {
 
     UnexpectedErrorOccurred: string;
     FailedToParseCanvas: string;
+  };
+
+  Callouts: {
+    RemovalOfDeletedFilesOption: {
+      Lines: string[];
+      CurrentlySetTo: string;
+    };
   };
 }
