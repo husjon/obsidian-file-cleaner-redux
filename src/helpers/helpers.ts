@@ -42,6 +42,9 @@ export async function removeFile(
   if (!(await app.vault.adapter.exists(file.path))) return;
 
   switch (settings.deletionDestination) {
+    case Deletion.UseObsidianGlobalOption:
+      await app.fileManager.trashFile(file);
+      break;
     case Deletion.Permanent:
       await app.vault.delete(file, true);
       break;
