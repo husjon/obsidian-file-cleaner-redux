@@ -30,6 +30,7 @@ async function checkFile(
   const NOW = Date.now();
   const ageThreshold = settings.fileAgeThreshold * 24 * 60 * 60 * 1000;
   const fileAge = file.stat.mtime;
+  const filteredExtensions = [...extensions];
 
   // Files that have not yet hit the threshold (if it's set) will be skipped
   if (ageThreshold > 0 && fileAge > NOW - ageThreshold) return false;
@@ -47,10 +48,15 @@ async function checkFile(
   }
 
   // Exclude all files if exclusion list is not populated.
-  if (settings.attachmentsExcludeInclude === ExcludeInclude.Exclude)
-    extensions.push(".*");
+  if (
+    settings.attachmentsExcludeInclude === ExcludeInclude.Exclude &&
+    filteredExtensions.length === 0
+  )
+    filteredExtensions.push(".*");
 
-  const extensionsRegex = RegExp(`^(${["md", ...extensions].join("|")})$`);
+  const extensionsRegex = RegExp(
+    `^(${["md", ...filteredExtensions].join("|")})$`,
+  );
   if (settings.attachmentsExcludeInclude === ExcludeInclude.Include) {
     return file.extension.match(extensionsRegex);
   } else if (settings.attachmentsExcludeInclude === ExcludeInclude.Exclude) {
