@@ -113,6 +113,26 @@ export class FileCleanerSettingTab extends PluginSettingTab {
 
           // TODO: Add checkbox to toggle if the `.trash` folder should be checked at all
           // TODO: Only run cleanup of `.trash` folder if this checkbox is enabled
+
+          {
+            name: translate().Settings.RegularOptions.Notifications.Label,
+            desc: translate().Settings.RegularOptions.Notifications.Description,
+            control: {
+              key: "notifications",
+              type: "dropdown",
+              options: {
+                [Notification.ShowAll]:
+                  translate().Settings.RegularOptions.Notifications.Options
+                    .ShowAllNotifications,
+                [Notification.ShowOnlyErrors]:
+                  translate().Settings.RegularOptions.Notifications.Options
+                    .ShowOnlyErrors,
+                [Notification.HideAll]:
+                  translate().Settings.RegularOptions.Notifications.Options
+                    .HideAll,
+              },
+            },
+          },
         ],
       },
     ];
@@ -121,35 +141,6 @@ export class FileCleanerSettingTab extends PluginSettingTab {
   display(): void {
     const { containerEl } = this;
     this.containerEl.empty();
-
-    // #region Notifications
-    new Setting(containerEl)
-      .setName(translate().Settings.RegularOptions.Notifications.Label)
-      .setDesc(translate().Settings.RegularOptions.Notifications.Description)
-      .addDropdown((dropdown) =>
-        dropdown
-          .addOption(
-            Notification.ShowAll,
-            translate().Settings.RegularOptions.Notifications.Options
-              .ShowAllNotifications,
-          )
-          .addOption(
-            Notification.ShowOnlyErrors,
-            translate().Settings.RegularOptions.Notifications.Options
-              .ShowOnlyErrors,
-          )
-          .addOption(
-            Notification.HideAll,
-            translate().Settings.RegularOptions.Notifications.Options.HideAll,
-          )
-          .setValue(this.plugin.settings.notifications)
-          .onChange(async (value) => {
-            this.plugin.settings.notifications = value as Notification;
-            await this.plugin.saveSettings();
-            this.update();
-          }),
-      );
-    // #endregion
 
     // #region Folder inclusion / exclusion
     new Setting(containerEl)
