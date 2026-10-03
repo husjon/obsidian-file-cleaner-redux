@@ -159,56 +159,65 @@ export class FileCleanerSettingTab extends PluginSettingTab {
               key: "removeFolders",
             },
           },
+
           {
             name: translate().Settings.Folders.FolderFiltering.Label,
-            desc: translate().Settings.Folders.FolderFiltering.Description,
-            render: (setting: Setting) => {
-              setting.addDropdown((component) => {
-                component.addOption("0", "Excluded");
-                component.addOption("1", "Included");
+            type: "page",
+            items: [
+              {
+                name: translate().Settings.Folders.FolderFiltering.Label,
+                desc: translate().Settings.Folders.FolderFiltering.Description,
+                render: (setting: Setting) => {
+                  setting.addDropdown((component) => {
+                    component.addOption("0", "Excluded");
+                    component.addOption("1", "Included");
 
-                component.setValue(String(this.plugin.settings.excludeInclude));
+                    component.setValue(
+                      String(this.plugin.settings.excludeInclude),
+                    );
 
-                component.onChange(async (value: string) => {
-                  this.plugin.settings.excludeInclude = Number(value);
-                  await this.plugin.saveSettings();
-                  this.update();
-                });
-              });
-            },
-          },
-
-          {
-            name: this.plugin.settings.excludeInclude
-              ? translate().Settings.Folders.FolderFiltering.Included.Label
-              : translate().Settings.Folders.FolderFiltering.Excluded.Label,
-            desc: this.plugin.settings.excludeInclude
-              ? translate().Settings.Folders.FolderFiltering.Included
-                  .Description
-              : translate().Settings.Folders.FolderFiltering.Excluded
-                  .Description,
-            render: (setting: Setting) => {
-              setting.addTextArea((text) => {
-                text
-                  .setValue(this.plugin.settings.excludedFolders.join("\n"))
-                  .onChange(async (value) => {
-                    this.plugin.settings.excludedFolders = value
-                      .split(/\n/)
-                      .map((ext) => ext.trim())
-                      .filter((ext) => ext !== "");
-                    await this.plugin.saveSettings();
+                    component.onChange(async (value: string) => {
+                      this.plugin.settings.excludeInclude = Number(value);
+                      await this.plugin.saveSettings();
+                      this.update();
+                    });
                   });
-                text.setPlaceholder(
-                  translate().Settings.Folders.FolderFiltering.Placeholder,
-                );
-                text.inputEl.setCssStyles({
-                  minWidth: "18rem",
-                  maxWidth: "18rem",
-                  minHeight: "8rem",
-                  maxHeight: "16rem",
-                });
-              });
-            },
+                },
+              },
+
+              {
+                name: this.plugin.settings.excludeInclude
+                  ? translate().Settings.Folders.FolderFiltering.Included.Label
+                  : translate().Settings.Folders.FolderFiltering.Excluded.Label,
+                desc: this.plugin.settings.excludeInclude
+                  ? translate().Settings.Folders.FolderFiltering.Included
+                      .Description
+                  : translate().Settings.Folders.FolderFiltering.Excluded
+                      .Description,
+                render: (setting: Setting) => {
+                  setting.addTextArea((text) => {
+                    text
+                      .setValue(this.plugin.settings.excludedFolders.join("\n"))
+                      .onChange(async (value) => {
+                        this.plugin.settings.excludedFolders = value
+                          .split(/\n/)
+                          .map((ext) => ext.trim())
+                          .filter((ext) => ext !== "");
+                        await this.plugin.saveSettings();
+                      });
+                    text.setPlaceholder(
+                      translate().Settings.Folders.FolderFiltering.Placeholder,
+                    );
+                    text.inputEl.setCssStyles({
+                      minWidth: "18rem",
+                      maxWidth: "18rem",
+                      minHeight: "8rem",
+                      maxHeight: "16rem",
+                    });
+                  });
+                },
+              },
+            ],
           },
         ],
       },
