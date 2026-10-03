@@ -280,6 +280,33 @@ export class FileCleanerSettingTab extends PluginSettingTab {
               });
             },
           },
+
+          {
+            name: translate().Settings.Files.FileAgeThreshold.Label,
+            desc: translate().Settings.Files.FileAgeThreshold.Description,
+            render: (setting: Setting) => {
+              setting.addText((text) => {
+                text.setPlaceholder("0");
+                text.inputEl.type = "number";
+                text.inputEl.min = "0";
+
+                text.inputEl.setCssStyles({
+                  width: "6rem",
+                });
+
+                if (this.plugin.settings.fileAgeThreshold > 0)
+                  text.setValue(String(this.plugin.settings.fileAgeThreshold));
+
+                text.onChange(async (value) => {
+                  const newAge = Number(value.trim());
+                  if (newAge >= 0) {
+                    this.plugin.settings.fileAgeThreshold = newAge;
+                    await this.plugin.saveSettings();
+                  } else text.setValue("0");
+                });
+              });
+            },
+          },
         ],
       },
     ];
@@ -288,28 +315,6 @@ export class FileCleanerSettingTab extends PluginSettingTab {
   display(): void {
     const { containerEl } = this;
     this.containerEl.empty();
-
-    // #region File age threshold
-    new Setting(containerEl)
-      .setName(translate().Settings.Files.FileAgeThreshold.Label)
-      .setDesc(translate().Settings.Files.FileAgeThreshold.Description)
-      .addText((text) => {
-        text.setPlaceholder("0");
-        text.inputEl.type = "number";
-        text.inputEl.min = "0";
-
-        if (this.plugin.settings.fileAgeThreshold > 0)
-          text.setValue(String(this.plugin.settings.fileAgeThreshold));
-
-        text.onChange(async (value) => {
-          const newAge = Number(value.trim());
-          if (newAge >= 0) {
-            this.plugin.settings.fileAgeThreshold = newAge;
-            await this.plugin.saveSettings();
-          } else text.setValue("0");
-        });
-      });
-    // #endregion
 
     new Setting(containerEl)
       .setName(translate().Settings.MarkdownFiles.Header)
