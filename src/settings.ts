@@ -446,6 +446,12 @@ export class FileCleanerSettingTab extends PluginSettingTab {
           },
         ],
       },
+
+      {
+        name: translate().Settings.ExternalPluginSupport.Header,
+        type: "page",
+        items: [],
+      },
     ];
   }
 
@@ -458,10 +464,6 @@ export class FileCleanerSettingTab extends PluginSettingTab {
       [...supportedPlugins].filter((plugin) => userHasPlugin(plugin, this.app))
         .length > 0
     ) {
-      new Setting(containerEl)
-        .setName(translate().Settings.ExternalPluginSupport.Header)
-        .setHeading();
-
       // #region Excalidraw
       if (userHasPlugin("obsidian-excalidraw-plugin", this.app)) {
         new Setting(containerEl)
