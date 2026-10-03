@@ -6,7 +6,7 @@ import {
 } from "obsidian";
 import FileCleanerPlugin from ".";
 import translate from "./i18n";
-import { Deletion, Notification, TrashOptionToLabel } from "./enums";
+import { Deletion, Notification, ObsidianPreferenceTrashOption } from "./enums";
 import { ResetSettingsModal } from "./modals";
 import {
   getUserPreferenceTrashOption,
@@ -90,41 +90,34 @@ export class FileCleanerSettingTab extends PluginSettingTab {
 
   getSettingDefinitions(): SettingDefinitionItem[] {
     return [
+      {
+        type: "group",
+        items: [
+          {
+            // Obsidian Trash Cleanup Age
+            name: translate().Settings.RegularOptions.ObsidianTrashCleanupAge
+              .Label,
+            desc: translate().Settings.RegularOptions.ObsidianTrashCleanupAge
+              .Description,
+            control: {
+              key: "obsidianTrashCleanupAge",
+              type: "number",
+              placeholder: "7",
+              defaultValue: DEFAULT_SETTINGS.obsidianTrashCleanupAge,
+              min: 1,
+            },
+            visible: () =>
+              getUserPreferenceTrashOption() ===
+              ObsidianPreferenceTrashOption.local,
+          },
+        ],
+      },
     ];
   }
 
   display(): void {
     const { containerEl } = this;
     this.containerEl.empty();
-
-    // #region Regular Options
-    if (this.plugin.settings.deletionDestination === Deletion.ObsidianTrash) {
-      new Setting(containerEl)
-        .setName(
-          translate().Settings.RegularOptions.ObsidianTrashCleanupAge.Label,
-        )
-        .setDesc(
-          translate().Settings.RegularOptions.ObsidianTrashCleanupAge
-            .Description,
-        )
-        .addText((text) => {
-          const days = this.plugin.settings.obsidianTrashCleanupAge;
-
-          text.setPlaceholder("7");
-          text.setValue(days >= 0 ? String(days) : "");
-          text.inputEl.setCssStyles({
-            minWidth: "18rem",
-          });
-
-          text.onChange(async (value) => {
-            const days = Number(value.match(/^\d+/)) || -1;
-
-            this.plugin.settings.obsidianTrashCleanupAge = days;
-            await this.plugin.saveSettings();
-          });
-        });
-    }
-    // #endregion
 
     // #region Notifications
     new Setting(containerEl)
