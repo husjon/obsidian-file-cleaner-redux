@@ -162,13 +162,19 @@ export class FileCleanerSettingTab extends PluginSettingTab {
           {
             name: translate().Settings.Folders.FolderFiltering.Label,
             desc: translate().Settings.Folders.FolderFiltering.Description,
-            control: {
-              key: "excludeInclude",
-              type: "dropdown",
-              options: {
-                "0": "Excluded",
-                "1": "Included",
-              },
+            render: (setting: Setting) => {
+              setting.addDropdown((component) => {
+                component.addOption("0", "Excluded");
+                component.addOption("1", "Included");
+
+                component.setValue(String(this.plugin.settings.excludeInclude));
+
+                component.onChange(async (value: string) => {
+                  this.plugin.settings.excludeInclude = Number(value);
+                  await this.plugin.saveSettings();
+                  this.update();
+                });
+              });
             },
           },
 
