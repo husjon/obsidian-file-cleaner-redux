@@ -519,9 +519,4 @@ export class FileCleanerSettingTab extends PluginSettingTab {
       },
     ];
   }
-
-  display(): void {
-    const { containerEl } = this;
-    this.containerEl.empty();
-  }
 }
