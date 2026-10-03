@@ -452,6 +452,16 @@ export class FileCleanerSettingTab extends PluginSettingTab {
         type: "page",
         items: [
           {
+            name: translate().Settings.ExternalPluginSupport.NoPluginDetected
+              .Header,
+            desc: translate().Settings.ExternalPluginSupport.NoPluginDetected
+              .Description,
+            visible: () =>
+              [...supportedPlugins].filter((plugin) =>
+                userHasPlugin(plugin, this.app),
+              ).length === 0,
+          },
+          {
             heading:
               translate().Settings.ExternalPluginSupport.Excalidraw.Header,
             type: "group",
