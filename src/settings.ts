@@ -644,7 +644,7 @@ export class FileCleanerSettingTab extends PluginSettingTab {
       .setDesc(translate().Settings.DangerZone.ResetSettings.Description)
       .addButton((button) => {
         button
-          .setWarning()
+          .setDestructive()
           .setButtonText(translate().Settings.DangerZone.ResetSettings.Button)
           .onClick(() => {
             ResetSettingsModal({
