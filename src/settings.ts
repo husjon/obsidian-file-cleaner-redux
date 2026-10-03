@@ -426,6 +426,15 @@ export class FileCleanerSettingTab extends PluginSettingTab {
               key: "deletionConfirmation",
             },
           },
+
+          {
+            name: translate().Settings.Other.RunOnStartup.Label,
+            desc: translate().Settings.Other.RunOnStartup.Description,
+            control: {
+              type: "toggle",
+              key: "runOnStartup",
+            },
+          },
         ],
       },
     ];
@@ -435,19 +444,6 @@ export class FileCleanerSettingTab extends PluginSettingTab {
     const { containerEl } = this;
     this.containerEl.empty();
 
-    // #region Run on startup
-    new Setting(containerEl)
-      .setName(translate().Settings.Other.RunOnStartup.Label)
-      .setDesc(translate().Settings.Other.RunOnStartup.Description)
-      .addToggle((toggle) => {
-        toggle.setValue(this.plugin.settings.runOnStartup);
-
-        toggle.onChange(async (value) => {
-          this.plugin.settings.runOnStartup = value;
-          await this.plugin.saveSettings();
-        });
-      });
-    // #endregion
     // #region Run on startup
     new Setting(containerEl)
       .setName(translate().Settings.Other.DebugLogging.Label)
