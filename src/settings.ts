@@ -361,6 +361,37 @@ export class FileCleanerSettingTab extends PluginSettingTab {
               key: "ignoreAllFrontmatter",
             },
           },
+
+          {
+            name: translate().Settings.MarkdownFiles.CodeblockParsing.Label,
+            desc: translate().Settings.MarkdownFiles.CodeblockParsing
+              .Description,
+            visible: () => this.plugin.settings.deleteEmptyMarkdownFiles,
+            render: (setting: Setting) => {
+              setting.addTextArea((text) => {
+                text
+                  .setValue(this.plugin.settings.codeblockTypes.join(", "))
+                  .onChange(async (value) => {
+                    this.plugin.settings.codeblockTypes = value
+                      .split(",")
+                      .map((ext) => ext.trim())
+                      .filter((ext) => ext.length > 1 && ext !== "");
+
+                    await this.plugin.saveSettings();
+                  });
+                text.setPlaceholder(
+                  translate().Settings.MarkdownFiles.CodeblockParsing
+                    .Placeholder,
+                );
+                text.inputEl.setCssStyles({
+                  minWidth: "18rem",
+                  maxWidth: "18rem",
+                  minHeight: "4rem",
+                  maxHeight: "12rem",
+                });
+              });
+            },
+          },
         ],
       },
     ];
@@ -369,38 +400,6 @@ export class FileCleanerSettingTab extends PluginSettingTab {
   display(): void {
     const { containerEl } = this;
     this.containerEl.empty();
-
-    // #region Codeblock parsing
-    new Setting(containerEl)
-      .setName(translate().Settings.MarkdownFiles.CodeblockParsing.Label)
-      .setDesc(translate().Settings.MarkdownFiles.CodeblockParsing.Description)
-      .addTextArea((text) => {
-        text
-          .setValue(this.plugin.settings.codeblockTypes.join(", "))
-          .onChange(async (value) => {
-            this.plugin.settings.codeblockTypes = value
-              .split(",")
-              .map((ext) => ext.trim())
-              .filter((ext) => ext.length > 1 && ext !== "");
-
-            await this.plugin.saveSettings();
-          });
-        text.setPlaceholder(
-          translate().Settings.MarkdownFiles.CodeblockParsing.Placeholder,
-        );
-        text.inputEl.setCssStyles({
-          minWidth: "18rem",
-          maxWidth: "18rem",
-          minHeight: "4rem",
-          maxHeight: "12rem",
-        });
-      })
-      .controlEl.setCssStyles(
-        this.plugin.settings.ignoreAllFrontmatter && {
-          color: "",
-        },
-      );
-    // #endregion
 
     // #region Close new tabs
     new Setting(containerEl)
