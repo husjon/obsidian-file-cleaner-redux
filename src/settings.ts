@@ -313,7 +313,15 @@ export class FileCleanerSettingTab extends PluginSettingTab {
       {
         heading: translate().Settings.MarkdownFiles.Header,
         type: "group",
-        items: [],
+        items: [
+          {
+            name: translate().Settings.MarkdownFiles.DeleteEmptyMarkdownFiles
+              .Label,
+            desc: translate().Settings.MarkdownFiles.DeleteEmptyMarkdownFiles
+              .Description,
+            control: { type: "toggle", key: "deleteEmptyMarkdownFiles" },
+          },
+        ],
       },
     ];
   }
@@ -321,25 +329,6 @@ export class FileCleanerSettingTab extends PluginSettingTab {
   display(): void {
     const { containerEl } = this;
     this.containerEl.empty();
-
-    // #region Delete empty Markdown files
-    new Setting(containerEl)
-      .setName(
-        translate().Settings.MarkdownFiles.DeleteEmptyMarkdownFiles.Label,
-      )
-      .setDesc(
-        translate().Settings.MarkdownFiles.DeleteEmptyMarkdownFiles.Description,
-      )
-      .addToggle((toggle) => {
-        toggle.setValue(this.plugin.settings.deleteEmptyMarkdownFiles);
-
-        toggle.onChange(async (value) => {
-          this.plugin.settings.deleteEmptyMarkdownFiles = value;
-          await this.plugin.saveSettings();
-          this.update();
-        });
-      });
-    // #endregion
 
     // #region Delete empty Markdown files
     if (this.plugin.settings.deleteEmptyMarkdownFiles) {
