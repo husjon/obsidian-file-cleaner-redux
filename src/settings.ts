@@ -306,6 +306,18 @@ export class FileCleanerSettingTab extends PluginSettingTab {
               .Description,
             control: { type: "toggle", key: "deleteEmptyMarkdownFiles" },
           },
+
+          {
+            name: translate().Settings.MarkdownFiles
+              .DeleteEmptyMarkdownFilesWithBacklinks.Label,
+            desc: translate().Settings.MarkdownFiles
+              .DeleteEmptyMarkdownFilesWithBacklinks.Description,
+            visible: () => this.plugin.settings.deleteEmptyMarkdownFiles,
+            control: {
+              type: "toggle",
+              key: "deleteEmptyMarkdownFilesWithBacklinks",
+            },
+          },
         ],
       },
     ];
@@ -314,31 +326,6 @@ export class FileCleanerSettingTab extends PluginSettingTab {
   display(): void {
     const { containerEl } = this;
     this.containerEl.empty();
-
-    // #region Delete empty Markdown files
-    if (this.plugin.settings.deleteEmptyMarkdownFiles) {
-      new Setting(containerEl)
-        .setName(
-          translate().Settings.MarkdownFiles
-            .DeleteEmptyMarkdownFilesWithBacklinks.Label,
-        )
-        .setDesc(
-          translate().Settings.MarkdownFiles
-            .DeleteEmptyMarkdownFilesWithBacklinks.Description,
-        )
-        .addToggle((toggle) => {
-          toggle.setValue(
-            this.plugin.settings.deleteEmptyMarkdownFilesWithBacklinks,
-          );
-
-          toggle.onChange(async (value) => {
-            this.plugin.settings.deleteEmptyMarkdownFilesWithBacklinks = value;
-            await this.plugin.saveSettings();
-            this.update();
-          });
-        });
-    }
-    // #endregion
 
     // #region Ignored frontmatter
     new Setting(containerEl)
