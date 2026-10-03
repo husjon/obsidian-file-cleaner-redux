@@ -227,70 +227,6 @@ export class FileCleanerSettingTab extends PluginSettingTab {
         type: "group",
         items: [
           {
-            name: translate().Settings.Files.Attachments.Label,
-            desc: translate().Settings.Files.Attachments.Description,
-            render: (setting: Setting) => {
-              setting.addDropdown((component) => {
-                component.addOption("0", "Excluded");
-                component.addOption("1", "Included");
-
-                component.setValue(
-                  String(this.plugin.settings.attachmentsExcludeInclude),
-                );
-
-                component.onChange(async (value: string) => {
-                  this.plugin.settings.attachmentsExcludeInclude =
-                    Number(value);
-                  await this.plugin.saveSettings();
-                  this.update();
-                });
-              });
-            },
-          },
-
-          {
-            name: this.plugin.settings.attachmentsExcludeInclude
-              ? translate().Settings.Files.Attachments.Included.Label
-              : translate().Settings.Files.Attachments.Excluded.Label,
-            desc: this.plugin.settings.attachmentsExcludeInclude
-              ? translate().Settings.Files.Attachments.Included.Description
-              : translate().Settings.Files.Attachments.Excluded.Description,
-            render: (setting: Setting) => {
-              setting.addTextArea((text) => {
-                text
-                  .setValue(
-                    this.plugin.settings.attachmentExtensions
-                      .map((ext) => `.${ext}`)
-                      .join(", "),
-                  )
-                  .onChange(async (value) => {
-                    this.plugin.settings.attachmentExtensions = value
-                      .split(",")
-                      .map((ext) => ext.trim())
-                      .filter((ext) => ext.startsWith(".") && ext.length > 1)
-                      .filter((ext) => ext !== "")
-                      .map((ext) => ext.replace(/^\./, ""));
-
-                    await this.plugin.saveSettings();
-                  });
-                text.setPlaceholder(
-                  this.plugin.settings.attachmentsExcludeInclude
-                    ? translate().Settings.Files.Attachments.Included
-                        .Placeholder
-                    : translate().Settings.Files.Attachments.Excluded
-                        .Placeholder,
-                );
-                text.inputEl.setCssStyles({
-                  minWidth: "18rem",
-                  maxWidth: "18rem",
-                  minHeight: "4rem",
-                  maxHeight: "8rem",
-                });
-              });
-            },
-          },
-
-          {
             name: translate().Settings.Files.FileAgeThreshold.Label,
             desc: translate().Settings.Files.FileAgeThreshold.Description,
             render: (setting: Setting) => {
@@ -315,6 +251,78 @@ export class FileCleanerSettingTab extends PluginSettingTab {
                 });
               });
             },
+          },
+
+          {
+            name: translate().Settings.Files.Attachments.Label,
+            type: "page",
+            items: [
+              {
+                name: translate().Settings.Files.Attachments.Label,
+                desc: translate().Settings.Files.Attachments.Description,
+                render: (setting: Setting) => {
+                  setting.addDropdown((component) => {
+                    component.addOption("0", "Excluded");
+                    component.addOption("1", "Included");
+
+                    component.setValue(
+                      String(this.plugin.settings.attachmentsExcludeInclude),
+                    );
+
+                    component.onChange(async (value: string) => {
+                      this.plugin.settings.attachmentsExcludeInclude =
+                        Number(value);
+                      await this.plugin.saveSettings();
+                      this.update();
+                    });
+                  });
+                },
+              },
+
+              {
+                name: this.plugin.settings.attachmentsExcludeInclude
+                  ? translate().Settings.Files.Attachments.Included.Label
+                  : translate().Settings.Files.Attachments.Excluded.Label,
+                desc: this.plugin.settings.attachmentsExcludeInclude
+                  ? translate().Settings.Files.Attachments.Included.Description
+                  : translate().Settings.Files.Attachments.Excluded.Description,
+                render: (setting: Setting) => {
+                  setting.addTextArea((text) => {
+                    text
+                      .setValue(
+                        this.plugin.settings.attachmentExtensions
+                          .map((ext) => `.${ext}`)
+                          .join(", "),
+                      )
+                      .onChange(async (value) => {
+                        this.plugin.settings.attachmentExtensions = value
+                          .split(",")
+                          .map((ext) => ext.trim())
+                          .filter(
+                            (ext) => ext.startsWith(".") && ext.length > 1,
+                          )
+                          .filter((ext) => ext !== "")
+                          .map((ext) => ext.replace(/^\./, ""));
+
+                        await this.plugin.saveSettings();
+                      });
+                    text.setPlaceholder(
+                      this.plugin.settings.attachmentsExcludeInclude
+                        ? translate().Settings.Files.Attachments.Included
+                            .Placeholder
+                        : translate().Settings.Files.Attachments.Excluded
+                            .Placeholder,
+                    );
+                    text.inputEl.setCssStyles({
+                      minWidth: "18rem",
+                      maxWidth: "18rem",
+                      minHeight: "4rem",
+                      maxHeight: "8rem",
+                    });
+                  });
+                },
+              },
+            ],
           },
         ],
       },
