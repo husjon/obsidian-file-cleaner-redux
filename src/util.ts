@@ -48,7 +48,10 @@ async function checkFile(
   }
 
   // Exclude all files if exclusion list is not populated.
-  if (settings.attachmentsExcludeInclude === ExcludeInclude.Exclude)
+  if (
+    settings.attachmentsExcludeInclude === ExcludeInclude.Exclude &&
+    filteredExtensions.length === 0
+  )
     filteredExtensions.push(".*");
 
   const extensionsRegex = RegExp(
