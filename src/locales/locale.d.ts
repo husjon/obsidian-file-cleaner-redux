@@ -141,6 +141,11 @@ export interface Locale {
     ExternalPluginSupport: {
       Header: string;
 
+      NoPluginDetected: {
+        Header: string;
+        Description: string;
+      };
+
       Excalidraw: {
         Header: string;
 
