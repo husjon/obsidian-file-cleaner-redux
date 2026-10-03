@@ -320,6 +320,16 @@ export class FileCleanerSettingTab extends PluginSettingTab {
           },
 
           {
+            name: translate().Settings.Other.DeleteEmptyFileOnClose.Label,
+            desc: translate().Settings.Other.DeleteEmptyFileOnClose.Description,
+            control: {
+              type: "toggle",
+              key: "deleteEmptyFileOnClose",
+            },
+            visible: () => this.plugin.settings.deleteEmptyMarkdownFiles,
+          },
+
+          {
             name: translate().Settings.MarkdownFiles.IgnoredFrontmatter.Label,
             desc: translate().Settings.MarkdownFiles.IgnoredFrontmatter
               .Description,
@@ -405,15 +415,6 @@ export class FileCleanerSettingTab extends PluginSettingTab {
             control: {
               type: "toggle",
               key: "closeNewTabs",
-            },
-          },
-
-          {
-            name: translate().Settings.Other.DeleteEmptyFileOnClose.Label,
-            desc: translate().Settings.Other.DeleteEmptyFileOnClose.Description,
-            control: {
-              type: "toggle",
-              key: "deleteEmptyFileOnClose",
             },
           },
         ],
