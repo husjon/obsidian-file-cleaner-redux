@@ -212,16 +212,18 @@ export class FileCleanerSettingTab extends PluginSettingTab {
           },
         ],
       },
+
+      {
+        heading: translate().Settings.Files.Header,
+        type: "group",
+        items: [],
+      },
     ];
   }
 
   display(): void {
     const { containerEl } = this;
     this.containerEl.empty();
-
-    new Setting(containerEl)
-      .setName(translate().Settings.Files.Header)
-      .setHeading();
 
     // #region Extension inclusion / exclusion
     new Setting(containerEl)
