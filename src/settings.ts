@@ -491,6 +491,13 @@ export class FileCleanerSettingTab extends PluginSettingTab {
           },
         ],
       },
+
+      {
+        heading: translate().Settings.DangerZone.Header,
+        type: "group",
+
+        items: [],
+      },
     ];
   }
 
@@ -499,10 +506,6 @@ export class FileCleanerSettingTab extends PluginSettingTab {
     this.containerEl.empty();
 
     // #region Danger Zone
-    new Setting(containerEl)
-      .setName(translate().Settings.DangerZone.Header)
-      .setHeading();
-
     // #region Reset settings
     new Setting(containerEl)
       .setName(translate().Settings.DangerZone.ResetSettings.Label)
