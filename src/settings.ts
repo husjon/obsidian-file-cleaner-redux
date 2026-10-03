@@ -465,7 +465,20 @@ export class FileCleanerSettingTab extends PluginSettingTab {
       {
         heading: translate().Settings.ExternalPluginSupport.Header,
         type: "group",
-        items: [],
+        items: [
+          {
+            name: translate().Settings.ExternalPluginSupport.Excalidraw
+              .TreatAsAttachments.Label,
+            desc: translate().Settings.ExternalPluginSupport.Excalidraw
+              .TreatAsAttachments.Description,
+            visible: () =>
+              !!userHasPlugin("obsidian-excalidraw-plugin", this.app),
+            control: {
+              type: "toggle",
+              key: "ExternalPlugins.Excalidraw.TreatAsAttachments",
+            },
+          },
+        ],
       },
     ];
   }
@@ -473,43 +486,6 @@ export class FileCleanerSettingTab extends PluginSettingTab {
   display(): void {
     const { containerEl } = this;
     this.containerEl.empty();
-
-    // #region External Plugin Options
-    if (
-      [...supportedPlugins].filter((plugin) => userHasPlugin(plugin, this.app))
-        .length > 0
-    ) {
-      // #region Excalidraw
-      if (userHasPlugin("obsidian-excalidraw-plugin", this.app)) {
-        new Setting(containerEl)
-          .setName(translate().Settings.ExternalPluginSupport.Excalidraw.Header)
-          .setHeading();
-
-        new Setting(containerEl)
-          .setName(
-            translate().Settings.ExternalPluginSupport.Excalidraw
-              .TreatAsAttachments.Label,
-          )
-          .setDesc(
-            translate().Settings.ExternalPluginSupport.Excalidraw
-              .TreatAsAttachments.Description,
-          )
-          .addToggle((toggle) => {
-            toggle.setValue(
-              this.plugin.settings.ExternalPlugins.Excalidraw
-                .TreatAsAttachments,
-            );
-
-            toggle.onChange(async (value) => {
-              this.plugin.settings.ExternalPlugins.Excalidraw.TreatAsAttachments =
-                value;
-              await this.plugin.saveSettings();
-            });
-          });
-      }
-      // #endregion Excalidraw
-    }
-    // #endregion External Plugin Options
 
     // #region Danger Zone
     new Setting(containerEl)
