@@ -422,6 +422,15 @@ export class FileCleanerSettingTab extends PluginSettingTab {
               key: "closeNewTabs",
             },
           },
+
+          {
+            name: translate().Settings.Other.DeleteEmptyFileOnClose.Label,
+            desc: translate().Settings.Other.DeleteEmptyFileOnClose.Description,
+            control: {
+              type: "toggle",
+              key: "deleteEmptyFileOnClose",
+            },
+          },
         ],
       },
     ];
@@ -430,20 +439,6 @@ export class FileCleanerSettingTab extends PluginSettingTab {
   display(): void {
     const { containerEl } = this;
     this.containerEl.empty();
-
-    // #region Delete empty file on close
-    new Setting(containerEl)
-      .setName(translate().Settings.Other.DeleteEmptyFileOnClose.Label)
-      .setDesc(translate().Settings.Other.DeleteEmptyFileOnClose.Description)
-      .addToggle((toggle) => {
-        toggle.setValue(this.plugin.settings.deleteEmptyFileOnClose);
-
-        toggle.onChange(async (value) => {
-          this.plugin.settings.deleteEmptyFileOnClose = value;
-          await this.plugin.saveSettings();
-        });
-      });
-    // #endregion
 
     // #region Preview deleted files
     new Setting(containerEl)
