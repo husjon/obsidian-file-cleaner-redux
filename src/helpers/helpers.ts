@@ -1,7 +1,6 @@
 import { App, Notice, TAbstractFile, TFile, TFolder } from "obsidian";
 import { type FileCleanerSettings } from "../settings";
 import {
-  Deletion,
   Notification,
   NotificationType,
   ObsidianPreferenceTrashOption,
@@ -34,37 +33,16 @@ export function getUserPreferenceTrashOption() {
   ) as ObsidianPreferenceTrashOption;
 }
 
-export async function removeFile(
-  file: TAbstractFile,
-  app: App,
-  settings: FileCleanerSettings,
-) {
+export async function removeFile(file: TAbstractFile, app: App) {
   if (!(await app.vault.adapter.exists(file.path))) return;
 
-  switch (settings.deletionDestination) {
-    case Deletion.UseObsidianGlobalOption:
-      await app.fileManager.trashFile(file);
-      break;
-    case Deletion.Permanent:
-      await app.vault.delete(file, true);
-      break;
-    case Deletion.SystemTrash:
-      await app.vault.trash(file, true);
-      break;
-    case Deletion.ObsidianTrash:
-      await app.vault.trash(file, false);
-      break;
-  }
+  await app.fileManager.trashFile(file);
 }
 
-export async function removeFiles(
-  files: TAbstractFile[],
-  app: App,
-  settings: FileCleanerSettings,
-) {
+export async function removeFiles(files: TAbstractFile[], app: App) {
   if (files.length > 0) {
     for (const file of files) {
-      await removeFile(file, app, settings);
+      await removeFile(file, app);
     }
     notify(translate().Notifications.CleanSuccessful);
   } else {
