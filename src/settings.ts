@@ -146,6 +146,12 @@ export class FileCleanerSettingTab extends PluginSettingTab {
           },
         ],
       },
+
+      {
+        heading: translate().Settings.Folders.Header,
+        type: "group",
+        items: [],
+      },
     ];
   }
 
@@ -154,10 +160,6 @@ export class FileCleanerSettingTab extends PluginSettingTab {
     this.containerEl.empty();
 
     // #region Folder inclusion / exclusion
-    new Setting(containerEl)
-      .setName(translate().Settings.Folders.Header)
-      .setHeading();
-
     new Setting(containerEl)
       .setName(translate().Settings.Folders.RemoveFolders.Label)
       .setDesc(translate().Settings.Folders.RemoveFolders.Description)
