@@ -110,6 +110,9 @@ export class FileCleanerSettingTab extends PluginSettingTab {
               getUserPreferenceTrashOption() ===
               ObsidianPreferenceTrashOption.local,
           },
+
+          // TODO: Add checkbox to toggle if the `.trash` folder should be checked at all
+          // TODO: Only run cleanup of `.trash` folder if this checkbox is enabled
         ],
       },
     ];
