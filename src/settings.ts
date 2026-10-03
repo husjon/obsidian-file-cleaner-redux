@@ -238,6 +238,48 @@ export class FileCleanerSettingTab extends PluginSettingTab {
               });
             },
           },
+
+          {
+            name: this.plugin.settings.attachmentsExcludeInclude
+              ? translate().Settings.Files.Attachments.Included.Label
+              : translate().Settings.Files.Attachments.Excluded.Label,
+            desc: this.plugin.settings.attachmentsExcludeInclude
+              ? translate().Settings.Files.Attachments.Included.Description
+              : translate().Settings.Files.Attachments.Excluded.Description,
+            render: (setting: Setting) => {
+              setting.addTextArea((text) => {
+                text
+                  .setValue(
+                    this.plugin.settings.attachmentExtensions
+                      .map((ext) => `.${ext}`)
+                      .join(", "),
+                  )
+                  .onChange(async (value) => {
+                    this.plugin.settings.attachmentExtensions = value
+                      .split(",")
+                      .map((ext) => ext.trim())
+                      .filter((ext) => ext.startsWith(".") && ext.length > 1)
+                      .filter((ext) => ext !== "")
+                      .map((ext) => ext.replace(/^\./, ""));
+
+                    await this.plugin.saveSettings();
+                  });
+                text.setPlaceholder(
+                  this.plugin.settings.attachmentsExcludeInclude
+                    ? translate().Settings.Files.Attachments.Included
+                        .Placeholder
+                    : translate().Settings.Files.Attachments.Excluded
+                        .Placeholder,
+                );
+                text.inputEl.setCssStyles({
+                  minWidth: "18rem",
+                  maxWidth: "18rem",
+                  minHeight: "4rem",
+                  maxHeight: "8rem",
+                });
+              });
+            },
+          },
         ],
       },
     ];
@@ -246,48 +288,6 @@ export class FileCleanerSettingTab extends PluginSettingTab {
   display(): void {
     const { containerEl } = this;
     this.containerEl.empty();
-
-    new Setting(containerEl)
-      .setName(
-        this.plugin.settings.attachmentsExcludeInclude
-          ? translate().Settings.Files.Attachments.Included.Label
-          : translate().Settings.Files.Attachments.Excluded.Label,
-      )
-      .setDesc(
-        this.plugin.settings.attachmentsExcludeInclude
-          ? translate().Settings.Files.Attachments.Included.Description
-          : translate().Settings.Files.Attachments.Excluded.Description,
-      )
-      .addTextArea((text) => {
-        text
-          .setValue(
-            this.plugin.settings.attachmentExtensions
-              .map((ext) => `.${ext}`)
-              .join(", "),
-          )
-          .onChange(async (value) => {
-            this.plugin.settings.attachmentExtensions = value
-              .split(",")
-              .map((ext) => ext.trim())
-              .filter((ext) => ext.startsWith(".") && ext.length > 1)
-              .filter((ext) => ext !== "")
-              .map((ext) => ext.replace(/^\./, ""));
-
-            await this.plugin.saveSettings();
-          });
-        text.setPlaceholder(
-          this.plugin.settings.attachmentsExcludeInclude
-            ? translate().Settings.Files.Attachments.Included.Placeholder
-            : translate().Settings.Files.Attachments.Excluded.Placeholder,
-        );
-        text.inputEl.setCssStyles({
-          minWidth: "18rem",
-          maxWidth: "18rem",
-          minHeight: "4rem",
-          maxHeight: "8rem",
-        });
-      });
-    // #endregion
 
     // #region File age threshold
     new Setting(containerEl)
