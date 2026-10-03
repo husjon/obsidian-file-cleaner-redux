@@ -350,6 +350,17 @@ export class FileCleanerSettingTab extends PluginSettingTab {
               });
             },
           },
+
+          {
+            name: translate().Settings.MarkdownFiles.IgnoreAllFrontmatter.Label,
+            desc: translate().Settings.MarkdownFiles.IgnoreAllFrontmatter
+              .Description,
+            visible: () => this.plugin.settings.deleteEmptyMarkdownFiles,
+            control: {
+              type: "toggle",
+              key: "ignoreAllFrontmatter",
+            },
+          },
         ],
       },
     ];
