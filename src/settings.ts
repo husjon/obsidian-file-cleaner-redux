@@ -205,7 +205,29 @@ export class FileCleanerSettingTab extends PluginSettingTab {
       {
         heading: translate().Settings.Files.Header,
         type: "group",
-        items: [],
+        items: [
+          {
+            name: translate().Settings.Files.Attachments.Label,
+            desc: translate().Settings.Files.Attachments.Description,
+            render: (setting: Setting) => {
+              setting.addDropdown((component) => {
+                component.addOption("0", "Excluded");
+                component.addOption("1", "Included");
+
+                component.setValue(
+                  String(this.plugin.settings.attachmentsExcludeInclude),
+                );
+
+                component.onChange(async (value: string) => {
+                  this.plugin.settings.attachmentsExcludeInclude =
+                    Number(value);
+                  await this.plugin.saveSettings();
+                  this.update();
+                });
+              });
+            },
+          },
+        ],
       },
     ];
   }
@@ -213,25 +235,6 @@ export class FileCleanerSettingTab extends PluginSettingTab {
   display(): void {
     const { containerEl } = this;
     this.containerEl.empty();
-
-    // #region Extension inclusion / exclusion
-    new Setting(containerEl)
-      .setName(translate().Settings.Files.Attachments.Label)
-      .setDesc(translate().Settings.Files.Attachments.Description)
-      .addDropdown((component) => {
-        component.addOption("0", "Excluded");
-        component.addOption("1", "Included");
-
-        component.setValue(
-          String(this.plugin.settings.attachmentsExcludeInclude),
-        );
-
-        component.onChange(async (value: string) => {
-          this.plugin.settings.attachmentsExcludeInclude = Number(value);
-          await this.plugin.saveSettings();
-          this.update();
-        });
-      });
 
     new Setting(containerEl)
       .setName(
