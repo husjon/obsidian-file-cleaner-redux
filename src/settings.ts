@@ -413,7 +413,16 @@ export class FileCleanerSettingTab extends PluginSettingTab {
       {
         heading: translate().Settings.Other.Header,
         type: "group",
-        items: [],
+        items: [
+          {
+            name: translate().Settings.Other.CloseNewTabs.Label,
+            desc: translate().Settings.Other.CloseNewTabs.Description,
+            control: {
+              type: "toggle",
+              key: "closeNewTabs",
+            },
+          },
+        ],
       },
     ];
   }
@@ -421,20 +430,6 @@ export class FileCleanerSettingTab extends PluginSettingTab {
   display(): void {
     const { containerEl } = this;
     this.containerEl.empty();
-
-    // #region Close new tabs
-    new Setting(containerEl)
-      .setName(translate().Settings.Other.CloseNewTabs.Label)
-      .setDesc(translate().Settings.Other.CloseNewTabs.Description)
-      .addToggle((toggle) => {
-        toggle.setValue(this.plugin.settings.closeNewTabs);
-
-        toggle.onChange(async (value) => {
-          this.plugin.settings.closeNewTabs = value;
-          await this.plugin.saveSettings();
-        });
-      });
-    // #endregion
 
     // #region Delete empty file on close
     new Setting(containerEl)
