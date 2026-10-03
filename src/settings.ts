@@ -160,6 +160,39 @@ export class FileCleanerSettingTab extends PluginSettingTab {
               },
             },
           },
+
+          {
+            name: this.plugin.settings.excludeInclude
+              ? translate().Settings.Folders.FolderFiltering.Included.Label
+              : translate().Settings.Folders.FolderFiltering.Excluded.Label,
+            desc: this.plugin.settings.excludeInclude
+              ? translate().Settings.Folders.FolderFiltering.Included
+                  .Description
+              : translate().Settings.Folders.FolderFiltering.Excluded
+                  .Description,
+            render: (setting: Setting) => {
+              setting.addTextArea((text) => {
+                text
+                  .setValue(this.plugin.settings.excludedFolders.join("\n"))
+                  .onChange(async (value) => {
+                    this.plugin.settings.excludedFolders = value
+                      .split(/\n/)
+                      .map((ext) => ext.trim())
+                      .filter((ext) => ext !== "");
+                    await this.plugin.saveSettings();
+                  });
+                text.setPlaceholder(
+                  translate().Settings.Folders.FolderFiltering.Placeholder,
+                );
+                text.inputEl.setCssStyles({
+                  minWidth: "18rem",
+                  maxWidth: "18rem",
+                  minHeight: "8rem",
+                  maxHeight: "16rem",
+                });
+              });
+            },
+          },
         ],
       },
     ];
@@ -168,40 +201,6 @@ export class FileCleanerSettingTab extends PluginSettingTab {
   display(): void {
     const { containerEl } = this;
     this.containerEl.empty();
-
-    new Setting(containerEl)
-      .setName(
-        this.plugin.settings.excludeInclude
-          ? translate().Settings.Folders.FolderFiltering.Included.Label
-          : translate().Settings.Folders.FolderFiltering.Excluded.Label,
-      )
-      .setDesc(
-        this.plugin.settings.excludeInclude
-          ? translate().Settings.Folders.FolderFiltering.Included.Description
-          : translate().Settings.Folders.FolderFiltering.Excluded.Description,
-      )
-      .addTextArea((text) => {
-        text
-          .setValue(this.plugin.settings.excludedFolders.join("\n"))
-          .onChange(async (value) => {
-            this.plugin.settings.excludedFolders = value
-              .split(/\n/)
-              .map((ext) => ext.trim())
-              .filter((ext) => ext !== "");
-
-            await this.plugin.saveSettings();
-          });
-        text.setPlaceholder(
-          translate().Settings.Folders.FolderFiltering.Placeholder,
-        );
-        text.inputEl.setCssStyles({
-          minWidth: "18rem",
-          maxWidth: "18rem",
-          minHeight: "8rem",
-          maxHeight: "16rem",
-        });
-      });
-    // #endregion
 
     new Setting(containerEl)
       .setName(translate().Settings.Files.Header)
