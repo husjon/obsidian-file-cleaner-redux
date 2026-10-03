@@ -46,12 +46,18 @@ export async function removeFile(
       await app.fileManager.trashFile(file);
       break;
     case Deletion.Permanent:
+      // eslint-disable-next-line eslint-comments/no-restricted-disable -- disabling due to message below
+      // eslint-disable-next-line obsidianmd/prefer-file-manager-trash-file -- will be removed once #178 is merged
       await app.vault.delete(file, true);
       break;
     case Deletion.SystemTrash:
+      // eslint-disable-next-line eslint-comments/no-restricted-disable -- disabling due to message below
+      // eslint-disable-next-line obsidianmd/prefer-file-manager-trash-file -- will be removed once #178 is merged
       await app.vault.trash(file, true);
       break;
     case Deletion.ObsidianTrash:
+      // eslint-disable-next-line eslint-comments/no-restricted-disable -- disabling due to message below
+      // eslint-disable-next-line obsidianmd/prefer-file-manager-trash-file -- will be removed once #178 is merged
       await app.vault.trash(file, false);
       break;
   }
