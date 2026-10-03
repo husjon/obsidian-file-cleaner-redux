@@ -394,6 +394,12 @@ export class FileCleanerSettingTab extends PluginSettingTab {
           },
         ],
       },
+
+      {
+        heading: translate().Settings.Other.Header,
+        type: "group",
+        items: [],
+      },
     ];
   }
 
@@ -402,10 +408,6 @@ export class FileCleanerSettingTab extends PluginSettingTab {
     this.containerEl.empty();
 
     // #region Close new tabs
-    new Setting(containerEl)
-      .setName(translate().Settings.Other.Header)
-      .setHeading();
-
     new Setting(containerEl)
       .setName(translate().Settings.Other.CloseNewTabs.Label)
       .setDesc(translate().Settings.Other.CloseNewTabs.Description)
