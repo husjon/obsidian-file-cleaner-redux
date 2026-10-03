@@ -309,16 +309,18 @@ export class FileCleanerSettingTab extends PluginSettingTab {
           },
         ],
       },
+
+      {
+        heading: translate().Settings.MarkdownFiles.Header,
+        type: "group",
+        items: [],
+      },
     ];
   }
 
   display(): void {
     const { containerEl } = this;
     this.containerEl.empty();
-
-    new Setting(containerEl)
-      .setName(translate().Settings.MarkdownFiles.Header)
-      .setHeading();
 
     // #region Delete empty Markdown files
     new Setting(containerEl)
