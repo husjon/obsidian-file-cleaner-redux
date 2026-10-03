@@ -333,6 +333,38 @@ export class FileCleanerSettingTab extends PluginSettingTab {
               key: "deleteEmptyMarkdownFilesWithBacklinks",
             },
           },
+
+          {
+            name: translate().Settings.MarkdownFiles.IgnoredFrontmatter.Label,
+            desc: translate().Settings.MarkdownFiles.IgnoredFrontmatter
+              .Description,
+            disabled: () => this.plugin.settings.ignoreAllFrontmatter,
+            visible: () => this.plugin.settings.deleteEmptyMarkdownFiles,
+            render: (setting: Setting) => {
+              setting.addTextArea((text) => {
+                text
+                  .setValue(this.plugin.settings.ignoredFrontmatter.join(", "))
+                  .onChange(async (value) => {
+                    this.plugin.settings.ignoredFrontmatter = value
+                      .split(",")
+                      .map((ext) => ext.trim())
+                      .filter((ext) => ext.length > 1 && ext !== "");
+
+                    await this.plugin.saveSettings();
+                  });
+                text.setPlaceholder(
+                  translate().Settings.MarkdownFiles.IgnoredFrontmatter
+                    .Placeholder,
+                );
+                text.inputEl.setCssStyles({
+                  minWidth: "18rem",
+                  maxWidth: "18rem",
+                  minHeight: "4rem",
+                  maxHeight: "12rem",
+                });
+              });
+            },
+          },
         ],
       },
     ];
@@ -341,60 +373,6 @@ export class FileCleanerSettingTab extends PluginSettingTab {
   display(): void {
     const { containerEl } = this;
     this.containerEl.empty();
-
-    // #region Ignored frontmatter
-    new Setting(containerEl)
-      .setName(translate().Settings.MarkdownFiles.IgnoredFrontmatter.Label)
-      .setDesc(
-        translate().Settings.MarkdownFiles.IgnoredFrontmatter.Description,
-      )
-      .addTextArea((text) => {
-        text
-          .setValue(this.plugin.settings.ignoredFrontmatter.join(", "))
-          .onChange(async (value) => {
-            this.plugin.settings.ignoredFrontmatter = value
-              .split(",")
-              .map((ext) => ext.trim())
-              .filter((ext) => ext.length > 1 && ext !== "");
-
-            await this.plugin.saveSettings();
-          });
-        text.setPlaceholder(
-          translate().Settings.MarkdownFiles.IgnoredFrontmatter.Placeholder,
-        );
-        text.inputEl.setCssStyles({
-          minWidth: "18rem",
-          maxWidth: "18rem",
-          minHeight: "4rem",
-          maxHeight: "12rem",
-        });
-      })
-      .setDisabled(
-        this.plugin.settings.ignoreAllFrontmatter ||
-          !this.plugin.settings.deleteEmptyMarkdownFiles,
-      )
-      .controlEl.setCssStyles(
-        this.plugin.settings.ignoreAllFrontmatter && {
-          color: "",
-        },
-      );
-
-    new Setting(containerEl)
-      .setName(translate().Settings.MarkdownFiles.IgnoreAllFrontmatter.Label)
-      .setDesc(
-        translate().Settings.MarkdownFiles.IgnoreAllFrontmatter.Description,
-      )
-      .addToggle((toggle) => {
-        toggle.setValue(this.plugin.settings.ignoreAllFrontmatter);
-
-        toggle.onChange(async (value) => {
-          this.plugin.settings.ignoreAllFrontmatter = value;
-          await this.plugin.saveSettings();
-          this.update();
-        });
-      })
-      .setDisabled(!this.plugin.settings.deleteEmptyMarkdownFiles);
-    // #endregion
 
     // #region Codeblock parsing
     new Setting(containerEl)
