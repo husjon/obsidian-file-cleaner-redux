@@ -1,8 +1,3 @@
-export enum NotificationType {
-  Info,
-  Error,
-}
-
 export enum ObsidianPreferenceTrashOption {
   local = "local",
   system = "system",

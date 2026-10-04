@@ -1,8 +1,8 @@
 import { App, Notice, TAbstractFile, TFile, TFolder } from "obsidian";
 import { type FileCleanerSettings } from "../settings";
-import { NotificationType, ObsidianPreferenceTrashOption } from "../enums";
+import { ObsidianPreferenceTrashOption } from "../enums";
 import translate from "../i18n";
-import { Deletion, Notifications } from "src/types/settings";
+import { Deletion, Notifications, NotificationType } from "src/types/settings";
 
 // Augment the obsidian module with some helper interfaces
 declare module "obsidian" {

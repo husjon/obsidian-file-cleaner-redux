@@ -14,8 +14,7 @@ import {
 import translate from "./i18n";
 import { checkMarkdown } from "./helpers/markdown";
 import { notify, removeFile } from "./helpers/helpers";
-import { NotificationType } from "./enums";
-import { Deletion } from "./types/settings";
+import { Deletion, NotificationType } from "./types/settings";
 
 export default class FileCleanerPlugin extends Plugin {
   plugin: FileCleanerPlugin;

@@ -1,7 +1,7 @@
 import { App, TFile } from "obsidian";
 import { notify } from "./helpers";
-import { NotificationType } from "src/enums";
 import translate from "src/i18n";
+import { NotificationType } from "src/types/settings";
 
 interface CanvasContent {
   nodes?: Array<CanvasNode>;
