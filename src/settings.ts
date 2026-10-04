@@ -6,7 +6,6 @@ import {
 } from "obsidian";
 import FileCleanerPlugin from ".";
 import translate from "./i18n";
-import { ObsidianPreferenceTrashOption } from "./enums";
 import { ResetSettingsModal } from "./modals";
 import {
   getUserPreferenceTrashOption,
@@ -19,6 +18,7 @@ import {
   Notifications,
   type FileCleanerSettings,
 } from "./types/settings";
+import { ObsidianPreferenceTrashOption } from "./types/obsidian";
 
 export const DEFAULT_SETTINGS: FileCleanerSettings = {
   deletionDestination: Deletion.UseObsidianGlobalOption,
