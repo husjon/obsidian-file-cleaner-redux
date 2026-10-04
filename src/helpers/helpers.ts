@@ -6,7 +6,10 @@ import {
   NotificationType,
   type FileCleanerSettings,
 } from "src/types/settings";
-import type { ObsidianPreferenceTrashOption } from "src/types/obsidian";
+import type {
+  Backlinks,
+  ObsidianPreferenceTrashOption,
+} from "src/types/obsidian";
 
 // Augment the obsidian module with some helper interfaces
 declare module "obsidian" {
@@ -19,12 +22,6 @@ declare module "obsidian" {
   interface Vault {
     getConfig: (option: string) => unknown;
   }
-}
-
-export interface Backlinks {
-  // for use with `app.metadataCache.getBacklinksForFile(file)`
-  data: Map<string, Array<unknown>>;
-  keys: () => { length: number };
 }
 
 export function getUserPreferenceTrashOption() {
