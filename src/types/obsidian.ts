@@ -11,6 +11,11 @@ export interface CanvasNode {
   text?: string;
 }
 
+export interface CanvasContent {
+  nodes?: Array<CanvasNode>;
+  edges?: unknown[];
+}
+
 export interface Backlinks {
   // for use with `app.metadataCache.getBacklinksForFile(file)`
   data: Map<string, Array<unknown>>;
