@@ -1,5 +1,5 @@
 import { App, TFile } from "obsidian";
-import { type FileCleanerSettings } from "../settings";
+import type { FileCleanerSettings } from "src/types/settings";
 
 export async function checkMarkdown(
   file: TFile,

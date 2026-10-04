@@ -1,8 +1,8 @@
 import { App, Modal, TAbstractFile } from "obsidian";
 import { mount, unmount } from "svelte";
 import translate from "src/i18n";
-import type { FileCleanerSettings } from "src/settings";
 import DeletionConfirmationModalComponent from "./DeletionConfirmationModalComponent.svelte";
+import type { FileCleanerSettings } from "src/types/settings";
 
 export class DeletionConfirmationModal extends Modal {
   private component:

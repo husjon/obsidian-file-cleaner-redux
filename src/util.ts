@@ -1,5 +1,4 @@
 import { App, TAbstractFile, TFile, TFolder } from "obsidian";
-import { type FileCleanerSettings } from "./settings";
 import {
   getExtensions,
   getFilesInFolder,
@@ -19,7 +18,11 @@ import { checkExcalidraw } from "./helpers/extras/excalidraw";
 import { getCodeblockAttachments } from "./helpers/codeblock";
 import { getInkAttachments } from "./helpers/extras/ink";
 import { logGroupEnd, logGroupStart, logMsg } from "./helpers/logging";
-import { Deletion, ExcludeInclude } from "./types/settings";
+import {
+  Deletion,
+  ExcludeInclude,
+  type FileCleanerSettings,
+} from "./types/settings";
 
 async function checkFile(
   app: App,

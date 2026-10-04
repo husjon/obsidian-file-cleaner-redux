@@ -13,35 +13,13 @@ import {
   notify,
   userHasPlugin,
 } from "./helpers/helpers";
-import { Deletion, ExcludeInclude, Notifications } from "./types/settings";
+import {
+  Deletion,
+  ExcludeInclude,
+  Notifications,
+  type FileCleanerSettings,
+} from "./types/settings";
 
-export interface FileCleanerSettings {
-  deletionDestination: Deletion;
-  obsidianTrashCleanupAge: number;
-  notifications: Notifications;
-  excludeInclude: ExcludeInclude;
-  excludedFolders: string[];
-  attachmentsExcludeInclude: ExcludeInclude;
-  attachmentExtensions: string[];
-  deletionConfirmation: boolean;
-  runOnStartup: boolean;
-  removeFolders: boolean;
-  ignoredFrontmatter: string[];
-  ignoreAllFrontmatter: boolean;
-  codeblockTypes: string[];
-  deleteEmptyMarkdownFiles: boolean;
-  deleteEmptyMarkdownFilesWithBacklinks: boolean;
-  fileAgeThreshold: number;
-  closeNewTabs: boolean;
-  deleteEmptyFileOnClose: boolean;
-  debugLogging: boolean;
-
-  ExternalPlugins: {
-    Excalidraw: {
-      TreatAsAttachments: boolean;
-    };
-  };
-}
 export const DEFAULT_SETTINGS: FileCleanerSettings = {
   deletionDestination: Deletion.UseObsidianGlobalOption,
   obsidianTrashCleanupAge: -1,
