@@ -6,14 +6,14 @@ import {
 } from "obsidian";
 import FileCleanerPlugin from ".";
 import translate from "./i18n";
-import { Notification, ObsidianPreferenceTrashOption } from "./enums";
+import { ObsidianPreferenceTrashOption } from "./enums";
 import { ResetSettingsModal } from "./modals";
 import {
   getUserPreferenceTrashOption,
   notify,
   userHasPlugin,
 } from "./helpers/helpers";
-import { Deletion } from "./types/settings";
+import { Deletion, Notification } from "./types/settings";
 
 export interface FileCleanerSettings {
   deletionDestination: Deletion;

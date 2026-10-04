@@ -4,3 +4,9 @@ export enum Deletion {
   Permanent = "permanent",
   UseObsidianGlobalOption = "obsidian-option",
 }
+
+export enum Notification {
+  ShowAll = "showAll",
+  ShowOnlyErrors = "showOnlyErrors",
+  HideAll = "hideAll",
+}
