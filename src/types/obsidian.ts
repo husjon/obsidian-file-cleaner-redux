@@ -4,6 +4,13 @@ export enum ObsidianPreferenceTrashOption {
   none = "none",
 }
 
+export interface CanvasNode {
+  id: string;
+  type: string;
+  file?: string;
+  text?: string;
+}
+
 export interface Backlinks {
   // for use with `app.metadataCache.getBacklinksForFile(file)`
   data: Map<string, Array<unknown>>;
