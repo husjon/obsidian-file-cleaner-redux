@@ -1,8 +1,4 @@
-export enum ObsidianPreferenceTrashOption {
-  local = "local",
-  system = "system",
-  none = "none",
-}
+export type ObsidianPreferenceTrashOption = "local" | "system" | "none";
 
 export interface CanvasNode {
   id: string;

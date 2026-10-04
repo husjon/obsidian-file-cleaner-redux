@@ -18,7 +18,6 @@ import {
   Notifications,
   type FileCleanerSettings,
 } from "./types/settings";
-import { ObsidianPreferenceTrashOption } from "./types/obsidian";
 
 export const DEFAULT_SETTINGS: FileCleanerSettings = {
   deletionDestination: Deletion.UseObsidianGlobalOption,
@@ -91,9 +90,7 @@ export class FileCleanerSettingTab extends PluginSettingTab {
                 });
               });
             },
-            visible: () =>
-              getUserPreferenceTrashOption() ===
-              ObsidianPreferenceTrashOption.local,
+            visible: () => getUserPreferenceTrashOption() === "local",
           },
 
           // TODO: Add checkbox to toggle if the `.trash` folder should be checked at all
