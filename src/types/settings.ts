@@ -5,7 +5,7 @@ export enum Deletion {
   UseObsidianGlobalOption = "obsidian-option",
 }
 
-export enum Notification {
+export enum Notifications {
   ShowAll = "showAll",
   ShowOnlyErrors = "showOnlyErrors",
   HideAll = "hideAll",

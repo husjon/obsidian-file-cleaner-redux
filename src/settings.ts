@@ -13,12 +13,12 @@ import {
   notify,
   userHasPlugin,
 } from "./helpers/helpers";
-import { Deletion, Notification } from "./types/settings";
+import { Deletion, Notifications } from "./types/settings";
 
 export interface FileCleanerSettings {
   deletionDestination: Deletion;
   obsidianTrashCleanupAge: number;
-  notifications: Notification;
+  notifications: Notifications;
   excludeInclude: ExcludeInclude;
   excludedFolders: string[];
   attachmentsExcludeInclude: ExcludeInclude;
@@ -50,7 +50,7 @@ export enum ExcludeInclude {
 export const DEFAULT_SETTINGS: FileCleanerSettings = {
   deletionDestination: Deletion.UseObsidianGlobalOption,
   obsidianTrashCleanupAge: -1,
-  notifications: Notification.ShowAll,
+  notifications: Notifications.ShowAll,
   excludeInclude: ExcludeInclude.Exclude,
   excludedFolders: [],
   attachmentsExcludeInclude: ExcludeInclude.Include,
@@ -133,13 +133,13 @@ export class FileCleanerSettingTab extends PluginSettingTab {
               key: "notifications",
               type: "dropdown",
               options: {
-                [Notification.ShowAll]:
+                [Notifications.ShowAll]:
                   translate().Settings.RegularOptions.Notifications.Options
                     .ShowAllNotifications,
-                [Notification.ShowOnlyErrors]:
+                [Notifications.ShowOnlyErrors]:
                   translate().Settings.RegularOptions.Notifications.Options
                     .ShowOnlyErrors,
-                [Notification.HideAll]:
+                [Notifications.HideAll]:
                   translate().Settings.RegularOptions.Notifications.Options
                     .HideAll,
               },

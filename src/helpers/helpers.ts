@@ -2,7 +2,7 @@ import { App, Notice, TAbstractFile, TFile, TFolder } from "obsidian";
 import { type FileCleanerSettings } from "../settings";
 import { NotificationType, ObsidianPreferenceTrashOption } from "../enums";
 import translate from "../i18n";
-import { Deletion, Notification } from "src/types/settings";
+import { Deletion, Notifications } from "src/types/settings";
 
 // Augment the obsidian module with some helper interfaces
 declare module "obsidian" {
@@ -101,9 +101,9 @@ export function notify(
 ) {
   const settings = getSettings();
 
-  if (settings.notifications === Notification.HideAll) return;
+  if (settings.notifications === Notifications.HideAll) return;
   if (
-    settings.notifications === Notification.ShowOnlyErrors &&
+    settings.notifications === Notifications.ShowOnlyErrors &&
     type !== NotificationType.Error
   )
     return;
