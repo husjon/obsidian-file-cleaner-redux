@@ -6,6 +6,7 @@ import {
   ObsidianPreferenceTrashOption,
 } from "../enums";
 import translate from "../i18n";
+import { Deletion } from "src/types/settings";
 
 // Augment the obsidian module with some helper interfaces
 declare module "obsidian" {

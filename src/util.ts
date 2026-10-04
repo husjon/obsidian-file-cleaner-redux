@@ -15,11 +15,11 @@ import { checkCanvas, getCanvasAttachments } from "./helpers/canvas";
 import { DeletionConfirmationModal } from "./modals/DeletionConfirmationModal";
 import translate from "./i18n";
 import { getAdmonitionAttachments } from "./helpers/extras/admonition";
-import { Deletion } from "./enums";
 import { checkExcalidraw } from "./helpers/extras/excalidraw";
 import { getCodeblockAttachments } from "./helpers/codeblock";
 import { getInkAttachments } from "./helpers/extras/ink";
 import { logGroupEnd, logGroupStart, logMsg } from "./helpers/logging";
+import { Deletion } from "./types/settings";
 
 async function checkFile(
   app: App,
