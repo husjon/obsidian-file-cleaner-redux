@@ -6,23 +6,7 @@ import {
   NotificationType,
   type FileCleanerSettings,
 } from "src/types/settings";
-import type {
-  Backlinks,
-  ObsidianPreferenceTrashOption,
-} from "src/types/obsidian";
-
-// Augment the obsidian module with some helper interfaces
-declare module "obsidian" {
-  interface MetadataCache {
-    getBacklinksForFile: () => Backlinks;
-  }
-  interface App {
-    plugins: { plugins: Record<string, { settings: unknown }> };
-  }
-  interface Vault {
-    getConfig: (option: string) => unknown;
-  }
-}
+import type { ObsidianPreferenceTrashOption } from "src/types/obsidian";
 
 export function getUserPreferenceTrashOption() {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- `this` is untyped
