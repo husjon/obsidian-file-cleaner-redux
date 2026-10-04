@@ -527,4 +527,48 @@ export class FileCleanerSettingTab extends PluginSettingTab {
       },
     ];
   }
+
+  getControlValue(key: string): unknown {
+    return getPath(
+      this.plugin.settings as unknown as Record<string, unknown>,
+      key,
+    );
+  }
+
+  async setControlValue(key: string, value: unknown): Promise<void> {
+    setPath(
+      this.plugin.settings as unknown as Record<string, unknown>,
+      key,
+      value,
+    );
+    await this.plugin.saveData(this.plugin.settings);
+  }
+}
+
+function getPath(obj: Record<string, unknown>, path: string): unknown {
+  let cursor: unknown = obj;
+  for (let part of path.split(".")) {
+    if (cursor === null || typeof cursor !== "object") return undefined;
+    cursor = (cursor as Record<string, unknown>)[part];
+  }
+  return cursor;
+}
+
+function setPath(
+  obj: Record<string, unknown>,
+  path: string,
+  value: unknown,
+): void {
+  let parts = path.split(".");
+  let last = parts.pop();
+  let cursor: Record<string, unknown> = obj;
+  for (let part of parts) {
+    let next = cursor[part];
+    if (next === null || typeof next !== "object") {
+      next = {};
+      cursor[part] = next;
+    }
+    cursor = next as Record<string, unknown>;
+  }
+  cursor[last] = value;
 }
