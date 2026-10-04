@@ -15,3 +15,8 @@ export enum NotificationType {
   Info,
   Error,
 }
+
+export enum ExcludeInclude {
+  Exclude = Number(false),
+  Include = Number(true),
+}

@@ -13,7 +13,7 @@ import {
   notify,
   userHasPlugin,
 } from "./helpers/helpers";
-import { Deletion, Notifications } from "./types/settings";
+import { Deletion, ExcludeInclude, Notifications } from "./types/settings";
 
 export interface FileCleanerSettings {
   deletionDestination: Deletion;
@@ -42,11 +42,6 @@ export interface FileCleanerSettings {
     };
   };
 }
-export enum ExcludeInclude {
-  Exclude = Number(false),
-  Include = Number(true),
-}
-
 export const DEFAULT_SETTINGS: FileCleanerSettings = {
   deletionDestination: Deletion.UseObsidianGlobalOption,
   obsidianTrashCleanupAge: -1,

@@ -2,7 +2,6 @@ import { FileView, Notice, Plugin, TFile } from "obsidian";
 import {
   type FileCleanerSettings,
   DEFAULT_SETTINGS,
-  ExcludeInclude,
   FileCleanerSettingTab,
 } from "./settings";
 import {
@@ -14,7 +13,7 @@ import {
 import translate from "./i18n";
 import { checkMarkdown } from "./helpers/markdown";
 import { notify, removeFile } from "./helpers/helpers";
-import { Deletion, NotificationType } from "./types/settings";
+import { Deletion, ExcludeInclude, NotificationType } from "./types/settings";
 
 export default class FileCleanerPlugin extends Plugin {
   plugin: FileCleanerPlugin;
