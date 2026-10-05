@@ -526,8 +526,9 @@ export class FileCleanerSettingTab extends PluginSettingTab {
       },
 
       {
-        heading: translate().Settings.DangerZone.Header,
-        type: "group",
+        name: translate().Settings.DangerZone.Header,
+        desc: translate().Settings.DangerZone.Description,
+        type: "page",
 
         items: [
           {

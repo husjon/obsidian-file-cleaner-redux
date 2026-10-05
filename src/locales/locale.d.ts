@@ -162,6 +162,7 @@ export interface Locale {
 
     DangerZone: {
       Header: string;
+      Description: string;
 
       ResetSettings: {
         Label: string;

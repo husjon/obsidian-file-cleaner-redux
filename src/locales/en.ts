@@ -188,6 +188,7 @@ const enUS: Locale = {
 
     DangerZone: {
       Header: "Danger zone",
+      Description: "Here be dragons",
 
       ResetSettings: {
         Label: "Reset settings",
