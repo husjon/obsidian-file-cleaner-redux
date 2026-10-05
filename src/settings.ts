@@ -144,6 +144,36 @@ export class FileCleanerSettingTab extends PluginSettingTab {
               },
             },
           },
+
+          {
+            name: translate().Settings.ExternalPluginSupport.Header,
+            type: "page",
+            items: [
+              {
+                name: translate().Settings.ExternalPluginSupport
+                  .NoPluginDetected.Header,
+                desc: translate().Settings.ExternalPluginSupport
+                  .NoPluginDetected.Description,
+                visible: () =>
+                  [...supportedPlugins].filter((plugin) =>
+                    userHasPlugin(plugin, this.app),
+                  ).length === 0,
+              },
+
+              {
+                name: translate().Settings.ExternalPluginSupport.Excalidraw
+                  .TreatAsAttachments.Label,
+                desc: translate().Settings.ExternalPluginSupport.Excalidraw
+                  .TreatAsAttachments.Description,
+                visible: () =>
+                  !!userHasPlugin("obsidian-excalidraw-plugin", this.app),
+                control: {
+                  type: "toggle",
+                  key: "ExternalPlugins.Excalidraw.TreatAsAttachments",
+                },
+              },
+            ],
+          },
         ],
       },
 
@@ -490,36 +520,6 @@ export class FileCleanerSettingTab extends PluginSettingTab {
             control: {
               type: "toggle",
               key: "debugLogging",
-            },
-          },
-        ],
-      },
-
-      {
-        heading: translate().Settings.ExternalPluginSupport.Header,
-        type: "group",
-        items: [
-          {
-            name: translate().Settings.ExternalPluginSupport.NoPluginDetected
-              .Header,
-            desc: translate().Settings.ExternalPluginSupport.NoPluginDetected
-              .Description,
-            visible: () =>
-              [...supportedPlugins].filter((plugin) =>
-                userHasPlugin(plugin, this.app),
-              ).length === 0,
-          },
-
-          {
-            name: translate().Settings.ExternalPluginSupport.Excalidraw
-              .TreatAsAttachments.Label,
-            desc: translate().Settings.ExternalPluginSupport.Excalidraw
-              .TreatAsAttachments.Description,
-            visible: () =>
-              !!userHasPlugin("obsidian-excalidraw-plugin", this.app),
-            control: {
-              type: "toggle",
-              key: "ExternalPlugins.Excalidraw.TreatAsAttachments",
             },
           },
         ],
