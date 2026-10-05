@@ -108,18 +108,22 @@ const enUS: Locale = {
           "Removes empty Markdown files even if they are linked to by other files.",
       },
 
-      IgnoredFrontmatter: {
-        Label: "Ignored frontmatter",
-        Description: `
+      Frontmatter: {
+        Header: "Frontmatter",
+
+        IgnoredFrontmatter: {
+          Label: "Ignored frontmatter",
+          Description: `
           List of frontmatter properties that should be ignored during cleanup.
           If a file contains only frontmatter and contains only these properties, the file will be removed, comma-separated.
         `,
-        Placeholder: "Example:\ncreated, updated",
-      },
+          Placeholder: "Example:\ncreated, updated",
+        },
 
-      IgnoreAllFrontmatter: {
-        Label: "Ignore all frontmatter",
-        Description: "Ignores all frontmatter, including the ones set above.",
+        IgnoreAllFrontmatter: {
+          Label: "Ignore all frontmatter",
+          Description: "Ignores all frontmatter, including the ones set above.",
+        },
       },
 
       CodeblockParsing: {
