@@ -137,7 +137,7 @@ export class FileCleanerSettingTab extends PluginSettingTab {
                 break;
             }
             await this.plugin.saveSettings();
-            this.display();
+            this.update();
           }),
       );
 
@@ -225,7 +225,7 @@ export class FileCleanerSettingTab extends PluginSettingTab {
           .onChange(async (value) => {
             this.plugin.settings.notifications = value as Notification;
             await this.plugin.saveSettings();
-            this.display();
+            this.update();
           }),
       );
     // #endregion
@@ -259,7 +259,7 @@ export class FileCleanerSettingTab extends PluginSettingTab {
         component.onChange(async (value: string) => {
           this.plugin.settings.excludeInclude = Number(value);
           await this.plugin.saveSettings();
-          this.display();
+          this.update();
         });
       });
 
@@ -316,7 +316,7 @@ export class FileCleanerSettingTab extends PluginSettingTab {
         component.onChange(async (value: string) => {
           this.plugin.settings.attachmentsExcludeInclude = Number(value);
           await this.plugin.saveSettings();
-          this.display();
+          this.update();
         });
       });
 
@@ -402,7 +402,7 @@ export class FileCleanerSettingTab extends PluginSettingTab {
         toggle.onChange(async (value) => {
           this.plugin.settings.deleteEmptyMarkdownFiles = value;
           await this.plugin.saveSettings();
-          this.display();
+          this.update();
         });
       });
     // #endregion
@@ -426,7 +426,7 @@ export class FileCleanerSettingTab extends PluginSettingTab {
           toggle.onChange(async (value) => {
             this.plugin.settings.deleteEmptyMarkdownFilesWithBacklinks = value;
             await this.plugin.saveSettings();
-            this.display();
+            this.update();
           });
         });
     }
@@ -480,7 +480,7 @@ export class FileCleanerSettingTab extends PluginSettingTab {
         toggle.onChange(async (value) => {
           this.plugin.settings.ignoreAllFrontmatter = value;
           await this.plugin.saveSettings();
-          this.display();
+          this.update();
         });
       })
       .setDisabled(!this.plugin.settings.deleteEmptyMarkdownFiles);
@@ -644,7 +644,7 @@ export class FileCleanerSettingTab extends PluginSettingTab {
       .setDesc(translate().Settings.DangerZone.ResetSettings.Description)
       .addButton((button) => {
         button
-          .setWarning()
+          .setDestructive()
           .setButtonText(translate().Settings.DangerZone.ResetSettings.Button)
           .onClick(() => {
             ResetSettingsModal({
@@ -652,7 +652,7 @@ export class FileCleanerSettingTab extends PluginSettingTab {
               onConfirm: async () => {
                 this.plugin.settings = DEFAULT_SETTINGS;
                 await this.plugin.saveSettings();
-                this.display();
+                this.update();
                 await this.plugin.loadSettings();
 
                 notify(translate().Notifications.SettingsReset);

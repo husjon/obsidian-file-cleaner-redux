@@ -32,7 +32,8 @@ export class ConfirmationModal extends Modal {
 
     new ButtonComponent(buttonContainer)
       .setButtonText(translate().Modals.ButtonConfirm)
-      .setWarning()
+      .setDestructive()
+      .setCta()
       .onClick(() => {
         void this.onConfirm?.();
         this.close();
