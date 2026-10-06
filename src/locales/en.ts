@@ -166,6 +166,11 @@ const enUS: Locale = {
     ExternalPluginSupport: {
       Header: "External plugin support",
 
+      NoPluginDetected: {
+        Header: "No supported plugin detected",
+        Description: "Detected plugins will show up here",
+      },
+
       Excalidraw: {
         Header: "Excalidraw",
 
