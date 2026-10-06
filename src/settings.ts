@@ -18,6 +18,7 @@ import {
   Notifications,
   type FileCleanerSettings,
 } from "./types/settings";
+import { SimpleSuggester } from "./suggesters/folder";
 
 export const DEFAULT_SETTINGS: FileCleanerSettings = {
   deletionDestination: Deletion.UseObsidianGlobalOption,
@@ -63,6 +64,56 @@ export class FileCleanerSettingTab extends PluginSettingTab {
 
   getSettingDefinitions(): SettingDefinitionItem[] {
     return [
+      {
+        name: this.plugin.settings.excludeInclude
+          ? translate().Settings.Folders.FolderFiltering.Included.Label
+          : translate().Settings.Folders.FolderFiltering.Excluded.Label,
+        desc: this.plugin.settings.excludeInclude
+          ? translate().Settings.Folders.FolderFiltering.Included.Description
+          : translate().Settings.Folders.FolderFiltering.Excluded.Description,
+        render: (setting: Setting) => {
+          setting.addSearch((search) => {
+            const content = this.app.vault
+              .getAllFolders()
+              .map((folder) => folder.path)
+              .filter(
+                (path) => !this.plugin.settings.excludedFolders.includes(path),
+              );
+
+            new SimpleSuggester(
+              this.app,
+              search.inputEl,
+              content,
+              async (value: string) => {
+                this.plugin.settings.excludedFolders.push(value);
+                await this.plugin.saveSettings();
+                this.update();
+              },
+            );
+          });
+        },
+      },
+
+      {
+        type: "list",
+        items: [
+          ...this.plugin.settings.excludedFolders.map((path) => {
+            return {
+              name: path,
+              render: (setting: Setting) => {
+                setting.addButton((component) => {
+                  component.setIcon("lucide-x").onClick(async () => {
+                    this.plugin.settings.excludedFolders.remove(path);
+                    await this.plugin.saveSettings();
+                    this.update();
+                  });
+                });
+              },
+            };
+          }),
+        ],
+      },
+
       {
         type: "group",
         items: [
@@ -196,27 +247,51 @@ export class FileCleanerSettingTab extends PluginSettingTab {
                   : translate().Settings.Folders.FolderFiltering.Excluded
                       .Description,
                 render: (setting: Setting) => {
-                  setting.addTextArea((text) => {
-                    text
-                      .setValue(this.plugin.settings.excludedFolders.join("\n"))
-                      .onChange(async (value) => {
-                        this.plugin.settings.excludedFolders = value
-                          .split(/\n/)
-                          .map((ext) => ext.trim())
-                          .filter((ext) => ext !== "");
+                  setting.addSearch((search) => {
+                    const content = this.app.vault
+                      .getAllFolders()
+                      .map((folder) => folder.path)
+                      .filter(
+                        (path) =>
+                          !this.plugin.settings.excludedFolders.includes(path),
+                      );
+                    search.inputEl.setCssStyles({ minWidth: "15rem" });
+
+                    new SimpleSuggester(
+                      this.app,
+                      search.inputEl,
+                      content,
+                      async (value: string) => {
+                        this.plugin.settings.excludedFolders.push(value);
                         await this.plugin.saveSettings();
-                      });
-                    text.setPlaceholder(
-                      translate().Settings.Folders.FolderFiltering.Placeholder,
+                        this.update();
+                      },
                     );
-                    text.inputEl.setCssStyles({
-                      minWidth: "18rem",
-                      maxWidth: "18rem",
-                      minHeight: "8rem",
-                      maxHeight: "16rem",
-                    });
                   });
                 },
+              },
+
+              {
+                heading: this.plugin.settings.excludeInclude
+                  ? translate().Settings.Folders.FolderFiltering.Included.Label
+                  : translate().Settings.Folders.FolderFiltering.Excluded.Label,
+                type: "list",
+                items: [
+                  ...this.plugin.settings.excludedFolders.map((path) => {
+                    return {
+                      name: path,
+                      render: (setting: Setting) => {
+                        setting.addButton((component) => {
+                          component.setIcon("lucide-x").onClick(async () => {
+                            this.plugin.settings.excludedFolders.remove(path);
+                            await this.plugin.saveSettings();
+                            this.update();
+                          });
+                        });
+                      },
+                    };
+                  }),
+                ],
               },
             ],
           },
