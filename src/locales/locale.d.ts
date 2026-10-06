@@ -92,15 +92,19 @@ export interface Locale {
         Description: string;
       };
 
-      IgnoredFrontmatter: {
-        Label: string;
-        Description: string;
-        Placeholder: string;
-      };
+      Frontmatter: {
+        Header: string;
 
-      IgnoreAllFrontmatter: {
-        Label: string;
-        Description: string;
+        IgnoredFrontmatter: {
+          Label: string;
+          Description: string;
+          Placeholder: string;
+        };
+
+        IgnoreAllFrontmatter: {
+          Label: string;
+          Description: string;
+        };
       };
 
       CodeblockParsing: {
@@ -158,6 +162,7 @@ export interface Locale {
 
     DangerZone: {
       Header: string;
+      Description: string;
 
       ResetSettings: {
         Label: string;

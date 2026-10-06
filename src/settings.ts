@@ -144,6 +144,36 @@ export class FileCleanerSettingTab extends PluginSettingTab {
               },
             },
           },
+
+          {
+            name: translate().Settings.ExternalPluginSupport.Header,
+            type: "page",
+            items: [
+              {
+                name: translate().Settings.ExternalPluginSupport
+                  .NoPluginDetected.Header,
+                desc: translate().Settings.ExternalPluginSupport
+                  .NoPluginDetected.Description,
+                visible: () =>
+                  [...supportedPlugins].filter((plugin) =>
+                    userHasPlugin(plugin, this.app),
+                  ).length === 0,
+              },
+
+              {
+                name: translate().Settings.ExternalPluginSupport.Excalidraw
+                  .TreatAsAttachments.Label,
+                desc: translate().Settings.ExternalPluginSupport.Excalidraw
+                  .TreatAsAttachments.Description,
+                visible: () =>
+                  !!userHasPlugin("obsidian-excalidraw-plugin", this.app),
+                control: {
+                  type: "toggle",
+                  key: "ExternalPlugins.Excalidraw.TreatAsAttachments",
+                },
+              },
+            ],
+          },
         ],
       },
 
@@ -159,56 +189,65 @@ export class FileCleanerSettingTab extends PluginSettingTab {
               key: "removeFolders",
             },
           },
+
           {
             name: translate().Settings.Folders.FolderFiltering.Label,
-            desc: translate().Settings.Folders.FolderFiltering.Description,
-            render: (setting: Setting) => {
-              setting.addDropdown((component) => {
-                component.addOption("0", "Excluded");
-                component.addOption("1", "Included");
+            type: "page",
+            items: [
+              {
+                name: translate().Settings.Folders.FolderFiltering.Label,
+                desc: translate().Settings.Folders.FolderFiltering.Description,
+                render: (setting: Setting) => {
+                  setting.addDropdown((component) => {
+                    component.addOption("0", "Excluded");
+                    component.addOption("1", "Included");
 
-                component.setValue(String(this.plugin.settings.excludeInclude));
+                    component.setValue(
+                      String(this.plugin.settings.excludeInclude),
+                    );
 
-                component.onChange(async (value: string) => {
-                  this.plugin.settings.excludeInclude = Number(value);
-                  await this.plugin.saveSettings();
-                  this.update();
-                });
-              });
-            },
-          },
-
-          {
-            name: this.plugin.settings.excludeInclude
-              ? translate().Settings.Folders.FolderFiltering.Included.Label
-              : translate().Settings.Folders.FolderFiltering.Excluded.Label,
-            desc: this.plugin.settings.excludeInclude
-              ? translate().Settings.Folders.FolderFiltering.Included
-                  .Description
-              : translate().Settings.Folders.FolderFiltering.Excluded
-                  .Description,
-            render: (setting: Setting) => {
-              setting.addTextArea((text) => {
-                text
-                  .setValue(this.plugin.settings.excludedFolders.join("\n"))
-                  .onChange(async (value) => {
-                    this.plugin.settings.excludedFolders = value
-                      .split(/\n/)
-                      .map((ext) => ext.trim())
-                      .filter((ext) => ext !== "");
-                    await this.plugin.saveSettings();
+                    component.onChange(async (value: string) => {
+                      this.plugin.settings.excludeInclude = Number(value);
+                      await this.plugin.saveSettings();
+                      this.update();
+                    });
                   });
-                text.setPlaceholder(
-                  translate().Settings.Folders.FolderFiltering.Placeholder,
-                );
-                text.inputEl.setCssStyles({
-                  minWidth: "18rem",
-                  maxWidth: "18rem",
-                  minHeight: "8rem",
-                  maxHeight: "16rem",
-                });
-              });
-            },
+                },
+              },
+
+              {
+                name: this.plugin.settings.excludeInclude
+                  ? translate().Settings.Folders.FolderFiltering.Included.Label
+                  : translate().Settings.Folders.FolderFiltering.Excluded.Label,
+                desc: this.plugin.settings.excludeInclude
+                  ? translate().Settings.Folders.FolderFiltering.Included
+                      .Description
+                  : translate().Settings.Folders.FolderFiltering.Excluded
+                      .Description,
+                render: (setting: Setting) => {
+                  setting.addTextArea((text) => {
+                    text
+                      .setValue(this.plugin.settings.excludedFolders.join("\n"))
+                      .onChange(async (value) => {
+                        this.plugin.settings.excludedFolders = value
+                          .split(/\n/)
+                          .map((ext) => ext.trim())
+                          .filter((ext) => ext !== "");
+                        await this.plugin.saveSettings();
+                      });
+                    text.setPlaceholder(
+                      translate().Settings.Folders.FolderFiltering.Placeholder,
+                    );
+                    text.inputEl.setCssStyles({
+                      minWidth: "18rem",
+                      maxWidth: "18rem",
+                      minHeight: "8rem",
+                      maxHeight: "16rem",
+                    });
+                  });
+                },
+              },
+            ],
           },
         ],
       },
@@ -217,70 +256,6 @@ export class FileCleanerSettingTab extends PluginSettingTab {
         heading: translate().Settings.Files.Header,
         type: "group",
         items: [
-          {
-            name: translate().Settings.Files.Attachments.Label,
-            desc: translate().Settings.Files.Attachments.Description,
-            render: (setting: Setting) => {
-              setting.addDropdown((component) => {
-                component.addOption("0", "Excluded");
-                component.addOption("1", "Included");
-
-                component.setValue(
-                  String(this.plugin.settings.attachmentsExcludeInclude),
-                );
-
-                component.onChange(async (value: string) => {
-                  this.plugin.settings.attachmentsExcludeInclude =
-                    Number(value);
-                  await this.plugin.saveSettings();
-                  this.update();
-                });
-              });
-            },
-          },
-
-          {
-            name: this.plugin.settings.attachmentsExcludeInclude
-              ? translate().Settings.Files.Attachments.Included.Label
-              : translate().Settings.Files.Attachments.Excluded.Label,
-            desc: this.plugin.settings.attachmentsExcludeInclude
-              ? translate().Settings.Files.Attachments.Included.Description
-              : translate().Settings.Files.Attachments.Excluded.Description,
-            render: (setting: Setting) => {
-              setting.addTextArea((text) => {
-                text
-                  .setValue(
-                    this.plugin.settings.attachmentExtensions
-                      .map((ext) => `.${ext}`)
-                      .join(", "),
-                  )
-                  .onChange(async (value) => {
-                    this.plugin.settings.attachmentExtensions = value
-                      .split(",")
-                      .map((ext) => ext.trim())
-                      .filter((ext) => ext.startsWith(".") && ext.length > 1)
-                      .filter((ext) => ext !== "")
-                      .map((ext) => ext.replace(/^\./, ""));
-
-                    await this.plugin.saveSettings();
-                  });
-                text.setPlaceholder(
-                  this.plugin.settings.attachmentsExcludeInclude
-                    ? translate().Settings.Files.Attachments.Included
-                        .Placeholder
-                    : translate().Settings.Files.Attachments.Excluded
-                        .Placeholder,
-                );
-                text.inputEl.setCssStyles({
-                  minWidth: "18rem",
-                  maxWidth: "18rem",
-                  minHeight: "4rem",
-                  maxHeight: "8rem",
-                });
-              });
-            },
-          },
-
           {
             name: translate().Settings.Files.FileAgeThreshold.Label,
             desc: translate().Settings.Files.FileAgeThreshold.Description,
@@ -306,6 +281,78 @@ export class FileCleanerSettingTab extends PluginSettingTab {
                 });
               });
             },
+          },
+
+          {
+            name: translate().Settings.Files.Attachments.Label,
+            type: "page",
+            items: [
+              {
+                name: translate().Settings.Files.Attachments.Label,
+                desc: translate().Settings.Files.Attachments.Description,
+                render: (setting: Setting) => {
+                  setting.addDropdown((component) => {
+                    component.addOption("0", "Excluded");
+                    component.addOption("1", "Included");
+
+                    component.setValue(
+                      String(this.plugin.settings.attachmentsExcludeInclude),
+                    );
+
+                    component.onChange(async (value: string) => {
+                      this.plugin.settings.attachmentsExcludeInclude =
+                        Number(value);
+                      await this.plugin.saveSettings();
+                      this.update();
+                    });
+                  });
+                },
+              },
+
+              {
+                name: this.plugin.settings.attachmentsExcludeInclude
+                  ? translate().Settings.Files.Attachments.Included.Label
+                  : translate().Settings.Files.Attachments.Excluded.Label,
+                desc: this.plugin.settings.attachmentsExcludeInclude
+                  ? translate().Settings.Files.Attachments.Included.Description
+                  : translate().Settings.Files.Attachments.Excluded.Description,
+                render: (setting: Setting) => {
+                  setting.addTextArea((text) => {
+                    text
+                      .setValue(
+                        this.plugin.settings.attachmentExtensions
+                          .map((ext) => `.${ext}`)
+                          .join(", "),
+                      )
+                      .onChange(async (value) => {
+                        this.plugin.settings.attachmentExtensions = value
+                          .split(",")
+                          .map((ext) => ext.trim())
+                          .filter(
+                            (ext) => ext.startsWith(".") && ext.length > 1,
+                          )
+                          .filter((ext) => ext !== "")
+                          .map((ext) => ext.replace(/^\./, ""));
+
+                        await this.plugin.saveSettings();
+                      });
+                    text.setPlaceholder(
+                      this.plugin.settings.attachmentsExcludeInclude
+                        ? translate().Settings.Files.Attachments.Included
+                            .Placeholder
+                        : translate().Settings.Files.Attachments.Excluded
+                            .Placeholder,
+                    );
+                    text.inputEl.setCssStyles({
+                      minWidth: "18rem",
+                      maxWidth: "18rem",
+                      minHeight: "4rem",
+                      maxHeight: "8rem",
+                    });
+                  });
+                },
+              },
+            ],
           },
         ],
       },
@@ -345,77 +392,93 @@ export class FileCleanerSettingTab extends PluginSettingTab {
           },
 
           {
-            name: translate().Settings.MarkdownFiles.IgnoredFrontmatter.Label,
-            desc: translate().Settings.MarkdownFiles.IgnoredFrontmatter
-              .Description,
-            disabled: () => this.plugin.settings.ignoreAllFrontmatter,
-            visible: () => this.plugin.settings.deleteEmptyMarkdownFiles,
-            render: (setting: Setting) => {
-              setting.addTextArea((text) => {
-                text
-                  .setValue(this.plugin.settings.ignoredFrontmatter.join(", "))
-                  .onChange(async (value) => {
-                    this.plugin.settings.ignoredFrontmatter = value
-                      .split(",")
-                      .map((ext) => ext.trim())
-                      .filter((ext) => ext.length > 1 && ext !== "");
+            name: translate().Settings.MarkdownFiles.Frontmatter.Header,
+            type: "page",
+            items: [
+              {
+                name: translate().Settings.MarkdownFiles.Frontmatter
+                  .IgnoredFrontmatter.Label,
+                desc: translate().Settings.MarkdownFiles.Frontmatter
+                  .IgnoredFrontmatter.Description,
+                disabled: () => this.plugin.settings.ignoreAllFrontmatter,
+                visible: () => this.plugin.settings.deleteEmptyMarkdownFiles,
+                render: (setting: Setting) => {
+                  setting.addTextArea((text) => {
+                    text
+                      .setValue(
+                        this.plugin.settings.ignoredFrontmatter.join(", "),
+                      )
+                      .onChange(async (value) => {
+                        this.plugin.settings.ignoredFrontmatter = value
+                          .split(",")
+                          .map((ext) => ext.trim())
+                          .filter((ext) => ext.length > 1 && ext !== "");
 
-                    await this.plugin.saveSettings();
+                        await this.plugin.saveSettings();
+                      });
+                    text.setPlaceholder(
+                      translate().Settings.MarkdownFiles.Frontmatter
+                        .IgnoredFrontmatter.Placeholder,
+                    );
+                    text.inputEl.setCssStyles({
+                      minWidth: "18rem",
+                      maxWidth: "18rem",
+                      minHeight: "4rem",
+                      maxHeight: "12rem",
+                    });
                   });
-                text.setPlaceholder(
-                  translate().Settings.MarkdownFiles.IgnoredFrontmatter
-                    .Placeholder,
-                );
-                text.inputEl.setCssStyles({
-                  minWidth: "18rem",
-                  maxWidth: "18rem",
-                  minHeight: "4rem",
-                  maxHeight: "12rem",
-                });
-              });
-            },
-          },
+                },
+              },
 
-          {
-            name: translate().Settings.MarkdownFiles.IgnoreAllFrontmatter.Label,
-            desc: translate().Settings.MarkdownFiles.IgnoreAllFrontmatter
-              .Description,
-            visible: () => this.plugin.settings.deleteEmptyMarkdownFiles,
-            control: {
-              type: "toggle",
-              key: "ignoreAllFrontmatter",
-            },
+              {
+                name: translate().Settings.MarkdownFiles.Frontmatter
+                  .IgnoreAllFrontmatter.Label,
+                desc: translate().Settings.MarkdownFiles.Frontmatter
+                  .IgnoreAllFrontmatter.Description,
+                visible: () => this.plugin.settings.deleteEmptyMarkdownFiles,
+                control: {
+                  type: "toggle",
+                  key: "ignoreAllFrontmatter",
+                },
+              },
+            ],
           },
 
           {
             name: translate().Settings.MarkdownFiles.CodeblockParsing.Label,
-            desc: translate().Settings.MarkdownFiles.CodeblockParsing
-              .Description,
-            visible: () => this.plugin.settings.deleteEmptyMarkdownFiles,
-            render: (setting: Setting) => {
-              setting.addTextArea((text) => {
-                text
-                  .setValue(this.plugin.settings.codeblockTypes.join(", "))
-                  .onChange(async (value) => {
-                    this.plugin.settings.codeblockTypes = value
-                      .split(",")
-                      .map((ext) => ext.trim())
-                      .filter((ext) => ext.length > 1 && ext !== "");
+            type: "page",
+            items: [
+              {
+                name: translate().Settings.MarkdownFiles.CodeblockParsing.Label,
+                desc: translate().Settings.MarkdownFiles.CodeblockParsing
+                  .Description,
+                visible: () => this.plugin.settings.deleteEmptyMarkdownFiles,
+                render: (setting: Setting) => {
+                  setting.addTextArea((text) => {
+                    text
+                      .setValue(this.plugin.settings.codeblockTypes.join(", "))
+                      .onChange(async (value) => {
+                        this.plugin.settings.codeblockTypes = value
+                          .split(",")
+                          .map((ext) => ext.trim())
+                          .filter((ext) => ext.length > 1 && ext !== "");
 
-                    await this.plugin.saveSettings();
+                        await this.plugin.saveSettings();
+                      });
+                    text.setPlaceholder(
+                      translate().Settings.MarkdownFiles.CodeblockParsing
+                        .Placeholder,
+                    );
+                    text.inputEl.setCssStyles({
+                      minWidth: "18rem",
+                      maxWidth: "18rem",
+                      minHeight: "4rem",
+                      maxHeight: "12rem",
+                    });
                   });
-                text.setPlaceholder(
-                  translate().Settings.MarkdownFiles.CodeblockParsing
-                    .Placeholder,
-                );
-                text.inputEl.setCssStyles({
-                  minWidth: "18rem",
-                  maxWidth: "18rem",
-                  minHeight: "4rem",
-                  maxHeight: "12rem",
-                });
-              });
-            },
+                },
+              },
+            ],
           },
         ],
       },
@@ -463,38 +526,9 @@ export class FileCleanerSettingTab extends PluginSettingTab {
       },
 
       {
-        heading: translate().Settings.ExternalPluginSupport.Header,
-        type: "group",
-        items: [
-          {
-            name: translate().Settings.ExternalPluginSupport.NoPluginDetected
-              .Header,
-            desc: translate().Settings.ExternalPluginSupport.NoPluginDetected
-              .Description,
-            visible: () =>
-              [...supportedPlugins].filter((plugin) =>
-                userHasPlugin(plugin, this.app),
-              ).length === 0,
-          },
-
-          {
-            name: translate().Settings.ExternalPluginSupport.Excalidraw
-              .TreatAsAttachments.Label,
-            desc: translate().Settings.ExternalPluginSupport.Excalidraw
-              .TreatAsAttachments.Description,
-            visible: () =>
-              !!userHasPlugin("obsidian-excalidraw-plugin", this.app),
-            control: {
-              type: "toggle",
-              key: "ExternalPlugins.Excalidraw.TreatAsAttachments",
-            },
-          },
-        ],
-      },
-
-      {
-        heading: translate().Settings.DangerZone.Header,
-        type: "group",
+        name: translate().Settings.DangerZone.Header,
+        desc: translate().Settings.DangerZone.Description,
+        type: "page",
 
         items: [
           {
