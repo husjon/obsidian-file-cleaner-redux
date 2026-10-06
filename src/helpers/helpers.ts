@@ -1,30 +1,12 @@
 import { App, Notice, TAbstractFile, TFile, TFolder } from "obsidian";
-import { type FileCleanerSettings } from "../settings";
-import {
-  Notification,
-  NotificationType,
-  ObsidianPreferenceTrashOption,
-} from "../enums";
 import translate from "../i18n";
-
-// Augment the obsidian module with some helper interfaces
-declare module "obsidian" {
-  interface MetadataCache {
-    getBacklinksForFile: () => Backlinks;
-  }
-  interface App {
-    plugins: { plugins: Record<string, { settings: unknown }> };
-  }
-  interface Vault {
-    getConfig: (option: string) => unknown;
-  }
-}
-
-export interface Backlinks {
-  // for use with `app.metadataCache.getBacklinksForFile(file)`
-  data: Map<string, Array<unknown>>;
-  keys: () => { length: number };
-}
+import {
+  Deletion,
+  Notifications,
+  NotificationType,
+  type FileCleanerSettings,
+} from "src/types/settings";
+import type { ObsidianPreferenceTrashOption } from "src/types/obsidian";
 
 export function getUserPreferenceTrashOption() {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- `this` is untyped
@@ -104,9 +86,9 @@ export function notify(
 ) {
   const settings = getSettings();
 
-  if (settings.notifications === Notification.HideAll) return;
+  if (settings.notifications === Notifications.HideAll) return;
   if (
-    settings.notifications === Notification.ShowOnlyErrors &&
+    settings.notifications === Notifications.ShowOnlyErrors &&
     type !== NotificationType.Error
   )
     return;

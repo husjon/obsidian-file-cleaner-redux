@@ -1,5 +1,5 @@
 import { App, TFile } from "obsidian";
-import type { FileCleanerSettings } from "src/settings";
+import type { FileCleanerSettings } from "src/types/settings";
 
 interface ExcalidrawElement {
   id: string;

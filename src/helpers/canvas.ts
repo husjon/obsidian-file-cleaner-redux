@@ -1,19 +1,8 @@
 import { App, TFile } from "obsidian";
 import { notify } from "./helpers";
-import { NotificationType } from "src/enums";
 import translate from "src/i18n";
-
-interface CanvasContent {
-  nodes?: Array<CanvasNode>;
-  edges?: unknown[];
-}
-
-interface CanvasNode {
-  id: string;
-  type: string;
-  file?: string;
-  text?: string;
-}
+import { NotificationType } from "src/types/settings";
+import type { CanvasContent, CanvasNode } from "src/types/obsidian";
 
 function getCanvasCardAttachments(
   canvasNode: CanvasNode,

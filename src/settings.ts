@@ -6,50 +6,23 @@ import {
 } from "obsidian";
 import FileCleanerPlugin from ".";
 import translate from "./i18n";
-import { Deletion, Notification, ObsidianPreferenceTrashOption } from "./enums";
 import { ResetSettingsModal } from "./modals";
 import {
   getUserPreferenceTrashOption,
   notify,
   userHasPlugin,
 } from "./helpers/helpers";
-
-export interface FileCleanerSettings {
-  deletionDestination: Deletion;
-  obsidianTrashCleanupAge: number;
-  notifications: Notification;
-  excludeInclude: ExcludeInclude;
-  excludedFolders: string[];
-  attachmentsExcludeInclude: ExcludeInclude;
-  attachmentExtensions: string[];
-  deletionConfirmation: boolean;
-  runOnStartup: boolean;
-  removeFolders: boolean;
-  ignoredFrontmatter: string[];
-  ignoreAllFrontmatter: boolean;
-  codeblockTypes: string[];
-  deleteEmptyMarkdownFiles: boolean;
-  deleteEmptyMarkdownFilesWithBacklinks: boolean;
-  fileAgeThreshold: number;
-  closeNewTabs: boolean;
-  deleteEmptyFileOnClose: boolean;
-  debugLogging: boolean;
-
-  ExternalPlugins: {
-    Excalidraw: {
-      TreatAsAttachments: boolean;
-    };
-  };
-}
-export enum ExcludeInclude {
-  Exclude = Number(false),
-  Include = Number(true),
-}
+import {
+  Deletion,
+  ExcludeInclude,
+  Notifications,
+  type FileCleanerSettings,
+} from "./types/settings";
 
 export const DEFAULT_SETTINGS: FileCleanerSettings = {
   deletionDestination: Deletion.UseObsidianGlobalOption,
   obsidianTrashCleanupAge: -1,
-  notifications: Notification.ShowAll,
+  notifications: Notifications.ShowAll,
   excludeInclude: ExcludeInclude.Exclude,
   excludedFolders: [],
   attachmentsExcludeInclude: ExcludeInclude.Include,
@@ -117,9 +90,7 @@ export class FileCleanerSettingTab extends PluginSettingTab {
                 });
               });
             },
-            visible: () =>
-              getUserPreferenceTrashOption() ===
-              ObsidianPreferenceTrashOption.local,
+            visible: () => getUserPreferenceTrashOption() === "local",
           },
 
           // TODO: Add checkbox to toggle if the `.trash` folder should be checked at all
@@ -132,13 +103,13 @@ export class FileCleanerSettingTab extends PluginSettingTab {
               key: "notifications",
               type: "dropdown",
               options: {
-                [Notification.ShowAll]:
+                [Notifications.ShowAll]:
                   translate().Settings.RegularOptions.Notifications.Options
                     .ShowAllNotifications,
-                [Notification.ShowOnlyErrors]:
+                [Notifications.ShowOnlyErrors]:
                   translate().Settings.RegularOptions.Notifications.Options
                     .ShowOnlyErrors,
-                [Notification.HideAll]:
+                [Notifications.HideAll]:
                   translate().Settings.RegularOptions.Notifications.Options
                     .HideAll,
               },
