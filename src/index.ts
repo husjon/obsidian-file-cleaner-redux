@@ -62,7 +62,7 @@ export default class FileCleanerPlugin extends Plugin {
               return;
 
             void checkMarkdown(f, this.app, this.settings).then((isEmpty) => {
-              if (isEmpty) void removeFile(f, this.app, this.settings);
+              if (isEmpty) void removeFile(f, this.app);
             });
           });
 
