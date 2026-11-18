@@ -1,4 +1,4 @@
-import { FileView, Plugin, TFile } from "obsidian";
+import { FileView, Notice, Plugin, TFile } from "obsidian";
 import {
   type FileCleanerSettings,
   DEFAULT_SETTINGS,
@@ -14,7 +14,7 @@ import {
 import translate from "./i18n";
 import { checkMarkdown } from "./helpers/markdown";
 import { notify, removeFile } from "./helpers/helpers";
-import { NotificationType } from "./enums";
+import { Deletion, NotificationType } from "./enums";
 
 export default class FileCleanerPlugin extends Plugin {
   plugin: FileCleanerPlugin;
@@ -86,6 +86,15 @@ export default class FileCleanerPlugin extends Plugin {
   }
 
   private runVaultCleanup = () => {
+    if (
+      this.settings.deletionDestination !== Deletion.UseObsidianGlobalOption
+    ) {
+      new Notice(
+        "File Cleaner Redux: An option needs your attention, please see settings",
+      );
+      return;
+    }
+
     try {
       void scanVault(this.app, this.settings).then(
         ({ filesToRemove, foldersToRemove }) =>
